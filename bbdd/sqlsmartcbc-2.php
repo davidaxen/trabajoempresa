@@ -5,27 +5,33 @@ $username="root";
 $password="";
 $dbname ="bbddsmartcbc";
 
-$conn = new mysqli($server, $username, $password, $dbname);
+//$conn = new mysqli($server, $username, $password, $dbname);
 
-if ($conn-> connect_error){
-    die("Connection failed:  " . $conn->connect_error);
+try{
+
+	$conn = new PDO("mysql:host=$server;dbname=$dbname", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	$sql="select * from usuarios";
+	$temp=$conn->query($sql);
+	$result=$temp->fetchAll();
+
+}catch(PDOException $e){
+	echo "Error al conectar a la BBDD: " . $e->getMessage();
 }
-$sql="select * from usuarios";
-$result=mysqli_query ($sql) or die ("Invalid result idempresas");
-
 
 //$sql = "SELECT * FROM usuarios";
 //$result = $conn->query($sql);
 
-if($result->num_rows > 0) {
+/*if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo $row["user"] . $row["pass"] . "<br>";
     }
 }else {
     echo "More posts coming soon!";
-}
+}*/
 
-$conn->close();
+$conn=null;
 ?>
 <?
 /*

@@ -17,9 +17,12 @@ if ($enviar==null){;?>
 <tr><td>Nombre del Puesto de Trabajo</td><td>
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];
 ?>
@@ -39,9 +42,12 @@ $nombre=$resultado['nombre'];
 <input type="hidden" name="cantpuntcont" value="<?php  echo $cantpuntcont;?>">
 <tr><td>Datos de la Comunidad</td><td><input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];?>
 <?php  echo $nombre;?></td></tr>

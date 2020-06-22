@@ -17,19 +17,26 @@ if ($idclientes==null){;?>
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
 $sql.=" and mediciones='1'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);?>
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/?>
 <select name="idclientes">
 <?php 
-for ($i=0;$i<$row;$i++){;
+/*for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idclientes=$rowmos['idclientes'];
+$nombre=$rowmos['nombre'];
 
-$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result2=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
 <?php if ($row2!=0){;?><option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?><?php };?>
 <?php };?>
@@ -45,24 +52,30 @@ $row2=mysqli_num_rows($result2);
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>"></td></tr>
 </table>
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];?>
 <?php  echo $nombre;?></td></tr>
 <?php 
-$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."' order by idpuntoslectura asc"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."' order by idpuntoslectura asc";
+$result2=$conn->query($sql2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
 <div style="column-count:4">
 <?php 
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2,$t);
-$resultado2=mysqli_fetch_array($result2);
-$idpuntoslectura=$resultado2['idpuntoslectura'];
-$nombre=$resultado2['nombre'];
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2 as $row2mos) {
+$idpuntoslectura=$row2mos['idpuntoslectura'];
+$nombre=$row2mos['nombre'];
 ?>
 
 <?php  echo $nombre;?></td><td><a href="modpuntconti2n.php?idclientes=<?php  echo $idclientes;?>&idpuntoslectura=<?php  echo $idpuntoslectura;?>">

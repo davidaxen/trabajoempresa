@@ -43,20 +43,31 @@ Listado de <?php echo ucfirst($nc);?>
 <?php 
 $sql="SELECT * from mensajes where idempresa='".$ide."' and respondido='0' order by dia desc";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 $row=mysqli_num_rows($result);
 
 for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$dia=$resultado['dia'];
-$texto=$resultado['texto'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idempleado=$rowmos['idempleado'];
+$dia=$rowmos['dia'];
+$texto=$rowmos['texto'];
 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+
+
+$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$resultado2=$result2mos->fetch();
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);
-$resultado2=mysqli_fetch_array($result2);
+$resultado2=mysqli_fetch_array($result2);*/
 //echo $row2;
 if ($row2!=0){;
 $nombre=$resultado2['nombre'];

@@ -14,9 +14,12 @@ include('../../portada_n/cabecera3.php');?>
 <tr><td>Datos de la Comunidad</td><td>
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];
 ?>
@@ -25,8 +28,11 @@ $nombre=$resultado['nombre'];
 <?php 
 if ($idpuntoslectura!=null){;
 $sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."' and idpuntoslectura='".$idpuntoslectura."' ";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$resultado2=mysqli_fetch_array($result2);*/
 $nombre=$resultado2['nombre'];
 ?>
 <input type="hidden" name="tabla" value="modpuntconti2">

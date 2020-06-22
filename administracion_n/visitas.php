@@ -73,6 +73,7 @@ $nombret=$nombre.",".$apellido1." ".$apellido2;
 				$sql10="SELECT nombregestor from gestores where idempresa='".$ide."' and idgestor='".$idgestor."'"; 
 				$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
 				$row10=mysqli_num_rows($result10);
+				$resultado10=mysqli_fetch_array($result10);
 				$nombre=$resultado10['nombregestor'];
 				$nombret=$nombre;
 				}else{

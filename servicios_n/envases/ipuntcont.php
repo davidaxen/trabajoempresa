@@ -4,8 +4,10 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql2="select * from envases where idempresas='".$ide."' order by idenvases desc";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$resultado2=mysqli_fetch_array($result2);*/
 $idenvases=$resultado2['idenvases'];
 
 include('../../portada_n/cabecera3.php');?>

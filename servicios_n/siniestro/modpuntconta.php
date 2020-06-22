@@ -15,8 +15,11 @@ $sql1="SELECT * from aseguradora";
 $sql1.=" where idempresa='".$ide."' ";
 $sql1.=" and idaseguradora='".$idaseguradora."' ";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$resultado=mysqli_fetch_array($result);*/
 
 $idaseguradora=$resultado['idaseguradora'];
 $aseguradora=$resultado['aseguradora'];

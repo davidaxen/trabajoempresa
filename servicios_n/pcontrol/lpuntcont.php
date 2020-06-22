@@ -11,9 +11,11 @@ include('../../portada_n/cabecera3.php');?>
 <div class="contenido">
 
 <?php 
-$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."'";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table><tr><td><?php include ('../../js/busqueda.php');?></td>
@@ -39,26 +41,32 @@ $row=mysqli_num_rows($result);
 <tr class="subenc"><td>N&ordm; Puestos de Trabajo</td><td>Nombre</td><td>N&ordm; de Puntos</td><td></td></tr>
 </thead>
 <?php 
-for ($i=0; $i<$row; $i++){;
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $row) {
+$idclientes=$row['idclientes'];
 
 ?>
 <tr class="menor1">
 <td><?php  echo $idclientes;?></td>
 <?php 
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
-$resultado1=mysqli_fetch_array($result1);
+$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+$resultado1=mysqli_fetch_array($result1);*/
 $nombre=$resultado1['nombre'];
 ?>
 <td><?php  echo strtoupper($nombre);?></td>
 <?php 
-$sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result2=$conn->query($sql2);
+$row2=$result2->fetchColumn();
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
 
 <td><?php  echo $row2;?></td>

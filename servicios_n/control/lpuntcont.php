@@ -36,23 +36,28 @@ $sql1.=" and cp='".$cpasist."' ";
 };
 $sql1.=" order by idasistente asc";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+
+
+$result=$conn->query($sql1);
+
+/*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table>
 <tr class="subenc"><td>Id.</td><td>Persona de Contacto</td><td>Telefono</td><td>Email</td></tr>
 
-<?php  for ($i=0; $i<$row; $i++){;
+<?php /*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idasistente=$resultado['idasistente'];
-$nombreasist=$resultado['nombre'];
-$papellidoasist=$resultado['papellido'];
-$sapellidoasist=$resultado['sapellido'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idasistente=$rowmos['idasistente'];
+$nombreasist=$rowmos['nombre'];
+$papellidoasist=$rowmos['papellido'];
+$sapellidoasist=$rowmos['sapellido'];
 $contacto=$nombreasist.' '.$papellidoasist.' '.$sapellidoasist;
-$telefono=$resultado['telefono'];
-$email=$resultado['email'];
+$telefono=$rowmos['telefono'];
+$email=$rowmos['email'];
 ?><tr class="menor1">
 <td><?php  echo $idasistente;?></td><td><?php  echo $contacto;?></td><td><?php  echo $telefono;?></td>
 <td><?php  echo $email;?></td>

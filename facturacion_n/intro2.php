@@ -12,15 +12,23 @@ include('../portada_n/cabecera2.php');?>
 <?php  
 //echo 'Entrada en la pagina intro2';
 
+$mal = 0;
+$datos = 1;
 
 if ($tabla=="idclientes"){;
 if ($nif!=null){;
 
 if ($idc>10){;
 
-$sql0="select idclientes from clientes where idempresas='".$ide."' and idclientes='".$idc."'"; 
-$result0=mysqli_query($conn,$sql0) or die ("Invalid result clientes");
-$row=mysqli_affected_rows();
+$sql0="select idclientes from clientes where idempresas='".$ide."' and idclientes='".$idc."'";
+$result0=$conn->query($sql0);
+$result0mos=$conn->query($sql0);
+$num_rows=$result0->fetchAll();
+$row=count($num_rows);
+
+
+/*$result0=mysqli_query($conn,$sql0) or die ("Invalid result clientes");
+$row=mysqli_affected_rows();*/
 
 if ($row==0){;
 
@@ -29,7 +37,8 @@ entrada,incidencia,mensaje,alarma,accdiarias,accmantenimiento,niveles,productos,
 VALUES ('$idc','$cliente','$nif','$cp','$direccion','$provincia','$localidad','$ide','1','$tipo',
 '$datos[0]','$datos[1]','$datos[2]','$datos[3]','$datos[4]','$datos[5]','$datos[6]','$datos[7]','$datos[8]','$datos[9]','$datos[10]','$datos[11]','$datos[12]','$datos[15]','$datos[16]','$datos[17]','$datos[18]')";
 //echo $sql1;
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result iclientes");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result iclientes");
 
 $passnif=substr($nemp,0,4).substr($nif,0,4);
 
@@ -42,13 +51,16 @@ $passnif=substr($nemp,0,4).substr($nif,0,4);
 
 
 $sql2 = "INSERT INTO usuarios (user,password,idempresas,idcliente,cliente) VALUES ('$nif','$passnif','$ide','$idc','1')";
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
+$result2=$conn->exec($sql2);
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idc','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont3");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont3");
 
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idc','1','2','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont2");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont2");
 
 }else{;
 $mal="4";
@@ -82,7 +94,8 @@ $usergnue='g'.$ide.$idc;
 
 $sql1 = "INSERT INTO gestores (idgestor,idempresa,nombregestor,percontacto,telefono1,telefono2,fax,direccion,cp,email,user) 
 VALUES ('$idc','$ide','$gestor','$percontacto','$tele1','$tele2','$fax1','$direccion','$cp','$emailn','$usergnue')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result igestores");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result igestores");
 //echo $sql1;
 
 
@@ -101,7 +114,8 @@ $idg='0'.$idg;
 			$tele1=base64_encode($output);
 
 $sql2 = "INSERT INTO usuarios (user,password,idempresas,idgestor,gestor,tusuario,modulo) VALUES ('$usergnue','$tele1','$ide','$idc','1','4','40')";
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
+$result2=$conn->exec($sql2);
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
 }else{;
 $mal="2";
@@ -119,14 +133,16 @@ if (($emailn!=null) and ($referencia!=null)){;
 $sql1 = "INSERT INTO vecinos (idvecino,idempresa,nombre,referencia,telefono1,telefono2,fax,direccion,cp,email,incidencia,jornada) 
 VALUES ('$idc','$ide','$nombrevec','$referencia','$tele1','$tele2','$fax1','$direccion','$cp','$emailn','$incidenciat','$jornadat')";
 //echo $sql1;
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ivecinos");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ivecinos");
 //print_r($idclientevec);
 if (count($idclientevec)>0){;
 for ($jt=0;$jt<count($idclientevec);$jt++){;
 $sql10 = "INSERT INTO vecinoscom (idvecino,idempresa,idcliente) 
 VALUES ('$idc','$ide','$idclientevec[$jt]')";
 //echo $sql10;
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result vecinoscom");
+$result10=$conn->exec($sql10);
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result vecinoscom");
 
 };
 };
@@ -139,7 +155,8 @@ $result10=mysqli_query($conn,$sql10) or die ("Invalid result vecinoscom");
 
 $sql2 = "INSERT INTO usuarios (user,password,idempresas,idvecino,vecino,tusuario,modulo) VALUES ('$referencia','$pass1','$ide','$idc','1','5','41')";
 //echo $sql2;
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
+$result2=$conn->exec($sql2);
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
 }else{;
 $mal="2";
@@ -150,11 +167,7 @@ $mal="2";
 
 
 
-
-
-
-
-if ($tablas=="modificar"){;
+if ($tabla=="modificar"){;
 
 
 if ($datostab=="modclientes"){;
@@ -192,30 +205,41 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 	  if ($valoractual[$j]!=$valornuevo[$j]){;
 		if ($valornuevo[$j]=="1"){;
 			$sql10="select liccli from empresas where idempresas='".$ide."'"; 
-			$result10=mysqli_query($conn,$sql10) or die ("Invalid result lic");
-			$liccli=mysqli_result($result10,0,'liccli');
+			$result10=$conn->query($sql10);
+			$resultado10=$result10->fetch();
+			$liccli=$resultado10['liccli'];
+
+			/*$result10=mysqli_query($conn,$sql10) or die ("Invalid result lic");
+			$liccli=mysqli_result($result10,0,'liccli');*/
 			$sql10="select count(idclientes) as tot from clientes where idempresas='".$ide."' and estado='1'"; 
-			$result10=mysqli_query($conn,$sql10) or die ("Invalid result empleados");
-			$tota=mysqli_result($result10,0,'tot');
+			$result10=$conn->query($sql10);
+			$resultado10=$result10->fetch();
+			$liccli=$resultado10['tot'];
+
+			/*$result10=mysqli_query($conn,$sql10) or die ("Invalid result empleados");
+			$tota=mysqli_result($result10,0,'tot');*/
 				if ($liccli>$tota){;
 					$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 					$sql25=$sql00.$sqla.$sql01;
-					$resultd=mysqli_query($conn,$sql25) or die ("Invalid result est ".$nombrecampo[$j]." ");
+					$resultd=$conn->query($sql25);
+					//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result est ".$nombrecampo[$j]." ");
 				}else{;
 					$datos=23;
 				};
 		}else{;
 		$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 		$sql25=$sql00.$sqla.$sql01;
-		$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
+		$resultd=$conn->query($sql25);
+		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
 	   };
 	  };
 }else{;
 	if ($valoractual[$j]!=$valornuevo[$j]){;
 		$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 		$sql25=$sql00.$sqla.$sql01;
-//echo ($sql25);		
-		$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
+//echo ($sql25);
+		$resultd=$conn->query($sql25);
+		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
 
 		};
 };
@@ -229,7 +253,8 @@ for ($lqr=2;$lqr<6;$lqr++){
 			if($datosqr1[$lqr]!=null){
 			$sqlqr = "INSERT INTO codigo (idempresas,idclientes,idpccat,activo) VALUES ('$ide','$idclientes','$lqr','$datosqr1[$lqr]')";
 			//echo $sqlqr;
-			$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datosqr");
+			$resultqr=$conn->exec($sqlqr);
+			//$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datosqr");
 			}
 		}else{
 				if ($datosqr[$lqr]!=$datosqr1[$lqr]){
@@ -238,7 +263,8 @@ for ($lqr=2;$lqr<6;$lqr++){
 					$sqlaqr="activo='".$datosqr1[$lqr]."' ";
 					$sqlqr=$sql0qr.$sqlaqr.$sql1qr;
 					//echo $sqlqr;
-					$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datos qr mod");
+					$resultqr=$conn->exec($sqlqr);
+					//$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datos qr mod");
 					};
 		
 			};
@@ -257,7 +283,7 @@ for ($lqr=2;$lqr<6;$lqr++){
 
 };
 
-if ($tablas=="jorclientes"){;
+if ($tabla=="jorclientes"){;
 
 if ($diasfd=='d'){;
 $turnofd='2';
@@ -267,12 +293,15 @@ $turnofd='1';
 $year=date("Y");
 
 $sql="select * from festivospais where pais='".$idpais."' and year='".$year."'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 
 
 if ($turnofd=='2'){;
@@ -280,7 +309,8 @@ if ($turnofd=='2'){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -289,7 +319,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -299,19 +330,22 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 
 $sql="select * from festivoscomunidad where pais='".$idpais."' and comunidad='".$idcomunidad."' and year='".$year."'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+$result=$conn->query($sql);
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 
 if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -320,7 +354,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -333,19 +368,23 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 
 $sql="select * from festivosmunicipios where idpais='".$idpais."' and idprovincia='".$idprovincia."' and idmunicipio='".$idlocalidad."' and year='".$year."'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 
 if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -354,7 +393,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -368,7 +408,8 @@ if(($fi[$j]!=null) and ($ff[$j]!=null) and ($hor[$j]!=null)){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idclientes,horario,margen,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idclientes','$hor[$j]','$margen[$j]','$fi[$j]','$ff[$j]','$lun[$j]','$mar[$j]','$mie[$j]','$jue[$j]','$vie[$j]','$sab[$j]','$dom[$j]')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 //echo $sql1;
 };
 
@@ -380,7 +421,7 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 
 
-if ($tablas=="modjorclientes"){;
+if ($tabla=="modjorclientes"){;
 
 $sql00="update jornadas set ";
 $sql01="where idclientes='".$idclientes."' and idempresas='".$ide."'";
@@ -395,8 +436,9 @@ for ($t=0;$t<count($nombrecampo);$t++){;
 	if ($valoractual[$t]!=$valornuevo[$t]){;
 		$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
 		$sql25=$sql00.$sqla.$sql01.$sql02;
-//echo ($sql25);		
-		$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
+//echo ($sql25);
+		$resultd=$conn->exec($sql25);	
+		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
 };
 };
 
@@ -405,7 +447,7 @@ for ($t=0;$t<count($nombrecampo);$t++){;
 };
 
 
-if ($tablas=="jorempleados"){;
+if ($tabla=="jorempleados"){;
 
 if ($diasfd=='d'){;
 $turnofd='2';
@@ -416,20 +458,23 @@ $year=date("Y");
 
 $sql="select * from festivospais where pais='".$idpais."' and year='".$year."'";
 //echo $sql;
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql);
 
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+$row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 
 if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);	
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -438,7 +483,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);	
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -449,18 +495,22 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 $sql="select * from festivoscomunidad where pais='".$idpais."' and comunidad='".$idcomunidad."' and year='".$year."'";
 //echo $sql;
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -469,7 +519,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -478,18 +529,22 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 $sql="select * from festivosmunicipios where idpais='".$idpais."' and idprovincia='".$idprovincia."' and idmunicipio='".$idlocalidad."' and year='".$year."'";
 //echo $sql;
-$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
-$resultado=mysqli_fetch_array($result);
-$fechad=$resultado['fecha'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$fechad=$rowmos['fecha'];
 if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
 
@@ -498,7 +553,8 @@ if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
 
@@ -513,7 +569,8 @@ if(($fi[$j]!=null) and ($ff[$j]!=null)){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
 VALUES ('$ide','$idempleado','$turno[$j]','$horent[$j]','$margenent[$j]','$horsal[$j]','$margensal[$j]','$fi[$j]','$ff[$j]','$lun[$j]','$mar[$j]','$mie[$j]','$jue[$j]','$vie[$j]','$sab[$j]','$dom[$j]')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 //echo $sql1;
 };
 
@@ -522,7 +579,7 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 
 
-if ($tablas=="modjorempleados"){;
+if ($tabla=="modjorempleados"){;
 
 $sql00="update jorempleados set ";
 $sql01="where idempleados='".$idempleado."' and idempresas='".$ide."'";
@@ -537,8 +594,9 @@ for ($t=0;$t<count($nombrecampo);$t++){;
 	if ($valoractual[$t]!=$valornuevo[$t]){;
 		$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
 		$sql25=$sql00.$sqla.$sql01.$sql02;
-		//echo ($sql25);		
-		$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$t]." ");
+		//echo ($sql25);
+		$result1=$conn->exec($sql1);		
+		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$t]." ");
 };
 };
 //};
@@ -548,21 +606,26 @@ for ($t=0;$t<count($nombrecampo);$t++){;
 
 
 
-if ($tablas=="borrar"){;
+if ($tabla=="borrar"){;
 $sql02="DELETE FROM jornadas WHERE id = '".$id."'";
-$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
+$resultd=$conn->exec($sql02);
+//$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
 };
 
-if ($tablas=="borrarempl"){;
+if ($tabla=="borrarempl"){;
 $sql02="DELETE FROM jorempleados WHERE id = '".$id."'";
-$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
+$resultd=$conn->exec($sql02);
+//$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
 };
 
 
 
 ?>
-<?php 
-if ($mal!=null){;
+
+
+
+<?php
+if ($mal!=0){;
 switch ($mal){;
 case 1: $valor="Tienes que poner un NIF";break;
 case 2: $valor="Tienes que poner un Telefono 1";break;
@@ -577,17 +640,20 @@ case 5: $valor="Tienes que poner una referencia o el email";break;
 <?php 
 }else{; 
 ?>
-<?php if ($datos==23){;?>
+<?php 
+
+if ($datos==23){;?>
 <table>
 <tr><td class="enc">Ya ha utilizado todas las licencias contratadas</td></tr>
 <tr><td class="enc">Póngase en contacto con su comercial</td></tr>
 </table><br>
 EL RESTO DE DATOS HAN SIDO MODIFICADOS<p><?php }else{;?>
 LOS DATOS HAN SIDO INTRODUCCIDOS<p><?php };?>
+
 <?php 
 switch($tabla){
 	
-case idclientes:
+case 'idclientes':
 if ($datos[4]==1){;
 echo "<a href='../servicios_n/accdiarias/ipuntconti.php'>Alta de Puntos de Tareas Habituales de los Puestos de Trabajo</a><p>";
 };

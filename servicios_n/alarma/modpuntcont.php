@@ -12,8 +12,11 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 $sql="SELECT * from alarma where id='".$idalarma."'";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+$resultado=mysqli_fetch_array($result);*/
 $dm=$resultado['d'];
 $mm=$resultado['m'];
 $ym=$resultado['y'];
@@ -38,9 +41,12 @@ $fechaant=$ym.'-'.$mm.'-'.$dm;
 <tr><td>Datos del Puesto de Trabajo</td><td>
 <?php 
 $idclientes=$resultado['idclientes'];
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
-$resultado1=mysqli_fetch_array($result1);
+$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+$resultado1=mysqli_fetch_array($result1);*/
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>

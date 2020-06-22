@@ -19,8 +19,11 @@ include('combo.php');?>
 <?php if ($idclientesinc!=null){;?>
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1' and idclientes='".$idclientesinc."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $nombre=$resultado['nombre'];
 $idclientes=$resultado['idclientes'];
 ?>
@@ -31,14 +34,19 @@ $idclientes=$resultado['idclientes'];
 <option value="">
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
+$result=$conn->query($sql);
+$result2mos=$conn->query($sql);
+$row2=$result->fetchColumn();
 
-for ($t=0;$t<$row2;$t++){;
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result);*/
+
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombre=$resultado['nombre'];
-$idclientes=$resultado['idclientes'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result2mos as $row2mos) {
+$nombre=$row2mos['nombre'];
+$idclientes=$row2mos['idclientes'];
 ?><option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
 </select>

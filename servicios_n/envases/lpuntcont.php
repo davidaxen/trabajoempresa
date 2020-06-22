@@ -38,8 +38,12 @@ if ($valor1!=""){;
 $sql2.=" and idenvases='".$valor1."'";
 };
 };
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$row2=$result2->fetchColumn();
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
 
 <?php 
@@ -64,16 +68,19 @@ if ($row2!=0){;?>
 <table>
 <tr class="enca"><td>Codigo Envase</td><td>Vida Util</td><td>Num de rellenados</td><td>Activo</td><td>Codigos</td></tr>
 <?php 
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$idenvases=$resultado2['idenvases'];
-$vutil=$resultado2['rellenados'];
-$activo=$resultado2['estado'];
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos as $row2mos) {
+$idenvases=$row2mos['idenvases'];
+$vutil=$row2mos['rellenados'];
+$activo=$row2mos['estado'];
 
-$sql22="SELECT count(id) as numre from almenvases where idempresas='".$ide."' and idenvases='".$idenvases."' and tipocliente='1'"; 
-$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
-$resultado22=mysqli_fetch_array($result22);
+$sql22="SELECT count(id) as numre from almenvases where idempresas='".$ide."' and idenvases='".$idenvases."' and tipocliente='1'";
+$result22=$conn->query($sql22);
+$resultado22=$result22->fetch();
+/*$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
+$resultado22=mysqli_fetch_array($result22);*/
 $numre=$resultado22['numre'];
 ?>
 <tr><td><?php  echo $idenvases;?></td><td><?php  echo $vutil;?></td><td><?php  echo $numre;?></td>

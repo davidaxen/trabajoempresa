@@ -68,10 +68,15 @@ Nombre del Puesto de Trabajo
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
 $sql.=" and accdiarias='1'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);?>
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);?>
 <?php
-if ($row>10){;
+if ($row>10){
+//if($result->fetchColumn()>10){
 $yu=1;
 }else{;
 $yu=2;
@@ -79,18 +84,29 @@ $yu=2;
 ?>
 
 <div style="column-count:<?php echo $yu;?>">
-<?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+<?php
 
-$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+foreach ($resultmos as $rowmos) {
+/*for ($i=0;$i<$row;$i++){;
+mysqli_data_seek($result, $i);
+$resultado=mysqli_fetch_array($result);*/
+$idclientes=$rowmos['idclientes'];
+$nombre=$rowmos['nombre'];
+
+$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
+$result2=$conn->query($sql2);
+$result2mos1=$conn->query($sql2);
+$result2mos2=$conn->query($sql2);
+$fetchAll=$result2->fetchAll();
+$row2=count($fetchAll);
+
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
-<?php if ($row2!=0){;?>
+<?php 
+
+if ($row2!=0){;?>
 
 <div class="accordion" style="width:400px;height:20px;padding:5px">
 <img src="../../img/iconos/datos_personales.png" width="20px" style="vertical-align:middle;">  <?php  echo strtoupper($nombre);?>
@@ -99,30 +115,38 @@ $row2=mysqli_num_rows($result2);
 <table><tr><td>
 <table>
 <?php 
-for ($t=0;$t<$row2;$t++){;
+
+
+
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$bloque[]=$resultado2['idpcsubcat'];
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos1 as $row2mos) {
+$bloque[]=$row2mos['idpcsubcat'];
 };
-for ($t=0;$t<$row2;$t++){;
+
+
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos2 as $row2mos) {
 unset($bqn);
 $j=0;
-$idpcsubcat=$resultado2['idpcsubcat'];
-$activo=$resultado2['activo'];
+$idpcsubcat=$row2mos['idpcsubcat'];
+$activo=$row2mos['activo'];
 $bloquen=$bloque;
 $bloquen[]=$idpcsubcat;
 $valores=array_unique($bloquen);
 
-
-$sql3="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result3");
-$resultado3=mysqli_fetch_array($result3);
+$sql3="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."'";
+$result3=$conn->query($sql3);
+$resultado3=$result3->fetch();
+/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result3");
+$resultado3=mysqli_fetch_array($result3);*/
 $subcategoria=$resultado3['subcategoria'];
 ?>
 
-<tr><td><?php  echo strtoupper($subcategoria);?></td><td>
+<tr><td><?php echo strtoupper($subcategoria);?></td><td>
 <?php if ($activo==0){;?>No<?php };?>
 <?php if ($activo==1){;?>Si<?php };?>
 </td><td>
@@ -130,15 +154,16 @@ $subcategoria=$resultado3['subcategoria'];
 <a href="modpuntconti.php?idclientes=<?php  echo $idclientes;?>&idpcsubcat=<?php  echo $idpcsubcat;?>&activo=<?php  echo $activo;?>
 
 <?php 
-$j=0;
-for ($k=0;$k<count($bloque);$k++){;
+	$j=0;
+for ($k=0;$k<count($valores);$k++){
 if ($valores[$k]!=null){;
 if ($valores[$k]!=$idpcsubcat){;
 $bqn[$j]=$valores[$k];
+
 ?>
-&bloque[<?php  echo $j?>]=<?php  echo $bqn[$j];?>
+&bloque[<?php echo $j?>]=<?php echo $bqn[$j];?>
 <?php 
-$j=$j+1;
+	$j=$j+1;
 };
 };
 };
@@ -147,11 +172,9 @@ $j=$j+1;
 ">
 <img src="../../img/pencil.png" width="25x" border=0></a>
 
-
-
 </td></tr>
 
-<?php };?>
+<?php };//for?>
 </table>
 </td>
 
@@ -160,7 +183,7 @@ $j=$j+1;
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
 unset($bqn);
-for ($ij=0;$ij<count($bloque);$ij++){;
+for ($ij=0;$ij<count($valores);$ij++){;
 if ($valores[$ij]!=null){;
 $bqn[$ij]=$valores[$ij];
 ?>
@@ -169,11 +192,18 @@ $bqn[$ij]=$valores[$ij];
 };
 };
 
-$sql4="SELECT count(id) as t from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1'"; 
-$result4=mysqli_query ($conn,$sql4) or die ("Invalid result4");
-$resultado4=mysqli_fetch_array($result4);
+$sql4="SELECT count(id) as t from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1'";
+$result4=$conn->query($sql4);
+$resultado4=$result4->fetch();
+//var_dump($sql4);
+
+/*$result4=mysqli_query ($conn,$sql4) or die ("Invalid result4");
+$resultado4=mysqli_fetch_array($result4);*/
 $cantp=$resultado4['t'];
+//var_dump($cantp);
 $cantp=$cantp-count($bqn);
+
+//echo $cantp;
 ?>
 <table><tr>
 <td><select name="cantpuntcont">
@@ -186,13 +216,9 @@ $tg=$ty+1;?>
 </table>
 </td></tr></table>
 </div>
-
-
-
-
-
 <?php };?>
-<?php };?>
+<?php }//for
+;?>
 </div>
 
 <?php  include ('../../js/acordeonjs.php');?>

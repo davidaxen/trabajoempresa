@@ -14,9 +14,11 @@ $sql1="SELECT * from siniestros";
 $sql1.=" where idempresa='".$ide."' ";
 $sql1.=" and idsiniestro='".$idsiniestro."' ";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
 
-$resultado=mysqli_fetch_array($result);
+/*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$resultado=mysqli_fetch_array($result);*/
 
 $idaseguradora=$resultado['idaseguradora'];
 $numsiniestro=$resultado['numsiniestro'];
@@ -69,15 +71,18 @@ $seg=strtok(":");
 <tr><td>Numero de Siniestro</td><td><input type="text" name="numsiniestro1" value="<?php  echo $numsiniestro;?>"></td></tr>
 <tr><td>Compañia de Seguros</td><td><select name="idaseguradora1">
 <?php 
-$sql="SELECT * from aseguradora where idempresa='".$ide."' and estado='1'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$sql="SELECT * from aseguradora where idempresa='".$ide."' and estado='1'";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);
 
 for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombre=$resultado['aseguradora'];
-$idaseg=$resultado['idaseguradora'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$nombre=$rowmos['aseguradora'];
+$idaseg=$rowmos['idaseguradora'];
 ?><option value="<?php  echo $idaseg;?>" <?php if ($idaseg==$idaseguradora){;?>selected <?php };?> ><?php  echo $nombre;?>
 <?php };?>
 </select></td></tr>

@@ -29,14 +29,19 @@ $idaseguradora='todos';
 <option value="todos">Todos
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
+$result=$conn->query($sql);
+$result2mos=$conn->query($sql);
+$row2=$result->fetchColumn();
 
-for ($t=0;$t<$row2;$t++){;
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result);*/
+
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombre=$resultado['nombre'];
-$idclientes=$resultado['idclientes'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result2mos as $row2mos) {
+$nombre=$row2mos['nombre'];
+$idclientes=$row2mos['idclientes'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
@@ -81,8 +86,12 @@ $sql1.=" and diacierre='".$diatc."' ";
 		
 $sql1.=" order by dia desc";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql1);
+$resultmos=$conn->query($sql1);
+$row=$result->fetchColumn();
+
+/*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table><tr><td><?php include ('../../js/busqueda.php');?></td>
@@ -109,30 +118,37 @@ $row=mysqli_num_rows($result);
 </tr>
 
 <?php  
-for ($i=0; $i<$row; $i++){;
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idsiniestro=$resultado['idsiniestro'];
-$idaseguradora=$resultado['idaseguradora'];
-$numsiniestro=$resultado['numsiniestro'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$localidad=$resultado['localidad'];
-$provincia=$resultado['provincia'];
-$cp=$resultado['cp'];
-$idempleado=$resultado['idempleado'];
-$descripcion=$resultado['descripcion'];
-$est=$resultado['terminado'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($resultmos as $rowmow) {
+$idsiniestro=$rowmow['idsiniestro'];
+$idaseguradora=$rowmow['idaseguradora'];
+$numsiniestro=$rowmow['numsiniestro'];
+$contacto=$rowmow['contacto'];
+$telefono=$rowmow['telefono'];
+$direccion=$rowmow['direccion'];
+$localidad=$rowmow['localidad'];
+$provincia=$rowmow['provincia'];
+$cp=$rowmow['cp'];
+$idempleado=$rowmow['idempleado'];
+$descripcion=$rowmow['descripcion'];
+$est=$rowmow['terminado'];
 
-$sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'";
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+/*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
+$resultado10=mysqli_fetch_array($result10);*/
 $nombrecontacto=$resultado10['nombre'];
 
-$sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+/*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
+$resultado10=mysqli_fetch_array($result10);*/
 $nombree=$resultado10['nombre'];
 $apellido1e=$resultado10['1apellido'];
 $apellido2e=$resultado10['2apellido'];

@@ -35,27 +35,36 @@ if ($ide!=null){; include('../../portada_n/cabecera3.php');?>
 <?php 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 
 if ($row2!=0){;?>
 <table><tr><td>Tienes los siguientes puntos introducidos:</td></tr></table>
 <table>
 <tr class="enca"><td>Codigo</td><td>Nombre</td></tr>
-<?php  for ($t=0;$t<$row2;$t++){;
+<?php  
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$idpcsubcat=$resultado2['idpcsubcat'];
-$subcategoria=$resultado2['subcategoria'];
-$rellr=$resultado2['rellr'];
-$rellg=$resultado2['rellg'];
-$rellb=$resultado2['rellb'];
-$activo=$resultado2['activo'];
-
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos as $row2mos) {
+	$t=0;
+$idpcsubcat=$row2mos['idpcsubcat'];
+$subcategoria=$row2mos['subcategoria'];
+$rellr=$row2mos['rellr'];
+$rellg=$row2mos['rellg'];
+$rellb=$row2mos['rellb'];
+$activo=$row2mos['activo'];
+	
 if ($t==$row2-1){;
 $ultpunto=$idpcsubcat;
-};
+}
+$t=$t+1;
 ?>
 <tr>
 <td><?php  echo $idpcsubcat;?></td>

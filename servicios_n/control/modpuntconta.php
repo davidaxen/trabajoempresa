@@ -14,9 +14,11 @@ $sql1="SELECT * from evento";
 $sql1.=" where idempresa='".$ide."' ";
 $sql1.=" and idevento='".$idevento."' ";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
 
-$resultado=mysqli_fetch_array($result);
+/*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$resultado=mysqli_fetch_array($result);*/
 
 $idevento=$resultado['idevento'];
 $evento=$resultado['evento'];

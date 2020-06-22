@@ -35,22 +35,26 @@ $sql1.=" and estado='".$estado."' ";
 };
 $sql1.=" order by idaseguradora asc";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql1);
+
+/*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table>
 <tr class="subenc"><td>Compañia</td><td>Persona de Contacto</td><td>Telefono</td><td>Direccion</td><td>Email</td></tr>
 
-<?php  for ($i=0; $i<$row; $i++){;
+<?php  
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idaseguradora=$resultado['idaseguradora'];
-$aseguradora=$resultado['aseguradora'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$email=$resultado['email'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $row) {
+$idaseguradora=$row['idaseguradora'];
+$aseguradora=$row['aseguradora'];
+$contacto=$row['contacto'];
+$telefono=$row['telefono'];
+$direccion=$row['direccion'];
+$email=$row['email'];
 ?><tr class="menor1">
 <td><?php  echo $aseguradora;?></td><td><?php  echo $contacto;?></td><td><?php  echo $telefono;?></td><td><?php  echo $direccion;?></td><td><?php  echo $email;?></td>
 <td><a href="modpuntconta.php?idaseguradora=<?php  echo $idaseguradora;?>"><img src="../../img/modificar.gif"></a></td>

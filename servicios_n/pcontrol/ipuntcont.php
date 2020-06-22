@@ -14,20 +14,27 @@ include('../../portada_n/cabecera3.php');?>
 if ($idclientes==null){;?>
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and revision='1' and estado='1'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result 1 ");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and revision='1' and estado='1'";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result 1 ");
+$row=mysqli_num_rows($result);*
 
 for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+$resultado=mysqli_fetch_array($result);*/
 
-$sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result 2");
-$row2=mysqli_num_rows($result2);
-if ($row2==0){;
+foreach ($result as $row) {
+$idclientes=$row['idclientes'];
+$nombre=$row['nombre'];
+
+$sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result2=$conn->query($sql2);
+$rows2=$result2->fetchColumn();
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result 2");
+$row2=mysqli_num_rows($result2);*/
+if ($rows2==0){;
 $datidc[]=$idclientes;
 $datnomc[]=$nombre;
 };
@@ -66,9 +73,12 @@ Si quieres activar el servicio para algún Puesto de Trabajo más, pincha <a href=
 <input type="hidden" name="cantpuntcont" value="<?php  echo $cantpuntcont+2;?>">
 <tr><td>Datos de la Comunidad</td><td><input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result 3");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result 3");
+$resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];?>
 <?php  echo $nombre;?></td></tr>

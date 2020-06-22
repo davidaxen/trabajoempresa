@@ -17,9 +17,14 @@ include('../../portada_n/cabecera3.php');?>
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+$idclientes=$resultado['idclientes'];
+$nombre=$resultado['nombre'];
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $idclientes=mysqli_result($result,0,'idclientes');
-$nombre=mysqli_result($result,0,'nombre');
+$nombre=mysqli_result($result,0,'nombre');*/
 ?>
 <?php  echo $nombre;?></td></tr>
 
@@ -37,14 +42,20 @@ $sql2.=",";
 $sql2.=")";
 }; 
 //echo $sql2;
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$result2=$conn->query($sql2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_affected_rows();
 for ($t=0;$t<$row2;$t++){;
 $idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
-$subcategoria=mysqli_result($result2,$t,'subcategoria');
+$subcategoria=mysqli_result($result2,$t,'subcategoria');*/
+$t=0;
+foreach ($result2 as $row2mos) {
+$idpcsubcat=$row2mos['idpcsubcat'];
+$subcategoria=$row2mos['subcategoria'];
 ?>
 <tr><td colspan="2"><input type="hidden" name="punt[<?php  echo $t?>]" value="<?php  echo $idpcsubcat;?>"><?php  echo $subcategoria;?></td></tr>
-<?php };?>
+<?php $t=$t+1;};?>
 <?php }else{;?>
 
 
@@ -64,14 +75,24 @@ $sql2.=",";
 $sql2.=")";
 }; 
 //echo $sql2;
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_affected_rows();
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_affected_rows();*/
 if ($row2!=0){;?>
 <select name="punt[<?php  echo $i?>]">
 <?php 
-for ($t=0;$t<$row2;$t++){;
-$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
-$subcategoria=mysqli_result($result2,$t,'subcategoria');
+//for ($t=0;$t<$row2;$t++){;
+foreach ($result2mos as $row2mos) {
+
+	$idpcsubcat=$row2mos['idpcsubcat'];
+	$subcategoria=$row2mos['subcategoria'];
+
+/*$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
+$subcategoria=mysqli_result($result2,$t,'subcategoria');*/
 ?>
 <option value="<?php  echo $idpcsubcat;?>"><?php  echo $subcategoria;?>
 <?php };?>

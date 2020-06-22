@@ -14,8 +14,11 @@ $sql1="SELECT * from siniestros";
 $sql1.=" where idempresa='".$ide."' ";
 $sql1.=" and idsiniestro='".$idsiniestro."' ";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$resultado=mysqli_fetch_array($result);*/
 $idaseguradora=$resultado['idaseguradora'];
 $numsiniestro=$resultado['numsiniestro'];
 $contacto=$resultado['contacto'];
@@ -59,8 +62,11 @@ $seg=strtok(":");
 </td></tr>
 <tr><td>Compañia de Seguros</td><td>
 <?php 
-$sql="SELECT * from aseguradora where idempresa='".$ide."' and idaseguradora='".$idaseguradora."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$sql="SELECT * from aseguradora where idempresa='".$ide."' and idaseguradora='".$idaseguradora."'";
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $nombre=$resultado['aseguradora'];
 ?><?php  echo $nombre;?>
 </td></tr><tr><td>Dia Cierre</td><td><input type="text" maxlength="2" size="2" name="d" value="<?php  echo $d;?>">-

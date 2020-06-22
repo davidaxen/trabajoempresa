@@ -36,24 +36,28 @@ $sql1.=" and estado='".$estado."' ";
 };
 $sql1.=" order by idevento asc";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql1);
+
+/*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table>
 <tr class="subenc"><td>Evento</td><td>Persona de Contacto</td><td>Telefono</td><td>Direccion</td><td>Email</td><td>Fechas del Evento</td><td>Programa</td></tr>
 
-<?php  for ($i=0; $i<$row; $i++){;
+<?php  
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$evento=$resultado['evento'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$email=$resultado['email'];
-$fcomienzo=$resultado['fcomienzo'];
-$ffinal=$resultado['ffinal'];
-$programa=$resultado['programa'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$evento=$rowmos['evento'];
+$contacto=$rowmos['contacto'];
+$telefono=$rowmos['telefono'];
+$direccion=$rowmos['direccion'];
+$email=$rowmos['email'];
+$fcomienzo=$rowmos['fcomienzo'];
+$ffinal=$rowmos['ffinal'];
+$programa=$rowmos['programa'];
 ?>
 <tr class="menor1">
 <td><?php  echo $aseguradora;?></td><td><?php  echo $contacto;?></td><td><?php  echo $telefono;?></td><td><?php  echo $direccion;?></td><td><?php  echo $email;?></td><td><?php  echo $fcomienzo;?> a <?php  echo $ffinal;?></td>

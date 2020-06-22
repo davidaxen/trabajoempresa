@@ -83,7 +83,7 @@ $rowp=mysqli_num_rows($resultp);
 
 
 $sql="SELECT * from empresas where ";
-$sql2=" estado='".$estador."'";
+
 if ($rowp>0){;
 $sql.=" idproyectos ";
 if ($rowp==1){

@@ -36,26 +36,30 @@ $sql1.=" and terminado='".$estado."' ";
 };
 $sql1.=" order by dia asc";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql1);
+
+/*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+$row=mysqli_num_rows($result);*/
 ?>
 
 <table>
 <tr class="subenc"><td>Nº Siniestro</td><td>Persona de Contacto</td><td>Telefono</td><td>Direccion</td><td>Email</td><td>Descripcion</td></tr>
 
-<?php  for ($i=0; $i<$row; $i++){;
+<?php  
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idsiniestro=$resultado['idsiniestro'];
-$numsiniestro=$resultado['numsiniestro'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$localidad=$resultado['localidad'];
-$provincia=$resultado['provincia'];
-$cp=$resultado['cp'];
-$email=$resultado['email'];
-$descripcion=$resultado['descripcion'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idsiniestro=$rowmos['idsiniestro'];
+$numsiniestro=$rowmos['numsiniestro'];
+$contacto=$rowmos['contacto'];
+$telefono=$rowmos['telefono'];
+$direccion=$rowmos['direccion'];
+$localidad=$rowmos['localidad'];
+$provincia=$rowmos['provincia'];
+$cp=$rowmos['cp'];
+$email=$rowmos['email'];
+$descripcion=$rowmos['descripcion'];
 ?><tr class="menor1">
 <td><?php  echo $numsiniestro;?></td><td><?php  echo $contacto;?></td><td><?php  echo $telefono;?></td>
 <td><?php  echo $direccion;?><br>

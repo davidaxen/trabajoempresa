@@ -67,9 +67,14 @@ Nombre del Puesto de Trabajo
 
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$sql.=" and accdiarias='1'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);?>
+$sql.=" and accdiarias='1'";
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+$resultmos=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/?>
 <?php
 if ($row>10){;
 $yu=1;
@@ -80,15 +85,23 @@ $yu=2;
 
 <div style="column-count:<?php echo $yu;?>">
 <?php 
-for ($i=0;$i<$row;$i++){;
+/*for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($resultmos as $rowmos) {
+$idclientes=$rowmos['idclientes'];
+$nombre=$rowmos['nombre'];
 
-$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
+$result2=$conn->query($sql2);
+$result2mos1=$conn->query($sql2);
+$result2mos2=$conn->query($sql2);
+
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 ?>
 <?php if ($row2!=0){;?>
 
@@ -99,26 +112,31 @@ $row2=mysqli_num_rows($result2);
 <table><tr><td>
 <table>
 <?php 
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$bloque[]=$resultado2['idpcsubcat'];
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos1 as $row2mos) {
+
+$bloque[]=$row2mos['idpcsubcat'];
 };
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2mos2 as $row2mos) {
 unset($bqn);
 $j=0;
-$idpcsubcat=$resultado2['idpcsubcat'];
-$activo=$resultado2['activo'];
+$idpcsubcat=$row2mos['idpcsubcat'];
+$activo=$row2mos['activo'];
 $bloquen=$bloque;
 $bloquen[]=$idpcsubcat;
 $valores=array_unique($bloquen);
 
+$sql3="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."'";
+$result3=$conn->query($sql3);
+$resultado3=$result3->fetch();
 
-$sql3="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result3");
-$resultado3=mysqli_fetch_array($result3);
+/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result3");
+$resultado3=mysqli_fetch_array($result3);*/
 $subcategoria=$resultado3['subcategoria'];
 ?>
 
@@ -131,7 +149,8 @@ $subcategoria=$resultado3['subcategoria'];
 
 <?php 
 $j=0;
-for ($k=0;$k<count($bloque);$k++){;
+for ($k=0;$k<count($valores);$k++){
+
 if ($valores[$k]!=null){;
 if ($valores[$k]!=$idpcsubcat){;
 $bqn[$j]=$valores[$k];
@@ -160,7 +179,7 @@ $j=$j+1;
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
 unset($bqn);
-for ($ij=0;$ij<count($bloque);$ij++){;
+for ($ij=0;$ij<count($bloquen);$ij++){;
 if ($valores[$ij]!=null){;
 $bqn[$ij]=$valores[$ij];
 ?>
@@ -169,9 +188,12 @@ $bqn[$ij]=$valores[$ij];
 };
 };
 
-$sql4="SELECT count(id) as t from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1'"; 
-$result4=mysqli_query ($conn,$sql4) or die ("Invalid result4");
-$resultado4=mysqli_fetch_array($result4);
+$sql4="SELECT count(id) as t from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1'";
+$result4=$conn->query($sql4);
+$resultado4=$result4->fetch();
+
+/*$result4=mysqli_query ($conn,$sql4) or die ("Invalid result4");
+$resultado4=mysqli_fetch_array($result4);*/
 $cantp=$resultado4['t'];
 $cantp=$cantp-count($bqn);
 ?>

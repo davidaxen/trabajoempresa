@@ -15,15 +15,19 @@ if ($ide!=null){;
 <tr><td>Numero de Siniestro</td><td><input type="text" name="numsiniestro"></td></tr>
 <tr><td>Compañia de Seguros / Cliente</td><td><select name="idaseguradora">
 <?php 
-$sql="SELECT * from aseguradora where idempresa='".$ide."' and estado='1'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
+$sql="SELECT * from aseguradora where idempresa='".$ide."' and estado='1'";
+$result=$conn->query($sql);
 
-for ($t=0;$t<$row2;$t++){;
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result);*/
+
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombre=$resultado['aseguradora'];
-$idaseguradora=$resultado['idaseguradora'];
+$resultado=mysqli_fetch_array($result);*/
+
+foreach ($result as $row2mos) {
+$nombre=$row2mos['aseguradora'];
+$idaseguradora=$row2mos['idaseguradora'];
 ?><option value="<?php  echo $idaseguradora;?>"><?php  echo $nombre;?>
 <?php };?>
 </select></td></tr>

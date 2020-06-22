@@ -21,6 +21,11 @@ $ic=$resultado32['gestores'];
 
 
 <?php 
+
+if(!isset($idc)){
+	$idc=null;
+}
+
 if ($idc==null){;
 ?>
 

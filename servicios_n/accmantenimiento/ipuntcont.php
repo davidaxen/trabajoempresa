@@ -40,23 +40,34 @@ include('../../portada_n/cabecera3.php');?>
 if ($enviar==null){;
 
 $sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_affected_rows();
+$result2=$conn->query($sql2);
+$num_rows=$result2->fetchAll();
+$row2=count($num_rows);
+
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_affected_rows();*/
 
 if ($row2!=0){;?>
 <table><tr><td>Tienes los siguientes puntos introducidos:</td></tr></table>
 <table>
 <tr class="enca"><td>Codigo</td><td>Nombre</td></tr>
-<?php  for ($t=0;$t<$row2;$t++){;
-$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
-$subcategoria=mysqli_result($result2,$t,'subcategoria');
+<?php  
+//for ($t=0;$t<$row2;$t++){;
+	foreach ($result2 as $row) {
+		$t=0;
+		$idpcsubcat=row['idpcsubcat'];
+		$subcategoria=row['subcategoria'];
+/*$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
+$subcategoria=mysqli_result($result2,$t,'subcategoria');*/
 
-if ($t==$row2-1){;
+if ($t==$rows2-1){;
 $ultpunto=$idpcsubcat;
-};
+}
+$t=$t+1;
 ?>
 <tr><td><?php  echo $idpcsubcat;?></td><td><?php  echo strtoupper($subcategoria);?></td></tr>
-<?php };?>
+<?php};?>
 </table>
 <form action="ipuntcont.php" method="post">
 <input type="hidden" name="ultpunto" value="<?php  echo $ultpunto;?>">

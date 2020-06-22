@@ -4,13 +4,19 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+/*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+$resultado31=mysqli_fetch_array($result31);*/
 $nc=$resultado31['jornadas'];
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+/*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+$resultado32=mysqli_fetch_array($result32);*/
 $ic=$resultado32['jornadas'];
 
 include('../portada_n/cabecera2.php');?>
@@ -24,8 +30,11 @@ include('../portada_n/cabecera2.php');?>
 <?php 
 
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $nombre=$resultado['nombre'];
 $apellido1=$resultado['1apellido'];
 $apellido2=$resultado['2apellido'];
@@ -70,8 +79,10 @@ o.text="Elige uno";
 prod.options.add(o);
 <?php
 $sql2="select * from comunidades order by id";
-$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
-while ($resultado2 = mysqli_fetch_array($result2)){;
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
+//while ($resultado2 = mysqli_fetch_array($result2)){;
+while ($resultado2=$result2->fetch()) {
 ?>
 
 if (depto == "<?=$resultado2['idpais']?>"){
@@ -112,9 +123,11 @@ o.text="Elige uno";
 prod.options.add(o);
 <?php
 $sql2="select * from provincias order by id";
-$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
+$result2=$conn->query($sql2);
 
-while ($resultado2 = mysqli_fetch_array($result2)){;
+//$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
+//while ($resultado2 = mysqli_fetch_array($result2)){;
+while ($resultado2=$result2->fetch()) {
 ?>
 if (depto == "<?=$resultado2['comunidad_id']?>"){
 o=document.createElement("OPTION");
@@ -153,8 +166,10 @@ o.text="Elige uno";
 prod.options.add(o);
 <?
 $sql2="select * from municipios order by id";
-$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
-while ($resultado2 = mysqli_fetch_array($result2)){;
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn, $sql2) or die ("Invalid result");
+//while ($resultado2 = mysqli_fetch_array($result2)){;
+	while ($resultado2=$result2->fetch()) {
 ?>
 
 if (depto == "<?=$resultado2['provincia_id']?>"){
@@ -258,19 +273,22 @@ function myFunction() {
 
 
 <?php
-$sqlp="SELECT * from pais"; 
-$resultp=mysqli_query($conn,$sqlp) or die ("Invalid result");
-$rowp=mysqli_num_rows($resultp);
+$sqlp="SELECT * from pais";
+$resultp=$conn->query($sqlp);
+
+/*$resultp=mysqli_query($conn,$sqlp) or die ("Invalid result");
+$rowp=mysqli_num_rows($resultp);*/
 ?>
 <tr><td>Pais</td><td>
 <select name="idpais" onChange="ComponerLista(this.value, idpais, idcomunidad)">
 <option>Elige el pais</option>
 <?php
-for ($i=0; $i<$rowp; $i++){;
+/*for ($i=0; $i<$rowp; $i++){;
 mysqli_data_seek($resultp, $i);
-$resultadop=mysqli_fetch_array($resultp);
-$idpais=$resultadop['idpais'];
-$nombrepais=$resultadop['nombrepais'];
+$resultadop=mysqli_fetch_array($resultp);*/
+foreach ($resultp as $rowpmos) {
+$idpais=$rowpmos['idpais'];
+$nombrepais=$rowpmos['nombrepais'];
 ?>
 <option value="<?php echo $idpais;?>"><?php echo $nombrepais;?></option>
 <?php };?>

@@ -16,20 +16,23 @@ include('../../portada_n/cabecera3.php');?>
 
 
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 <select name="idemplt">
 <option value="todos">Todos</option>
 <?php 
-for ($i=0;$i<$row;$i++){;
+/*for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellidop=$resultado['1apellido'];
-$apellidos=$resultado['2apellido'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idempleado=$rowmos['idempleado'];
+$nombre=$rowmos['nombre'];
+$apellidop=$rowmos['1apellido'];
+$apellidos=$rowmos['2apellido'];
 $nombret=$nombre.' '.$apellidop.' '.$apellidos;
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombret;?></option>

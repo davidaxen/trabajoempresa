@@ -13,8 +13,11 @@ $sql1="SELECT * from trabajos";
 $sql1.=" where idempresa='".$ide."' ";
 $sql1.=" and idsiniestro='".$idsiniestro."' ";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$resultado=mysqli_fetch_array($result);*/
 $i=0;
 
 $idaseguradora=$resultado['idaseguradora'];
@@ -66,8 +69,11 @@ $seg=strtok(":");
 <?php if ($idclientesinc!=null){;?>
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1' and idclientes='".$idclientesinc."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado2=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado2=mysqli_fetch_array($result);*/
 $nombre=$resultado2['nombre'];
 $idclientes=$resultado2['idclientes'];
 ?>
@@ -79,15 +85,18 @@ $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1' ";
 if ($idaseguradora>10){;
 $sql.=" and idclientes='".$idaseguradora."'";
 };
-echo $sql;
-$result2=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+//echo $sql;
+$result2=$conn->query($sql);
 
+
+/*$result2=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);
 for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$nombre=$resultado2['nombre'];
-$idclientes=$resultado2['idclientes'];
+$resultado2=mysqli_fetch_array($result2);*/
+foreach ($result2 as $row2mos) {
+$nombre=$row2mos['nombre'];
+$idclientes=$row2mos['idclientes'];
 ?><option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
 </select>

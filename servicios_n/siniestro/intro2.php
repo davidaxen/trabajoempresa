@@ -12,19 +12,24 @@ if ($ide!=null){;
 <?php  
 if ($tabla=="ipuntconta"){;
 $sql="SELECT * from aseguradora where idempresa='".$ide."' order by idaseguradora desc"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
+$result=$conn->query($sql);
+$row2=$result->fetchColumn();
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result);*/
 
 if ($row2==0){;
 $idaseg=1;
 }else{;
-$resultado=mysqli_fetch_array($result);
+$resultado=$result->fetch();
+//$resultado=mysqli_fetch_array($result);
 $idaseguradora=$resultado['idaseguradora'];
 $idaseg=$idaseguradora+1;
 };
 
 $sql1 = "INSERT INTO aseguradora (idempresa,idaseguradora,aseguradora,contacto,telefono,direccion,email) VALUES ('$ide','$idaseg','$aseguradora','$pcontacto','$telcontacto','$dircontacto','$mailcontacto')";
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntconta");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntconta");
 
 };
 
@@ -32,14 +37,18 @@ $result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntconta");
 
 
 if ($tabla=="ipuntcont"){;
-$sql="SELECT * from siniestros where idempresa='".$ide."' order by idsiniestro desc"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
+$sql="SELECT * from siniestros where idempresa='".$ide."' order by idsiniestro desc";
+$result=$conn->query($sql);
+$row2=$result->fetchColumn();
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$row2=mysqli_num_rows($result);*/
 
 if ($row2==0){;
 $idsiniestro=1;
 }else{;
-$resultado=mysqli_fetch_array($result);
+	$resultado=$result->fetch();
+//$resultado=mysqli_fetch_array($result);
 $idsiniestro=$resultado['idsiniestro'];
 $idsiniestro=$idsiniestro+1;
 };
@@ -69,7 +78,8 @@ $horaapertura=$hora.':'.$min.':'.$seg;
 
 $sql1 = "INSERT INTO siniestros (idempresa,idsiniestro,numsiniestro,idaseguradora,contacto,telefono,direccion,localidad,provincia,cp,email,descripcion,terminado,diaapertura,horaapertura,latdir,londir) VALUES ('$ide','$idsiniestro','$numsiniestro','$idaseguradora','$pcontacto','$telcontacto','$dircontacto','$loccontacto','$procontacto','$cpcontacto','$mailcontacto','$descripcion','0','$diaapertura','$horaapertura','$lat1','$lon1')";
 //echo $sql1;
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };
 
@@ -94,7 +104,8 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
 };
@@ -122,7 +133,8 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
 };
@@ -149,7 +161,8 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
 };
@@ -177,7 +190,8 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
 };
@@ -207,7 +221,8 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
 };
@@ -224,17 +239,17 @@ $resultd=mysqli_query($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." "
 LOS DATOS HAN SIDO INTRODUCCIDOS<p>
 
 <?php  switch($tabla){
-case ipuntcont: echo "<a href='ipuntconti.php?idsiniestro=$idsiniestro'>Asginacion de Reparaciones / Siniestro</a><p>";break;
-case iasientos: echo "<a href='iasientos.php?idc=$idc'>Introducir nuevos asientos de la misma comunidad</a><p><a href='iasientos.php'>Introducir nuevos asientos</a><p>";break;
-case idivision: echo "<a href='ivecinos.php?idc=$idc'>Introducir los vecinos</a><p>";break;
-case ivecinos: echo "<a href='icoeficientes.php?idc=$idc'>Introducir los coeficientes</a><p>";break;
-case irecibos: echo "<a href='irecibos.php'>Introducir nuevos recibos</a><p>";break;
-case icoeficientes: echo "<a href='ipresupuestos.php?idc=$idc'>Introducir los presupuestos</a><p>";break;
-case ipresupuestos: echo "<a href='icuotas.php?idc=$idc'>Calcular las cuotas</a><p>";break;
-case iactas: echo "<a href='iactas.php'>Introducir nuevas actas</a><p>";break;
-case iproveedores: echo "<a href='iproveedores.php'>Introducir nuevos proveedores</a><p>";break;
-case igestiones: echo "<a href='iacciones.php?idg=$idg'>Introducir las acciones</a><p>";break;
-case icarnet: echo "<a href='icarnetvec.php'>Introducir las datos de vecinos</a><p>";break;
+case 'ipuntcont': echo "<a href='ipuntconti.php?idsiniestro=$idsiniestro'>Asginacion de Reparaciones / Siniestro</a><p>";break;
+case 'iasientos': echo "<a href='iasientos.php?idc=$idc'>Introducir nuevos asientos de la misma comunidad</a><p><a href='iasientos.php'>Introducir nuevos asientos</a><p>";break;
+case 'idivision': echo "<a href='ivecinos.php?idc=$idc'>Introducir los vecinos</a><p>";break;
+case 'ivecinos': echo "<a href='icoeficientes.php?idc=$idc'>Introducir los coeficientes</a><p>";break;
+case 'irecibos': echo "<a href='irecibos.php'>Introducir nuevos recibos</a><p>";break;
+case 'icoeficientes': echo "<a href='ipresupuestos.php?idc=$idc'>Introducir los presupuestos</a><p>";break;
+case 'ipresupuestos': echo "<a href='icuotas.php?idc=$idc'>Calcular las cuotas</a><p>";break;
+case 'iactas': echo "<a href='iactas.php'>Introducir nuevas actas</a><p>";break;
+case 'iproveedores': echo "<a href='iproveedores.php'>Introducir nuevos proveedores</a><p>";break;
+case 'igestiones': echo "<a href='iacciones.php?idg=$idg'>Introducir las acciones</a><p>";break;
+case 'icarnet': echo "<a href='icarnetvec.php'>Introducir las datos de vecinos</a><p>";break;
 
 };
 

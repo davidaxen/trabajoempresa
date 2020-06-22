@@ -14,7 +14,8 @@ $img=null;
 
 if($img==null){;
 $sql55 = "INSERT INTO visitas (usuario,dia,hora,ip) VALUES ('$user','$dt','$tm','$ip')";
-$result55=mysqli_query ($conn, $sql55) or die ("Invalid result user");
+$result55=$conn->exec($sql55);
+//$result55=mysqli_query ($conn, $sql55) or die ("Invalid result user");
 };
 
 			$output=FALSE;
@@ -26,19 +27,23 @@ $result55=mysqli_query ($conn, $sql55) or die ("Invalid result user");
 
 $sql="select * from usuarios where user='".$user."' and password='".$pass."'";
 //echo $sql;
-$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
-$resultados = mysqli_fetch_array ($result);
-	$idusuario=$resultados['id'];
-	$estado=$resultados['estado'];
-	$validar=$resultados['validar'];
-	$valor=$resultados['idempresas'];
-	$idpr=$resultados['idpr'];
-	$idcliente=$resultados['idcliente'];
-	$idempleados=$resultados['idempleados'];
-	$idgestor=$resultados['idgestor'];
-	$idrepresentante=$resultados['idrepresentante'];
-	$tusuario=$resultados['tusuario'];
-	$modulo=$resultados['modulo'];
+
+$result=$conn->query($sql);
+$resultados=$result->fetchAll();
+
+/*$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
+$resultados = mysqli_fetch_array ($result);*/
+	$idusuario=$resultados[0]['id'];
+	$estado=$resultados[0]['estado'];
+	$validar=$resultados[0]['validar'];
+	$valor=$resultados[0]['idempresas'];
+	$idpr=$resultados[0]['idpr'];
+	$idcliente=$resultados[0]['idcliente'];
+	$idempleados=$resultados[0]['idempleados'];
+	$idgestor=$resultados[0]['idgestor'];
+	$idrepresentante=$resultados[0]['idrepresentante'];
+	$tusuario=$resultados[0]['tusuario'];
+	$modulo=$resultados[0]['modulo'];
 	$ide=$valor;
 				
 				setcookie("idusuario",$idusuario);
@@ -59,22 +64,26 @@ $resultados = mysqli_fetch_array ($result);
 				
 	$sql1="select * from empresas where idempresas='".$ide."'"; 
 	//echo $sql1;
-	$result1=mysqli_query ($conn, $sql1) or die ("Invalid result sql1 ");
-	$resultados1 = mysqli_fetch_array ($result1);
-				$nemp=$resultados1['nombre'];
-				$img=$resultados1['logotipo'];
-				$imgpeq=$resultados1['logotipopeq'];
-				$firma=$resultados1['firma'];
-				$imgpl=$resultados1['plantilla'];
-				$plantillasobre=$resultados1['plantillasobre'];
-				$plantillacarnet=$resultados1['plantillacarnet'];
-				$plantilla=$resultados1['plantilla'];
-				$imghoja1=$resultados1['imghoja1'];
-				$imghoja2=$resultados1['imghoja2'];
-				$ico=$resultados1['ico'];
-				$colorarriba=$resultados1['colorarriba'];
-				$colorlateral=$resultados1['colorlateral'];
-				$colorcentral=$resultados1['colorcentral'];
+
+	$result1=$conn->query($sql1);
+	$resultados1=$result1->fetchAll();
+
+	/*$result1=mysqli_query ($conn, $sql1) or die ("Invalid result sql1 ");
+	$resultados1 = mysqli_fetch_array ($result1);*/
+				$nemp=$resultados1[0]['nombre'];
+				$img=$resultados1[0]['logotipo'];
+				$imgpeq=$resultados1[0]['logotipopeq'];
+				$firma=$resultados1[0]['firma'];
+				$imgpl=$resultados1[0]['plantilla'];
+				$plantillasobre=$resultados1[0]['plantillasobre'];
+				$plantillacarnet=$resultados1[0]['plantillacarnet'];
+				$plantilla=$resultados1[0]['plantilla'];
+				$imghoja1=$resultados1[0]['imghoja1'];
+				$imghoja2=$resultados1[0]['imghoja2'];
+				$ico=$resultados1[0]['ico'];
+				$colorarriba=$resultados1[0]['colorarriba'];
+				$colorlateral=$resultados1[0]['colorlateral'];
+				$colorcentral=$resultados1[0]['colorcentral'];
 				
 				setcookie("nemp",$nemp);
 				setcookie("img",$img);
@@ -91,9 +100,9 @@ $resultados = mysqli_fetch_array ($result);
 				setcookie("colorlateral",$colorlateral);				
 				setcookie("colorcentral",$colorcentral);	
 				
-				$email=$resultados1['email'];
-				$emailadmin=$resultados1['emailadmin'];
-				$web=$resultados1['web'];
+				$email=$resultados1[0]['email'];
+				$emailadmin=$resultados1[0]['emailadmin'];
+				$web=$resultados1[0]['web'];
 				if ($web==''){;
 				$web='http://www.smartcbc.com';
 				};

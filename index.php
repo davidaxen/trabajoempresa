@@ -70,11 +70,35 @@ $idpr=null;
 if($idpr!=null){;
 $idprt=$idpr;
 }else{
-$idprt=1;	
+$idprt = 1;	
 	};
 
 if ($idprt!=null){;
-$sql="select * from proyectos where idproyectos='".$idprt."'";
+
+
+
+  $sql="select count(*) from proyectos where idproyectos='".$idprt."'";
+  //$result=$conn->query($sql);
+
+  if($result=$conn->query($sql)){
+    if($result->fetchColumn()==0){
+      echo ("Este dominio no tiene acceso al sistema, comprueba todas la conexiones, por favor hable con el departamento de sistemas.");
+
+    }else{
+      $sql = "select * from proyectos where idproyectos='".$idprt."'";
+       foreach ($conn->query($sql) as $fila) {
+          $logo = $fila['logo'];
+          $bdescarga=$fila['botondescarga'];
+          $fondo=$fila['fondo'];
+          $colorcentral=$fila['colorfondo'];
+          $colorarriba=$fila['colorarriba'];
+          $colorlateral=$fila['colorlateral'];
+          //$icono=$fila['icono'];
+          $pagina=$fila['pagina'];
+         }
+      
+  
+/*--------------$sql="select * from proyectos where idproyectos='".$idprt."'";
 $result=mysqli_query ($conn, $sql) or die ("Este dominio no tiene acceso al sistema, por favor hable con el departamento Tecnico");
 $row=mysqli_num_rows($result);
 $resultados = mysqli_fetch_array ($result);
@@ -92,7 +116,7 @@ echo ("Este dominio no tiene acceso al sistema, comprueba todas la conexiones, p
    $colorarriba=$resultados['colorarriba'];
    $colorlateral=$resultados['colorlateral'];
    //$icono=$resultados['icono'];
-   $pagina=$resultados['pagina'];
+   $pagina=$resultados['pagina'];-------------*/
 
 //setcookie("colorarriba",$colorarriba);
 //setcookie("colorcentral",$colorcentral);
@@ -113,4 +137,6 @@ echo ("Este dominio no tiene acceso al sistema, comprueba todas la conexiones, p
 
 Este dominio no tiene acceso al sistema, por favor hable con el departamento de sistemas.<br/>
 
-<?php };?>
+<?php }
+}
+;?>

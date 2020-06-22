@@ -52,7 +52,11 @@ include('../../portada_n/cabecera3.php');?>
 <br/>
 Listado de <?php  echo ucfirst($nc);?>
 <?php
-$sql="SELECT * from alarma where idempresas='".$ide."' and diaresp='0000-00-00'"; 
+$sql="SELECT * from alarma where idempresas='".$ide."' and diaresp='0000-00-00'";
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
 /*
 if ($idclientes!='todos'){;
 $sql.=" and idclientes='".$idclientes."'";
@@ -60,8 +64,8 @@ $sql.=" and idclientes='".$idclientes."'";
 $sql.=" and dia between '".$fechaa."' and '".$fechab."' order by id asc";
 */
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+$row=mysqli_num_rows($result);*/
 ?>
 <?php if ($row!=0){;?>
 <table>
@@ -71,26 +75,30 @@ $row=mysqli_num_rows($result);
 <?php };?>
 
 <?php 
-for ($i=0;$i<$row;$i++){;
+/*for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idalarma=$resultado['id'];
-$dm=$resultado['d'];
-$mm=$resultado['m'];
-$ym=$resultado['y'];
-$hm=$resultado['h'];
-$minm=$resultado['min'];
-$segm=$resultado['seg'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($resultmos as $rowmos) {
+$idalarma=$rowmos['id'];
+$dm=$rowmos['d'];
+$mm=$rowmos['m'];
+$ym=$rowmos['y'];
+$hm=$rowmos['h'];
+$minm=$rowmos['min'];
+$segm=$rowmos['seg'];
 $diat=$dm.'-'.$mm.'-'.$ym;
 $horat=$hm.':'.$minm.':'.$segm;
-$user=$resultado['user'];
-$mensaje=$resultado['mensaje'];
-$respuesta=$resultado['respuesta'];
-$idempleado=$resultado['idempleados'];
-$idclientes=$resultado['idclientes'];
+$user=$rowmos['user'];
+$mensaje=$rowmos['mensaje'];
+$respuesta=$rowmos['respuesta'];
+$idempleado=$rowmos['idempleados'];
+$idclientes=$rowmos['idclientes'];
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+$resultado1=mysqli_fetch_array($result1);*/
 $nombre=$resultado1['nombre'];
 ?>
 <tr class="subenc">
