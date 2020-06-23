@@ -84,7 +84,11 @@ setcookie("pag1",$pag1);
 				$result10=$conn->query($sql10);
 				$resultados10=$result10->fetch();
 
-				if($result10->fetchColumn()==0){
+				$result10row=$conn->query($sql10);
+				$fetchAll10=$result10row->fetchAll();
+				$row10=count($fetchAll10);
+
+				if($row10==0){
 			      	$dia1="Bienvenido";
 					$hora1="";
 

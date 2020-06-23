@@ -42,8 +42,7 @@ $result2=$conn->query($sql2);
 $fetchAll3=$result2->fetchAll();
 $row3=count($fetchAll3);
 
-
-
+var_dump($row3);
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
 //echo $sql2;
 $row2=mysqli_num_rows($result2);*/

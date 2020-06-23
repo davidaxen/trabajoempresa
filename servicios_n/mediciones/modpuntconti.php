@@ -43,7 +43,7 @@ $sql2.=",";
 $sql2.=")";
 }; 
 //echo $sql2;
-$result=$conn->query($sql);
+$result2=$conn->query($sql2);
 
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
@@ -51,9 +51,9 @@ $row2=mysqli_num_rows($result2);
 for ($t=0;$t<$row2;$t++){;
 mysqli_data_Seek($result2,$t);
 $resultado2=mysqli_fetch_array($result2);*/
-foreach ($result as $rowmos) {
-$idpcsubcatn=$rowmos['idpcsubcat'];
-$subcategoria=$rowmos['subcategoria'];
+foreach ($result2 as $row2mos) {
+$idpcsubcatn=$row2mos['idpcsubcat'];
+$subcategoria=$row2mos['subcategoria'];
 ?>
 <option value="<?php  echo $idpcsubcatn;?>" <?php if ($idpcsubcatn==$idpcsubcat){;?>selected<?php };?> ><?php  echo $subcategoria;?>
 <?php };?>

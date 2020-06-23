@@ -191,7 +191,7 @@ foreach($result2mos2 as $row2mos){
 
 	<?php
 	$j=0;
-	for ($k=0;$k<count($valores);$k++){;
+	for ($k=0;$k<count($bloque);$k++){;
 		if ($valores[$k]!=null){;
 			if ($valores[$k]!=$idpcsubcat){;
 				$bqn[$j]=$valores[$k];
@@ -222,7 +222,7 @@ foreach($result2mos2 as $row2mos){
 unset($bqn);
 //$bqn = array();
 
-for ($ij=0;$ij<count($valores);$ij++){;
+for ($ij=0;$ij<count($bloque);$ij++){;
 if ($valores[$ij]!=null){;
 $bqn[$ij]=$valores[$ij];
 ?>
