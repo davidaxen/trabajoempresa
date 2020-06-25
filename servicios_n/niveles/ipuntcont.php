@@ -41,8 +41,9 @@ if ($enviar==null){;
 
 $sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
 $result2=$conn->query($sql2);
-$num_rows=$result2->fetchAll();
-$row2=count($num_rows);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/
@@ -57,10 +58,11 @@ mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);
 $idpcsubcat=$resultado2['idpcsubcat'];
 $subcategoria=$resultado2['subcategoria'];*/
-foreach ($result2 as $row) {
-		$t=0;
-		$idpcsubcat=row['idpcsubcat'];
-		$subcategoria=row['subcategoria'];
+$t=0;
+foreach ($result2mos as $row2mos) {
+		
+		$idpcsubcat=$row2mos['idpcsubcat'];
+		$subcategoria=$row2mos['subcategoria'];
 
 if ($t==$row2-1){;
 $ultpunto=$idpcsubcat;

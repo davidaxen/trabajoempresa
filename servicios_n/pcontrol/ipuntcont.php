@@ -28,18 +28,22 @@ foreach ($result as $row) {
 $idclientes=$row['idclientes'];
 $nombre=$row['nombre'];
 
+
 $sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'";
 $result2=$conn->query($sql2);
-$rows2=$result2->fetchColumn();
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result 2");
 $row2=mysqli_num_rows($result2);*/
-if ($rows2==0){;
+if ($row2==0){;
 $datidc[]=$idclientes;
-$datnomc[]=$nombre;
+$datnomc[]=$datnomc;
+}
 };
-};
-//print_r($datidc);
+
 ?>
 
 <?php if (count($datidc)==0){;?>
@@ -81,6 +85,7 @@ $resultado=$result->fetch();
 $resultado=mysqli_fetch_array($result);*/
 $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];?>
+
 <?php  echo $nombre;?></td></tr>
 <tr><td>Comienzo de Circuito</td><td><input type="hidden" name="punt[0]" value="Comienzo de Circuito"></td></tr>
 <?php for ($i=2;$i<$cantpuntcont+2;$i++){;?>
