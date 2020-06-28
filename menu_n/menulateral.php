@@ -128,14 +128,20 @@ $ayuda=null;
 <?php 
 if ($idtrab!="0"){;
 $sql31="select * from usuariosnombre where idempresas='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+$result13=$conn->query($sql13);
+$resultado13=$result13->fetch();
+
+/*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+$resultado31=mysqli_fetch_array($result31);*/
 $nc1=$resultado31['servicios'];
 $nc=$resultado31['informes'];
 
 $sql32="select * from usuariosimg where idempresas='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+$result13=$conn->query($sql13);
+$resultado13=$result13->fetch();
+
+/*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+$resultado32=mysqli_fetch_array($result32);*/
 $ic1=$resultado32['servicios'];
 $ic=$resultado32['informes'];
 
@@ -150,13 +156,19 @@ $ic=$resultado32['informes'];
 <!-- CLIENTES -->
 <?php if ($idcli!="0"){;
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+$result13=$conn->query($sql13);
+$resultado13=$result13->fetch();
+
+/*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+$resultado31=mysqli_fetch_array($result31);*/
 $nc=$resultado31['clientes'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+/*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+$resultado32=mysqli_fetch_array($result32);*/
 $ic=$resultado32['clientes'];
 
 

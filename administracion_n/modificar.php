@@ -57,8 +57,6 @@ $sql1="where idempresas='".$idempresasa."'";
 $nccn=$ent2."-".$suc2."-".$dc2."-".$cc2;
 $datosn[5]=$nccn;
 
-
-
 $nombrecampo=$nombrea;
 $valoractual=$datosa;
 $valornuevo=$datosn;

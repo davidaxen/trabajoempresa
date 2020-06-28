@@ -1,5 +1,7 @@
 <?php  
 include('bbdd.php');
+
+
 if ($ide!=null){;
 
  include('../../portada_n/cabecera3.php');?>

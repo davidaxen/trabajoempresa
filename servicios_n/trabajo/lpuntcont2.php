@@ -17,7 +17,6 @@ $idaseguradora='todos';
 
 <?php
 
-
  if ($estadotr==null){;?>
 
 <form action="lpuntcont2.php" method="post">
@@ -30,8 +29,6 @@ $idaseguradora='todos';
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
 $result=$conn->query($sql);
-$result2mos=$conn->query($sql);
-$row2=$result->fetchColumn();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);*/
@@ -39,9 +36,9 @@ $row2=mysqli_num_rows($result);*/
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($result2mos as $row2mos) {
-$nombre=$row2mos['nombre'];
-$idclientes=$row2mos['idclientes'];
+foreach ($result as $rowmos) {
+$nombre=$rowmos['nombre'];
+$idclientes=$rowmos['idclientes'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
@@ -86,9 +83,7 @@ $sql1.=" and diacierre='".$diatc."' ";
 		
 $sql1.=" order by dia desc";
 //echo $sql1;
-$result=$conn->query($sql1);
-$resultmos=$conn->query($sql1);
-$row=$result->fetchColumn();
+$result1=$conn->query($sql1);
 
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 $row=mysqli_num_rows($result);*/
@@ -121,19 +116,19 @@ $row=mysqli_num_rows($result);*/
 /*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($resultmos as $rowmow) {
-$idsiniestro=$rowmow['idsiniestro'];
-$idaseguradora=$rowmow['idaseguradora'];
-$numsiniestro=$rowmow['numsiniestro'];
-$contacto=$rowmow['contacto'];
-$telefono=$rowmow['telefono'];
-$direccion=$rowmow['direccion'];
-$localidad=$rowmow['localidad'];
-$provincia=$rowmow['provincia'];
-$cp=$rowmow['cp'];
-$idempleado=$rowmow['idempleado'];
-$descripcion=$rowmow['descripcion'];
-$est=$rowmow['terminado'];
+foreach ($result1 as $rowmos) {
+$idsiniestro=$rowmos['idsiniestro'];
+$idaseguradora=$rowmos['idaseguradora'];
+$numsiniestro=$rowmos['numsiniestro'];
+$contacto=$rowmos['contacto'];
+$telefono=$rowmos['telefono'];
+$direccion=$rowmos['direccion'];
+$localidad=$rowmos['localidad'];
+$provincia=$rowmos['provincia'];
+$cp=$rowmos['cp'];
+$idempleado=$rowmos['idempleado'];
+$descripcion=$rowmos['descripcion'];
+$est=$rowmos['terminado'];
 
 $sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'";
 $result10=$conn->query($sql10);
