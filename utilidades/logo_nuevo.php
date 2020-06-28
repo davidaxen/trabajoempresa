@@ -1,1 +1,0 @@
-<img src="/img/<?=$img;?>" width=200 height=60 border=0>
