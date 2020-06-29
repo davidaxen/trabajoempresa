@@ -22,9 +22,7 @@ $ic=$resultado32['empleados'];
 
 include('../portada_n/cabecera2.php');
 
-if (isset($estadoe)==false){
-$estadoe=null;
-}
+
 ?>
 
 
@@ -53,9 +51,7 @@ $estadoe=null;
 
 <?php 
 
-if (isset($smart)==false){
-$smart=null;
-}
+
 
 
 $sql1="SELECT * from empleados";
@@ -66,10 +62,7 @@ $sql1.=" and estado='".$estadoe."' ";
 $sql1.=" order by idempleado asc";
 //echo $sql1;
 
-$result=$conn->query($sql11);
-$resultado=$result->fetch();
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
+$result=$conn->query($sql1);
 
 //$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 //$row=mysqli_num_rows($result);

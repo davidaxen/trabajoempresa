@@ -92,7 +92,7 @@ $sql2=" estado='".$estador."'";
 if ($rowp>0){;
 $sql.=" idproyectos ";
 if ($rowp==1){
-	$resultadop=$resultp->fetch();
+	$resultadop=$resultpmos->fetch();
 	//$resultadop=mysqli_fetch_array($resultp);
 	$idprt=$resultadop['idproyectos'];
 $sql.=" ='".$idprt."'";	
@@ -120,8 +120,6 @@ $sql.=" order by idempresas asc";
 //echo $sql;
 
 $result=$conn->query($sql);
-$fetchAll=$result->fetchAll();
-$row2=count($fetchAll);
 
 //$resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -270,10 +268,10 @@ $logotipo=$row['logotipo'];
 //$ncc=$resultado['ncc'];
 //$logotipo=$resultado['logotipo'];
 
-$sql10="SELECT * from clientes where idempresas='".$idempresas."' and estado='1'"; 
-
+$sql10="SELECT * from clientes where idempresas='".$idempresas."' and estado='1'";
 $result10=$conn->query($sql10);
-$row10=$result10->rowCount();
+$fetchall10=$result10->fetchAll();
+$row10=count($fetchall10);
 
 //$result10=mysqli_query ($conn,$sql10) or die ("Invalid result10");
 //$row10=mysqli_num_rows($result10);
@@ -281,8 +279,8 @@ $row10=$result10->rowCount();
 $sql11="SELECT * from empleados where idempresa='".$idempresas."' and estado='1'";
 
 $result1=$conn->query($sql11);
-$row11=$result11->rowCount();
-
+$fetchall11=$result11->fetchAll();
+$row11=count($fetchall11);
 //$result11=mysqli_query ($conn,$sql11) or die ("Invalid result11");
 //$row11=mysqli_num_rows($result11);
 
@@ -293,7 +291,9 @@ $sql12="SELECT distinct(idpiscina) from almpc where idempresas='".$idempresas."'
 //echo $sql12;
 
 $result12=$conn->query($sql12);
-$row12=$result12->rowCount();
+$fetchall12=$result12->fetchAll();
+$row12=count($fetchall12);
+
 
 //$result12=mysqli_query ($conn,$sql12) or die ("Invalid result12");
 //$row12=mysqli_num_rows($result12);
@@ -301,7 +301,8 @@ $row12=$result12->rowCount();
 $sql13="SELECT distinct(idempleado) from almpc where idempresas='".$idempresas."' and dia between '".$fi."' and '".$ff."'";
 
 $result13=$conn->query($sql13);
-$row13=$result13->rowCount();
+$fetchall13=$result13->fetchAll();
+$row13=count($fetchall13);
 
 //$result13=mysqli_query ($conn,$sql13) or die ("Invalid result13");
 //$row13=mysqli_num_rows($result13);
@@ -310,7 +311,9 @@ $row13=$result13->rowCount();
 $sql15="SELECT * from almpcinci where idempresas='".$idempresas."' and dia between '".$fi."' and '".$ff."'"; 
 
 $result15=$conn->query($sql15);
-$row15=$result15->rowCount();
+$fetchall15=$result15->fetchAll();
+$row15=count($fetchall15);
+
 
 //$result15=mysqli_query ($conn,$sql15) or die ("Invalid result15");
 //$row15=mysqli_num_rows($result15);
@@ -318,7 +321,8 @@ $row15=$result15->rowCount();
 $sql16="SELECT * from mensajes where idempresa='".$idempresas."' and dia between '".$fi."' and '".$ff."'";
 
 $result16=$conn->query($sql16);
-$row16=$result16->rowCount();
+$fetchall16=$result16->fetchAll();
+$row16=count($fetchall16);
 
 //$result16=mysqli_query ($conn,$sql16) or die ("Invalid result16");
 //$row16=mysqli_num_rows($result16);
@@ -326,21 +330,25 @@ $row16=$result16->rowCount();
 $sql17="SELECT * from trabajos where idempresa='".$idempresas."' and dia between '".$fi."' and '".$ff."'"; 
 
 $result17=$conn->query($sql17);
-$row17=$result17->rowCount();
+$fetchall17=$result17->fetchAll();
+$row17=count($fetchall17);
 //$result17=mysqli_query ($conn,$sql17) or die ("Invalid result17");
 //$row17=mysqli_num_rows($result17);
 
 $sql18="SELECT * from siniestros where idempresa='".$idempresas."' and dia between '".$fi."' and '".$ff."'";
 
 $result18=$conn->query($sql18);
-$row18=$result18->rowCount();
+$fetchall18=$result18->fetchAll();
+$row18=count($fetchall18);
+
 //$result18=mysqli_query ($conn,$sql18) or die ("Invalid result18");
 //$row18=mysqli_num_rows($result18);
 
 $sql19="SELECT * from alarma where idempresas='".$idempresas."' and dia between '".$fi."' and '".$ff."'";
 
 $result19=$conn->query($sql19);
-$row19=$result19->rowCount();
+$fetchall19=$result19->fetchAll();
+$row19=count($fetchall19);
 
 //$result19=mysqli_query ($conn,$sql19) or die ("Invalid result19");
 //$row19=mysqli_num_rows($result19);
@@ -368,7 +376,9 @@ $row19=$result19->rowCount();
 $sql14="SELECT distinct(idpiscina) from almpc where idempresas='".$idempresas."' and idpccat='1' and dia between '".$fi."' and '".$ff."'";
 
 $result14=$conn->query($sql14);
-$row14=$result14->rowCount();
+$fetchall14=$result14->fetchAll();
+$row14=count($fetchall14);
+
 //$result14=mysqli_query ($conn,$sql14) or die ("Invalid result14");
 //$row14=mysqli_num_rows($result14);
  echo "<td class='col1'>$row14</td>";
@@ -383,7 +393,8 @@ for($yh=0;$yh<count($datv);$yh++){;
 $sql14="SELECT distinct(idpiscina) from almpc where idempresas='".$idempresas."' and idpccat='".$datv[$yh]."' and dia between '".$fi."' and '".$ff."'";
 
 $result14=$conn->query($sql14);
-$row14=$result14->rowCount();
+$fetchall14=$result14->fetchAll();
+$row14=count($fetchall14);
 //$result14=mysqli_query ($conn,$sql14) or die ("Invalid result14");
 //$row14=mysqli_num_rows($result14);
  echo "<td class='col2'>$row14</td>";

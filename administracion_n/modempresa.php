@@ -1,6 +1,8 @@
 <?php  
 include('bbdd.php');
 
+//error_reporting(0);
+
 if ($ide!=null){;
 
 include('../portada_n/cabecera2.php');
@@ -92,19 +94,27 @@ $result23=$conn->query($sql23);
 $soco=$result23->fetch();
 $col = $result23->columnCount();
 
+$result23mos=$conn->query($sql23);
+$socofetchall=$result23mos->fetchAll();
+
+
 //$result23=mysqli_query ($conn,$sql23) or die ("Invalid result23");
 //$soco=mysqli_fetch_array($result23);
 //$row=mysqli_num_rows($result23);
 //$col=mysqli_num_fields($result23);
 
 
-$usera=mysqli_fetch_field_direct($result23, 2)->name;
-//echo  ($usera);
+//$usera=mysqli_fetch_field_direct($result23, 2)->name;
+//var_dump($usera);
 $sql2s="select * from servicios where idempresa='".$idempresas."' ";
 
 $result2s=$conn->query($sql2s);
 $socos=$result2s->fetch();
-$cols = $result2s->columnCount();
+$cols=$result2s->columnCount();
+
+$result2smos=$conn->query($sql2s);
+$socosfetchall=$result2smos->fetchAll();
+
 
 //$result2s=mysqli_query ($conn,$sql2s) or die ("Invalid result2p");
 //$socos=mysqli_fetch_array($result2s);
@@ -120,6 +130,9 @@ $sql2p="select * from portadai where idempresa='".$idempresas."' ";
 $result2p=$conn->query($sql2p);
 $socop=$result2p->fetch();
 $colp = $result2p->columnCount();
+
+$result2pmos=$conn->query($sql2p);
+$socopfetchall=$result2pmos->fetchAll();
 //$result2p=mysqli_query ($conn,$sql2p) or die ("Invalid result2p");
 //$socop=mysqli_fetch_array($result2p);
 //$rowp=mysqli_num_rows($result2p);
@@ -131,6 +144,9 @@ $sql2h="select * from hoja where idempresa='".$idempresas."' ";
 $result2h=$conn->query($sql2h);
 $socoh=$result2h->fetch();
 $colh = $result2h->columnCount();
+
+$result2hmos=$conn->query($sql2h);
+$socohfetchall=$result2hmos->fetchAll();
 
 //$result2h=mysqli_query ($conn,$sql2h) or die ("Invalid result2h");
 //$socoh=mysqli_fetch_array($result2h);
@@ -144,6 +160,9 @@ $result2e=$conn->query($sql2e);
 $socoe=$result2e->fetch();
 $cole = $result2e->columnCount();
 
+$result2emos=$conn->query($sql2e);
+$socoefetchall=$result2emos->fetchAll();
+
 //$result2e=mysqli_query ($conn,$sql2e) or die ("Invalid result2e");
 //$socoe=mysqli_fetch_array($result2e);
 //$rowe=mysqli_num_rows($result2e);
@@ -156,49 +175,52 @@ $sql2a="select * from administrar where idempresa='".$idempresas."' ";
 $result2a=$conn->query($sql2a);
 $socoa=$result2a->fetch();
 $cola = $result2a->columnCount();
+$result2amos=$conn->query($sql2a);
+$socoafetchall=$result2amos->fetchAll();
+
+var_dump($cola);
 
 //$result2a=mysqli_query ($conn,$sql2a) or die ("Invalid result2p");
 //$socoa=mysqli_fetch_array($result2a);
 //$rowa=mysqli_num_rows($result2a);
 //$cola=mysqli_num_fields($result2a);
 
-
 ?>
 
 <?php 
 for ($j=0;$j<25;$j++){;?>
 <input type="hidden" name="datosa[<?php  echo $j;?>]" value="<?php  echo $soco[$j];?>">
-<input type="hidden" name="nombrea[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result23, $j)->name;?>">
+<input type="hidden" name="nombrea[<?php  echo $j;?>]" value="<?php echo $socofetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result23, $j)->name;?>">
 <?php };?>
 <?php for ($j=38;$j<$col;$j++){;?>
 <input type="hidden" name="datosa[<?php  echo $j;?>]" value="<?php  echo $soco[$j];?>">
-<input type="hidden" name="nombrea[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result23, $j)->name;?>">
+<input type="hidden" name="nombrea[<?php  echo $j;?>]" value="<?php echo $socofetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result23, $j)->name;?>">
 <?php };?>
 
 <?php for ($j=2;$j<$cols;$j++){;?>
 <input type="hidden" name="datossa[<?php  echo $j;?>]" value="<?php  echo $socos[$j];?>">
-<input type="hidden" name="nombresa[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result2s, $j)->name;?>">
+<input type="hidden" name="nombresa[<?php  echo $j;?>]" value="<?php echo $socosfetchall[$j]['nombre']; // echo mysqli_fetch_field_direct($result2s, $j)->name;?>">
 <?php };?>
 
 
 <?php for ($j=2;$j<$colp;$j++){;?>
 <input type="hidden" name="datospa[<?php  echo $j;?>]" value="<?php  echo $socop[$j];?>">
-<input type="hidden" name="nombrepa[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result2p, $j)->name;?>">
+<input type="hidden" name="nombrepa[<?php  echo $j;?>]" value="<?php echo $socopfetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result2p, $j)->name;?>">
 <?php };?>
 
 <?php for ($j=2;$j<$colh;$j++){;?>
 <input type="hidden" name="datosha[<?php  echo $j;?>]" value="<?php  echo $socoh[$j];?>">
-<input type="hidden" name="nombreha[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result2h, $j)->name;?>">
+<input type="hidden" name="nombreha[<?php  echo $j;?>]" value="<?php echo $socohfetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result2h, $j)->name;?>">
 <?php };?>
 
 <?php for ($j=2;$j<$cole;$j++){;?>
 <input type="hidden" name="datosea[<?php  echo $j;?>]" value="<?php  echo $socoe[$j];?>">
-<input type="hidden" name="nombreea[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result2e, $j)->name;?>">
+<input type="hidden" name="nombreea[<?php  echo $j;?>]" value="<?php echo $socoefetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result2e, $j)->name;?>">
 <?php };?>
 
 <?php for ($j=2;$j<$cola;$j++){;?>
 <input type="hidden" name="datosaa[<?php  echo $j;?>]" value="<?php  echo $socoa[$j];?>">
-<input type="hidden" name="nombreaa[<?php  echo $j;?>]" value="<?php  echo mysqli_fetch_field_direct($result2a, $j)->name;?>">
+<input type="hidden" name="nombreaa[<?php  echo $j;?>]" value="<?php echo $socoafetchall[$j]['nombre']; //echo mysqli_fetch_field_direct($result2a, $j)->name;?>">
 <?php };?>
 
 
@@ -276,7 +298,7 @@ $result=$conn->query($sql);
 <?php $idpaisa=$soco[$i];?>
 <?php 
 
-foreach ($result as $row => $value) {
+foreach ($result as $row) {
 	$idpais=$row['idpais'];
 	$nombrepais=$row['nombrepais'];	
 
@@ -578,11 +600,11 @@ value="1"
 
 <td>
 <input type="checkbox" name="datospn[<?php  echo $y;?>]" 
-onclick="validar(formulario.<?php  echo mysqli_fetch_field_direct($result2s, $i)->name;?>np,0)" 
-id="<?php  echo mysqli_fetch_field_direct($result2s, $i)->name;?>np" value="1"
+onclick="validar(formulario.<?php echo $socosfetchall[$i]['name']; //echo mysqli_fetch_field_direct($result2s, $i)->name;?>np,0)" 
+id="<?php echo $socosfetchall[$i]['name']; //echo mysqli_fetch_field_direct($result2s, $i)->name;?>np" value="1"
 <?php if($socop[$y]==1){?>checked="checked"<?php };?>
 <?php if($socos[$i]==0){?> disabled="disabled"<?php };?>></td>
-<?php if($socop[$y]==1){?><script>validar(formulario.<?php  echo mysqli_fetch_field_direct($result2s, $i)->name;?>np,0);</script><?php };?>
+<?php if($socop[$y]==1){?><script>validar(formulario.<?php  echo $socosfetchall[$i]['name']; //echo mysqli_fetch_field_direct($result2s, $i)->name;?>np,0);</script><?php };?>
 
 <?php  
 switch($t){;

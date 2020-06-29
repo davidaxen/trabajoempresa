@@ -49,8 +49,10 @@ $tota=$resultado10['tot'];
 
 
 $sql11="select * from proveedores where idempresas='".$ide."'";
-
 $result11=$conn->query($sql11);
+$result11mos=$conn->query($sql11);
+$fetchall11=$result11->fetchAll();
+$row11=count($fetchall11);
 
 //$result11=mysqli_query ($conn,$sql11) or die ("Invalid result lic");
 //$row11=mysqli_num_rows($result11);
@@ -122,15 +124,15 @@ foreach ($result as $row) {
 <option value=""></option>
 <?php 
 
-foreach ($result as $row) {
-	$idproveedor=$row['idproveedor'];
-	$nombreprov=$row['nombre'];	
+foreach ($result11mos as $row11mos) {
+	$idproveedor=$row11mos['idproveedor'];
+	$nombreprov=$row11mos['nombre'];	
 
 //for ($i=0;$i<$row11;$i++){;
 //mysqli_data_seek($result11,$i);
 //$resultado11=mysqli_fetch_array($result11);
-//$idproveedor=$resultado11['idproveedor'];
-//$nombreprov=$resultado11['nombre'];
+$idproveedor=$resultado11['idproveedor'];
+$nombreprov=$resultado11['nombre'];
 ?>
 <option value="<?php  echo $idproveedor;?>"><?php  echo $nombreprov;?>
 <?php };?>
@@ -168,7 +170,7 @@ foreach ($result as $row) {
 
 $sqlpr="select * from proyectos where idproyectos='".$idpr."'";
 
-$resultprg=$conn->query($sqlpr);
+$resultpr=$conn->query($sqlpr);
 $resultadopr=$resultpr->fetch();
 //$resultpr=mysqli_query ($conn,$sqlpr) or die ("Invalid result clientes");
 //$resultadopr=mysqli_fetch_array($resultpr);
@@ -181,21 +183,21 @@ echo "Precios por grupo<br/>";
 echo "<table>";
 
 $sqlprg="select * from proyectosgrupos where idproyectos='".$idpr."'";
-
-$resultpr=$conn->query($sqlprg);
-$resultadoprg=$resultpr->fetch();
+$resultprg=$conn->query($sqlprg);
+$resultprg2=$conn->query($sqlprg);
 
 //$resultprg=mysqli_query ($conn,$sqlprg) or die ("Invalid result clientes");
 //$rowsprg=mysqli_num_rows($resultprg);
 
 echo "<tr>";
-foreach ($resultpr as $row) {
+$yh=0;
+foreach ($resultprg as $rowprgmos) {
 
 //for($yh=0;$yh<$rowsprg;$yh++){;
 //mysqli_data_seek($resultprg,$yh);
 //$resultadoprg=mysqli_fetch_array($resultprg);
-$tipoprg=$row['tipo'];
-$imgprg=$row['img'];
+$tipoprg=$rowprgmos['tipo'];
+$imgprg=$rowprgmos['img'];
 $hy=$yh+1;
 echo "<td class='tit'><img src='../img/".$imgprg."' width='50px'><br/>".strtoupper($tipoprg);
 echo "<br/><center><input type='radio' name='grupo' value='$hy' onclick='mod($hy,1,$rowsprg)'";
@@ -207,10 +209,9 @@ echo "</td>";
 
 };
 echo "</tr></table>";
-
-foreach ($resultprg as $row) {
-
 $yh = 0;
+foreach ($resultprg2 as $rowprgmos2) {
+
 //for($yh=0;$yh<$rowsprg;$yh++){
 //mysqli_data_seek($resultprg,$yh);
 //$resultadoprg=mysqli_fetch_array($resultprg);
@@ -219,16 +220,20 @@ $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimie
 
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-
 $result31=$conn->query($sql31);
 $resultado31=$result31->fetch();
+
+/*$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();*/
 
 //$result31=mysqli_query ($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-
 $result32=$conn->query($sql32);
 $resultado32=$result32->fetch();
+
+/*$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();*/
 //$result32=mysqli_query ($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 
@@ -273,8 +278,9 @@ $sql2s="select * from servicios where idempresa='".$ide."' ";
 //echo $sql2s;
 
 $result2s=$conn->query($sql2s);
-$socos=$result->fetch();
-$cols=$result2s->fetchColumn();
+$result2smos=$conn->query($sql2s);
+$socos=$result2smos->fetch();
+$cols=$result2s->columnCount();
 
 //$result2s=mysqli_query ($conn,$sql2s) or die ("Invalid result2p");
 //$socos=mysqli_fetch_array($result2s);
