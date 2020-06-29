@@ -29,16 +29,31 @@ a hover: {text-decoration:none}
 
 <?php 
 $sql02="SELECT * from menuadministracion where idempresa='".$ide."' and user='".$gente."'"; 
-$result02=mysqli_query ($conn,$sql02) or die ("Invalid result admin02");
-$resultado02=mysqli_fetch_array($result02);
 
-$sql="SELECT * from menuadministracionimg where idempresa='".$ide."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result admin");
-$resultado=mysqli_fetch_array($result);
 
-$sql01="SELECT * from menuadministracionnombre where idempresa='".$ide."'"; 
-$result01=mysqli_query ($conn,$sql01) or die ("Invalid result admin01");
-$resultado01=mysqli_fetch_array($result01);
+$result02=$conn->query($sql02);
+$resultado02=$result02->fetch();
+//$fetchAll=$result->fetchAll();
+//$row=count($fetchAll)
+
+//$result02=mysqli_query ($conn,$sql02) or die ("Invalid result admin02");
+//$resultado02=mysqli_fetch_array($result02);
+
+$sql="SELECT * from menuadministracionimg where idempresa='".$ide."'";
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result admin");
+//$resultado=mysqli_fetch_array($result);
+
+$sql01="SELECT * from menuadministracionnombre where idempresa='".$ide."'";
+
+$result01=$conn->query($sql01);
+$resultado01=$result01->fetch();
+
+//$result01=mysqli_query ($conn,$sql01) or die ("Invalid result admin01");
+//$resultado01=mysqli_fetch_array($result01);
 
 
 $dat=array('clientes','gestores','empleados','empresas','empresa','usuario','visita','proveedor','puestos');
@@ -89,17 +104,27 @@ $servi=$resultado02[$dat[$t]];
 
 <?php 
 $sql02="SELECT * from menuservicios where idempresa='".$ide."' and user='".$gente."'"; 
-$result02=mysqli_query ($conn,$sql02) or die ("Invalid result iconos02");
-$resultado02=mysqli_fetch_array($result02);
+
+$result02=$conn->query($sql02);
+$resultado02=$result02->fetch();
+
+//$result02=mysqli_query ($conn,$sql02) or die ("Invalid result iconos02");
+//$resultado02=mysqli_fetch_array($result02);
 
 $sql="SELECT * from menuserviciosimg where idempresa='".$ide."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result iconos ");
-$resultado=mysqli_fetch_array($result);
 
-$sql01="SELECT * from menuserviciosnombre where idempresa='".$ide."'"; 
-$result01=mysqli_query ($conn,$sql01) or die ("Invalid result iconos01");
-$resultado01=mysqli_fetch_array($result01);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result iconos ");
+//$resultado=mysqli_fetch_array($result);
 
+$sql01="SELECT * from menuserviciosnombre where idempresa='".$ide."'";
+
+$result01=$conn->query($sql01);
+$resultado01=$result01->fetch();
+
+//$result01=mysqli_query ($conn,$sql01) or die ("Invalid result iconos01");
+//$resultado01=mysqli_fetch_array($result01);
 $dat=array('cuadrante','entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
 

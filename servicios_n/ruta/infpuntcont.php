@@ -14,18 +14,26 @@ if ($ide!=null){;
 
 
 <?php 
-$sql="SELECT * from ruta where idempresas='".$ide."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from ruta where idempresas='".$ide."'";
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="idruta" id="combobox">
 <option value=""></option>
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idruta=$resultado['idruta'];
-$nombre=$resultado['nombreruta'];
+
+foreach ($result as $row) {
+	$idruta=$row['idruta'];
+	$nombre=$row['nombreruta'];	
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idruta=$resultado['idruta'];
+//$nombre=$resultado['nombreruta'];
 ?>
 <option value="<?php  echo $idruta;?>"><?php  echo $nombre;?>
 <?php };?>

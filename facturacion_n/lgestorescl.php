@@ -11,8 +11,12 @@ include('bbdd.php');
 <div class="contenido">
 <?php 
 $sql="SELECT * from gestores where idempresa='".$ide."' and idgestor='".$idgest."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 ?>
 <form>
 <table>
@@ -22,20 +26,25 @@ $resultado=mysqli_fetch_array($result);
 <?php 
 $sql1="SELECT * from clientes where idempresas='".$ide."' and idgestor='".$idgest."'";
 //echo $sql1;
-$result1=mysqli_query($conn,$sql1) or die ("Invalid result");
-$row=mysqli_num_rows($result1);
+
+$result1=$conn->query($sql1);
+
+//$result1=mysqli_query($conn,$sql1) or die ("Invalid result");
+//$row=mysqli_num_rows($result1);
 ?>
 <table>
 <tr class="enctab"><td>Nº Clientes</td><td>Nombre del Cliente</td><td>Domicilio</td><td>C.P.</td></tr>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result1,$i);
-$resultado1=mysqli_fetch_array($result1);
+<?php  
+foreach ($result1 as $row) {
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result1,$i);
+//$resultado1=mysqli_fetch_array($result1);
 ?>
 <tr class="dattab">
-<td><?php $idclientes=$resultado1['idclientes']?><?php  echo $idclientes;?></td>
-<td><?php $nombre=$resultado1['nombre']?><?php  echo $nombre;?></td>
-<td><?php $domicilio=$resultado1['domicilio']?><?php  echo $domicilio;?></td>
-<td><?php $cp=$resultado1['cp']?><?php  echo $cp;?></td>
+<td><?php $idclientes=$row['idclientes']?><?php  echo $idclientes;?></td>
+<td><?php $nombre=$row['nombre']?><?php  echo $nombre;?></td>
+<td><?php $domicilio=$row['domicilio']?><?php  echo $domicilio;?></td>
+<td><?php $cp=$row['cp']?><?php  echo $cp;?></td>
 
 </tr>
 <?php };?>

@@ -3,14 +3,20 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc1=$resultado31['clientes'];
 $nc2=$resultado31['empleados'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic1=$resultado32['clientes'];
 $ic2=$resultado32['empleados'];
 
@@ -22,8 +28,25 @@ include('combo.php');?>
 <div id="main">
 <div class="titulo">
 <p class="enc">INFORME DE ORDENES
-<?php  if ($estadotr=='1'){;?> CERRADOS<?php };?>
-<?php  if ($estadotr=='0'){;?> ABIERTOS<?php };?></p></div>
+<?php
+
+if (isset($_REQUEST['estadotr'])) {
+  if ($estadotr=='1'){
+  ?> CERRADOS<?php
+  }
+  elseif ($estadotr=='0') {
+    ?> ABIERTOS<?php 
+  }
+  else{
+    echo "error";
+  }
+}else{
+  $estadotr=null;
+}
+
+?>
+  
+</p></div>
 <div class="contenido">
 
 <?php if ($estadotr==null){;?>
@@ -84,14 +107,20 @@ include('combo.php');?>
 <option value="todos">Todos
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
 
-for ($t=0;$t<$row2;$t++){;
-mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombre=$resultado['nombre'];
-$idclientes=$resultado['idclientes'];
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row2=mysqli_num_rows($result);
+
+foreach ($result as $row) {
+    $nombre=$row['nombre'];
+    $idclientes=$row['idclientes'];
+//for ($t=0;$t<$row2;$t++){;
+//mysqli_data_seek($result, $t);
+//$resultado=mysqli_fetch_array($result);
+//$nombre=$resultado['nombre'];
+//$idclientes=$resultado['idclientes'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
@@ -268,17 +297,26 @@ elem1.style.visibility="collapse"
 <option value="todos">Todos
 <?php 
 $sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row2=mysqli_num_rows($result);
 
-for ($t=0;$t<$row2;$t++){;
-mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$nombree=$resultado['nombre'];
-$apellido1e=$resultado['1apellido'];
-$apellido2e=$resultado['2apellido'];
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row2=mysqli_num_rows($result);
+
+foreach ($result as $row) {
+  $nombree=$row['nombre'];
+  $apellido1e=$row['1apellido'];
+  $apellido2e=$row['2apellido'];
+  $idempleado=$row['idempleado'];
+//for ($t=0;$t<$row2;$t++){;
+//mysqli_data_seek($result, $t);
+//$resultado=mysqli_fetch_array($result);
+//$nombree=$resultado['nombre'];
+//$apellido1e=$resultado['1apellido'];
+//$apellido2e=$resultado['2apellido'];
 $nombreempl=$nombree." ".$apellido1e." ".$apellido2e;
-$idempleado=$resultado['idempleado'];
+//$idempleado=$resultado['idempleado'];
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombreempl;?>
 <?php };?>
@@ -486,8 +524,12 @@ $sql1.=" and diacierre='".$diatc."' ";
 		
 $sql1.=" order by dia desc";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql1);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$row=mysqli_num_rows($result);
 ?>
 
 <table>
@@ -497,25 +539,43 @@ $row=mysqli_num_rows($result);
 </tr>
 
 <?php  
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idsiniestro=$resultado['idsiniestro'];
-$idaseguradora=$resultado['idaseguradora'];
-$numsiniestro=$resultado['numsiniestro'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$localidad=$resultado['localidad'];
-$provincia=$resultado['provincia'];
-$cp=$resultado['cp'];
-$email=$resultado['email'];
-$descripcion=$resultado['descripcion'];
-$est=$resultado['terminado'];
+
+foreach ($result as $row) {
+  $idsiniestro=$row['idsiniestro'];
+  $idaseguradora=$row['idaseguradora'];
+  $numsiniestro=$row['numsiniestro'];
+  $contacto=$row['contacto'];
+  $telefono=$row['telefono'];
+  $direccion=$row['direccion'];
+  $localidad=$row['localidad'];
+  $provincia=$row['provincia'];
+  $cp=$row['cp'];
+  $email=$row['email'];
+  $descripcion=$row['descripcion'];
+  $est=$row['terminado'];
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idsiniestro=$resultado['idsiniestro'];
+//$idaseguradora=$resultado['idaseguradora'];
+//$numsiniestro=$resultado['numsiniestro'];
+//$contacto=$resultado['contacto'];
+//$telefono=$resultado['telefono'];
+//$direccion=$resultado['direccion'];
+//$localidad=$resultado['localidad'];
+//$provincia=$resultado['provincia'];
+//$cp=$resultado['cp'];
+//$email=$resultado['email'];
+//$descripcion=$resultado['descripcion'];
+//$est=$resultado['terminado'];
 
 $sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result->fetch();
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
+//$resultado10=mysqli_fetch_array($result10);
 $nombrecontacto=$resultado10['nombre'];
 ?>
 <tr class="menor1">

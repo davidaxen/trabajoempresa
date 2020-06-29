@@ -23,7 +23,10 @@ $idprovincia=strtok("-");
 $sql13 = "INSERT INTO festivosmunicipios(dia,mes,year,idpais,fecha,idprovincia,idmunicipio) 
 VALUES ('$dia[$j]','$mes[$j]','$year[$j]','$pais','$fecha','$idprovincia','$idmunicipio')";
 //echo $sql13;
-$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
+
+$result13=$conn->query($sql13);
+
+//$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
 echo ("introducida fecha: ".$fecha."<br/>");
 };
 
@@ -41,20 +44,28 @@ echo ("introducida fecha: ".$fecha."<br/>");
 </td></tr>
 <?php
 $sql2="select * from municipios where idpais='724'";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result comunidades");
-$row=mysqli_num_rows($result2);
+
+$result2=$conn->query($sql2);
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result comunidades");
+//$row=mysqli_num_rows($result2);
 ?>
 <tr><td class="tit">Municipios</td>
 <td>
 <select name="municipio">
-<?php  
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result2, $i);
-$resultado=mysqli_fetch_array($result2);
-$id=$resultado['id'];
-$idprovincia=$resultado['provincia_id'];
-$municipio=$resultado['municipio'];
+<?php 
+foreach ($result2 as $row => $value) {
+	$id=$row['id'];
+	$idprovincia=$row['provincia_id'];
+	$municipio=$row['municipio'];
+	
 $idt=$id."-".$idprovincia;
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result2, $i);
+//$resultado=mysqli_fetch_array($result2);
+//$id=$resultado['id'];
+//$idprovincia=$resultado['provincia_id'];
+//$municipio=$resultado['municipio'];
 ?>
 <option value="<?php  echo $idt;?>"><? echo $municipio;?></option>
 <?php };?>

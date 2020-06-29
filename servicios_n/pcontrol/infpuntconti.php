@@ -2,7 +2,15 @@
 include('bbdd.php');
 if ($ide!=null){;
 include('../../portada_n/cabecera3.php');
-include('combo.php');?>
+include('combo.php');
+
+if (isset($_COOKIE['clivp'])) {
+	$clivp = $_REQUEST['clivp'];
+}else{
+	$clivp = 'hola';
+}
+
+?>
 
 <div id="main">
 <div class="titulo">
@@ -21,19 +29,29 @@ $sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."'";
 $sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."' and idclientes='".$clivp."'";
 };
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="idclientes" id="combobox">
 <option value=""></option>
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
+
+foreach ($result as $row) {
+	$idclientes=$row['idclientes'];
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idclientes=$resultado['idclientes'];
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>

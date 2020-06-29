@@ -50,8 +50,12 @@ $AlineacionVerticalTexto = 'center';
 
 // ----------- INICIO Dias Festivos ---------- 
 $sql="select * from diasfestivos where año='".$year."' order by mes asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid query");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+//$result=mysqli_query ($conn,$sql) or die ("Invalid query");
+//$row=mysqli_num_rows($result);
 
 if ($row==0){;
 $DiasFestivos[0] = '1/1'; // 1 de enero 
@@ -71,12 +75,16 @@ $DiasFestivos[11] = '9/9'; // 9 de noviembre
 $DiasFestivos[12] = '17/4'; // Jueves Santo 
 $DiasFestivos[13] = '18/4'; // Viernes Santo
 $row=14; 
-}else{;
-for ($l=0;$l<$row;$l++){;
-mysqli_data_seek($result, $l);
-$resultado=mysqli_fetch_array($result);
-$df=$resultado['dia']; 
-$mf=$resultado['mes']; 
+}else{
+
+foreach ($result as $row) {
+	$df=$row['dia']; 
+	$mf=$row['mes'];
+//for ($l=0;$l<$row;$l++){;
+//mysqli_data_seek($result, $l);
+//$resultado=mysqli_fetch_array($result);
+//$df=$resultado['dia']; 
+//$mf=$resultado['mes']; 
 $DiasFestivos[$l] = $df.'/'.$mf;
 };
 };
@@ -227,17 +235,25 @@ $sql.=" and idpiscina='".$idclientes."'";
 */
 $sql.=" and (texto!='' or img!='') and dia='".$fecha_b."' order by id asc";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
 
-if($row!=0){;
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
 
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$hora=$resultado['hora'];
-$idpcronda=$resultado['id'];
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 
+if($resultado!=0){
+
+foreach ($result as $row) {
+	$hora=$row['hora'];
+	$idpcronda=$row['id'];	
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$hora=$resultado['hora'];
+//$idpcronda=$resultado['id'];
 $year."-".$month."-".$day;
 $calendar .= "<font size='1'>";
 $calendar .= "<a href='ipcdhorai.php?idpcronda=".$idpcronda."&hora=".$hora."&d=".$day."&m=".$month."&y=".$year."&idclientes=".$idclientes."&ide=".$ide."'>";

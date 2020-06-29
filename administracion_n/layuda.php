@@ -14,6 +14,13 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 <form method="post" action="layuda.php">
@@ -31,8 +38,11 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from ayuda where menu='".$menu."' order by seccion asc,subseccion asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 
 switch($menu){;
 case '1':$valormenu="Administrar";break;
@@ -50,12 +60,18 @@ case '5':$valormenu="Ayuda";break;
 
 <tr class="enctab"><td>Modulo</td><td>Seccion</td><td>Texto</td></tr>
 <?php 
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$seccion=$resultado['seccion'];
-$subseccion=$resultado['subseccion'];
-$titulo=$resultado['titulo'];
+
+foreach ($result as $row) {
+	$seccion=$row['seccion'];
+	$subseccion=$row['subseccion'];
+	$titulo=$row['titulo'];	
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$seccion=$resultado['seccion'];
+//$subseccion=$resultado['subseccion'];
+//$titulo=$resultado['titulo'];
 ?>
 <tr class="dattab">
 <td><?php  echo$seccion;?></td>

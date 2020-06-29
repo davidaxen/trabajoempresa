@@ -4,13 +4,19 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['jornadas'];
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['jornadas'];
 
 include('../portada_n/cabecera2.php');
@@ -28,8 +34,11 @@ include('../estilo/acordeon.php');
 <?php 
 
 $sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $nombre=$resultado['nombre'];
 ?>
 
@@ -65,25 +74,41 @@ $nombre=$resultado['nombre'];
 <?php 
 
 $sql12="SELECT * from jornadas where idempresas='".$ide."' and idclientes='".$idclientes."' order by finicio asc, horario asc"; 
-$result12=mysqli_query($conn,$sql12) or die ("Invalid result");
-$row12=mysqli_num_rows($result12);
 
+$result12=$conn->query($sql12);
+$resultado12=$result12->fetch();
 
-for ($j=0;$j<$row12;$j++){;
-mysqli_data_seek($result12, $j);
-$resultado12=mysqli_fetch_array($result12);
+//$result12=mysqli_query($conn,$sql12) or die ("Invalid result");
+//$row12=mysqli_num_rows($result12);
 
-$fi=$resultado12['finicio'];
-$ff=$resultado12['ffin'];
-$hor=$resultado12['horario'];
-$margen=$resultado12['margen'];
-$lun=$resultado12['lun'];
-$mar=$resultado12['mar'];
-$mie=$resultado12['mie'];
-$jue=$resultado12['jue'];
-$vie=$resultado12['vie'];
-$sab=$resultado12['sab'];
-$dom=$resultado12['dom'];
+foreach ($result12 as $row) {
+	$fi=$row['finicio'];
+	$ff=$row['ffin'];
+	$hor=$row['horario'];
+	$margen=$row['margen'];
+	$lun=$row['lun'];
+	$mar=$row['mar'];
+	$mie=$row['mie'];
+	$jue=$row['jue'];
+	$vie=$row['vie'];
+	$sab=$row['sab'];
+	$dom=$row['dom'];
+
+//for ($j=0;$j<$row12;$j++){;
+//mysqli_data_seek($result12, $j);
+//$resultado12=mysqli_fetch_array($result12);
+
+//$fi=$resultado12['finicio'];
+//$ff=$resultado12['ffin'];
+//$hor=$resultado12['horario'];
+//$margen=$resultado12['margen'];
+//$lun=$resultado12['lun'];
+//$mar=$resultado12['mar'];
+//$mie=$resultado12['mie'];
+//$jue=$resultado12['jue'];
+//$vie=$resultado12['vie'];
+//$sab=$resultado12['sab'];
+//$dom=$resultado12['dom'];
 ?>
 
 
@@ -125,15 +150,25 @@ $dom=$resultado12['dom'];
 </tr>
 <?php 
 $sql14="SELECT * from retrasojor where idempresas='".$ide."' and idclientes='".$idclientes."' order by dia asc, hora asc"; 
-$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
-$row14=mysqli_num_rows($result14);
 
-for ($j=0;$j<$row14;$j++){;
-mysqli_data_seek($result14, $j);
-$resultado14=mysqli_fetch_array($result14);
-$diaret=$resultado14['dia'];
-$horaret=$resultado14['hora'];
-$dsemanar=$resultado14['dsemana'];
+
+$result14=$conn->query($sql14);
+
+//$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
+//$row14=mysqli_num_rows($result14);
+
+
+foreach ($result14 as $row) {
+	$diaret=$row['dia'];
+	$horaret=$row['hora'];
+	$dsemanar=$row['dsemana'];	
+
+//for ($j=0;$j<$row14;$j++){;
+//mysqli_data_seek($result14, $j);
+//$resultado14=mysqli_fetch_array($result14);
+//$diaret=$resultado14['dia'];
+//$horaret=$resultado14['hora'];
+//$dsemanar=$resultado14['dsemana'];
 ?>
 <tr>
 <td><?php  echo $diaret;?></td>

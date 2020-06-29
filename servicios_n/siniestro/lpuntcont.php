@@ -37,8 +37,11 @@ $sql1.=" and terminado='".$estado."' ";
 };
 $sql1.=" order by dia asc";
 //echo $sql1;
-$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql1);
+
+//$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
+//$row=mysqli_num_rows($result);
 ?>
 
 <table>
@@ -47,20 +50,34 @@ $row=mysqli_num_rows($result);
 <td>Acciones</td>
 </tr>
 
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idsiniestro=$resultado['idsiniestro'];
-$numsiniestro=$resultado['numsiniestro'];
-$contacto=$resultado['contacto'];
-$telefono=$resultado['telefono'];
-$direccion=$resultado['direccion'];
-$localidad=$resultado['localidad'];
-$provincia=$resultado['provincia'];
-$cp=$resultado['cp'];
-$email=$resultado['email'];
-$descripcion=$resultado['descripcion'];
-$est=$resultado['terminado'];
+<?php  
+
+foreach ($result as $row) {
+	$idsiniestro=$row['idsiniestro'];
+	$numsiniestro=$row['numsiniestro'];
+	$contacto=$row['contacto'];
+	$telefono=$row['telefono'];
+	$direccion=$row['direccion'];
+	$localidad=$row['localidad'];
+	$provincia=$row['provincia'];
+	$cp=$row['cp'];
+	$email=$row['email'];
+	$descripcion=$row['descripcion'];
+	$est=$row['terminado'];
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idsiniestro=$resultado['idsiniestro'];
+//$numsiniestro=$resultado['numsiniestro'];
+//$contacto=$resultado['contacto'];
+//$telefono=$resultado['telefono'];
+//$direccion=$resultado['direccion'];
+//$localidad=$resultado['localidad'];
+//$provincia=$resultado['provincia'];
+//$cp=$resultado['cp'];
+//$email=$resultado['email'];
+//$descripcion=$resultado['descripcion'];
+//$est=$resultado['terminado'];
 ?><tr class="menor1">
 <td><?php  echo $numsiniestro;?></td><td><?php  echo $contacto;?></td><td><?php  echo $telefono;?></td>
 <td><?php  echo $direccion;?><br>

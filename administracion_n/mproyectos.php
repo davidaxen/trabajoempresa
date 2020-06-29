@@ -14,6 +14,13 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 <form method="post" action="mproyectos.php">
@@ -26,24 +33,30 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from proyectos where estado='".$estadop."' order by idproyectos asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?include ('../js/busqueda.php');?>
 
 
 <table width="800" class="table-bordered table pull-right" id="mytable">
 <tr class="enctab"><td>N&ordm; Proyecto</td><td>Nombre Proyecto</td><td>Web</td><td>Dias de Prueba</td><td>Logotipo</td><td>Opcion</td></tr>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
+<?php 
+
+foreach ($result as $row) {
+
+ //for ($i=0; $i<$row; $i++){;
+///mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
 ?>
 <tr class="dattab">
-<td><?php $idproyectos=$resultado['idproyectos'];?><?php  echo $idproyectos;?></td>
-<td><?php $nombre=$resultado['nombre'];?><?php  echo $nombre;?></td>
-<td><?php $web=$resultado['web'];?><?php  echo $web;?></td>
-<td><?php $diasprueba=$resultado['diasprueba'];?><?php  echo $diasprueba;?></td>
-<td><?php $logo=$resultado['logo'];?><img src="../img/<?php  echo $logo;?>" width="50px"></td>
+<td><?php $idproyectos=$row['idproyectos'];?><?php  echo $idproyectos;?></td>
+<td><?php $nombre=$row['nombre'];?><?php  echo $nombre;?></td>
+<td><?php $web=$row['web'];?><?php  echo $web;?></td>
+<td><?php $diasprueba=$row['diasprueba'];?><?php  echo $diasprueba;?></td>
+<td><?php $logo=$row['logo'];?><img src="../img/<?php  echo $logo;?>" width="50px"></td>
 <td><a href="modproyectos.php?idproyectos=<?php  echo $idproyectos;?>"><img src="../img/modificar.gif" width="25px"></a></td>
 </tr>
 <?php };?>

@@ -34,30 +34,43 @@ a hover: {text-decoration:none}
 <table>
 <?php 
 $sql33="select * from portadapag where idempresa='".$idempresas."'";
-$result33=mysqli_query ($conn,$sql33) or die ("Invalid result232");
-$row33=mysqli_num_rows($result33);
+
+$result33=$conn->query($sql33);
+$mostrar33=$conn->query($sql33);
+$fetchAll33=$result33->fetchAll();
+$row33=count($fetchAll33);
+
+//$result33=mysqli_query ($conn,$sql33) or die ("Invalid result232");
+//$row33=mysqli_num_rows($result33);
 
 $sql34="select * from paginapor";
-$result34=mysqli_query ($conn,$sql34) or die ("Invalid result232");
-$row34=mysqli_num_rows($result34);
+
+$result34=$conn->query($sql34);
+$mostrar34=$conn->query($sql34);
+$fetchAll34=$result34->fetchAll();
+$row34=count($fetchAll34);
+
+//$result34=mysqli_query ($conn,$sql34) or die ("Invalid result232");
+//$row34=mysqli_num_rows($result34);
 
 
 
 
 if ($row33==0){;
-
 for ($j=0;$j<7;$j++){;
 $u=$j+1;
 echo "<input type='hidden' name='portadapaga[$j]' value=''>";
 echo "<tr><td>Pagina $u</td><td><select name='portadapag[$j]'>";
 echo "<option value=''>Elige una</option>";
 
-for ($t=0;$t<$row34;$t++){;
+foreach ($mostrar34 as $row) {
 
-mysqli_data_seek($result34,$t);
-$resultado34=mysqli_fetch_array($result34);
-$titulopor=$resultado34['titulo'];
-$idpagpor=$resultado34['idpag'];
+//for ($t=0;$t<$row34;$t++){;
+
+//mysqli_data_seek($result34,$t);
+//$resultado34=mysqli_fetch_array($result34);
+$titulopor=$row['titulo'];
+$idpagpor=$row['idpag'];
 echo "<option value='$idpagpor'>$titulopor</option>";
 };
 
@@ -65,23 +78,38 @@ echo "</select>";
 
 };
 
-}else{;
+}else{
 
-for ($j=0;$j<7;$j++){;
-$u=$j+1;
-mysqli_data_seek($result33,$j);
-$resultado33=mysqli_fetch_array($result33);
-$idpag=$resultado33['idpag'];
-$idppag=$resultado33['idportada'];
+$u = 0;
+
+//var_dump($row33);
+
+foreach ($mostrar33 as $row) {
+
+$u = $u + 1;
+
+//for ($j=0;$j<7;$j++){;
+//$u=$row+1;
+//mysqli_data_seek($result33,$j);
+//$resultado33=mysqli_fetch_array($result33);
+$idpag=$row['idpag'];
+$idppag=$row['idportada'];
 echo "<input type='hidden' name='portadapaga[$j]' value='$idpag'>";
 echo "<input type='hidden' name='idportadapaga[$j]' value='$idppag'>";
 echo "<tr><td>Pagina $u</td><td><select name='portadapag[$j]'>";
 echo "<option value=''>Elige una</option>";
-for ($t=0;$t<$row34;$t++){;
-mysqli_data_seek($result34,$t);
-$resultado34=mysqli_fetch_array($result34);
-$titulopor=$resultado34['titulo'];
-$idpagpor=$resultado34['idpag'];
+
+foreach ($mostrar34 as $row34) {
+
+//for ($t=0;$t<$row34;$t++){;
+//mysqli_data_seek($result34,$t);
+//$resultado34=$result->fetch();
+//$resultado34=mysqli_fetch_array($result34);
+$titulopor=$row34['titulo'];
+$idpagpor=$row34['idpag'];
+
+//var_dump($titulopor);
+
 echo "<option value='$idpagpor'";
 if ($idpag==$idpagpor){;
 echo " selected ";

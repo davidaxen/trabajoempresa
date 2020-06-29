@@ -27,8 +27,11 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from comunidades"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?include ('../js/busqueda.php');?>
 
@@ -37,12 +40,18 @@ $row=mysqli_num_rows($result);
 <tr class="enctab"><td>Cod Pais</td><td>Pais</td><td>Cod Pais</td></tr>
 </thead>
 <?php  
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$id=$resultado['id'];
-$comunidad=$resultado['comunidad'];
-$idpais=$resultado['idpais'];
+
+foreach ($result as $row) {
+	$id=$row['id'];
+	$comunidad=$row['comunidad'];
+	$idpais=$row['idpais'];
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$id=$resultado['id'];
+//$comunidad=$resultado['comunidad'];
+//$idpais=$resultado['idpais'];
 ?>
 <tr class="dattab">
 <td><?php  echo $id;?></td>

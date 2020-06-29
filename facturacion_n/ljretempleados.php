@@ -4,13 +4,19 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['jornadas'];
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['jornadas'];
 
 include('../portada_n/cabecera2.php');?>
@@ -21,6 +27,13 @@ include('../portada_n/cabecera2.php');?>
 <p class="enc">LISTADO <?php  echo strtoupper($nc);?> DE TRABAJO DE EMPLEADOS</p></div>
 <div class="contenido">
 <?php 
+
+if (isset($_REQUEST['enviar'])) {
+	$enviar = $_REQUEST['enviar'];
+}else{
+	$enviar = null;
+}
+
 if ($enviar==null){;?>
 <form action="ljretempleados.php" method="post" name="form2">
 Estado <select name="estado">
@@ -35,23 +48,36 @@ Estado <select name="estado">
 <?php 
 
 $sql="SELECT * from empleados where idempresa='".$ide."' and estado='".$estado."' order by idempleado asc"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 
 <?php include ('../js/busqueda.php');?>
 
 <table class="table-bordered table pull-right" id="mytable">
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellido1=$resultado['1apellido'];
-$apellido2=$resultado['2apellido'];
-$nif=$resultado['nif'];
-$estado=$resultado['estado'];
+<?php 
+
+foreach ($result as $row) {
+	$idempleado=$row['idempleado'];
+	$nombre=$row['nombre'];
+	$apellido1=$row['1apellido'];
+	$apellido2=$row['2apellido'];
+	$nif=$row['nif'];
+	$estado=$row['estado'];
+
 $nempl=$nombre.", ".$apellido1." ".$apellido2;
+ //for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idempleado=$resultado['idempleado'];
+//$nombre=$resultado['nombre'];
+//$apellido1=$resultado['1apellido'];
+//$apellido2=$resultado['2apellido'];
+//$nif=$resultado['nif'];
+//$estado=$resultado['estado'];
 ?>
 <tr class="menor1">
 <td><?php  echo $idempleado;?></td>

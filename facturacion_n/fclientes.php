@@ -4,15 +4,23 @@ include('bbdd.php');
 include('../portada_n/cabecera2.php');
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 switch($tipo){
 case 1: $nc=$resultado31['clientes'];break;
 case 2: $nc=$resultado31['puestos'];break;
 }
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 switch($tipo){
 case 1: $ic=$resultado32['clientes'];break;
 case 2: $ic=$resultado32['puestos'];break;
@@ -29,6 +37,14 @@ case 2: $ic=$resultado32['puestos'];break;
 
 
 <?php 
+
+
+if (isset($_REQUEST['idct'])) {
+  $idct = $_REQUEST['idct'];
+}else{
+  $idct = null;
+}
+
 if ($idct==null){;?>
 Estructura del fichero csv que debes de crear:
 
@@ -45,12 +61,21 @@ $dat2=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimi
 $dat=array('mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
 $sql10="select * from servicios where idempresa='".$ide."'"; 
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
-$resultado10=mysqli_fetch_array($result10);
+
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
+//$resultado10=mysqli_fetch_array($result10);
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 ?>
 
 

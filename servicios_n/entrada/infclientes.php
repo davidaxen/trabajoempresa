@@ -1,6 +1,23 @@
 <?php 
+
 include('bbdd.php');
-include('combo.php');?>
+include('combo.php');
+
+//preguntar donde recoge la info de nc1 y idpccat
+
+if (isset($_REQUEST['nc1'])) {
+	$nc1 = $_REQUEST['nc1'];
+}else{
+	$nc1 = 'usuario';
+}
+
+if (isset($_REQUEST['idpccat'])) {
+	$idpccat = $_REQUEST['idpccat'];
+}else{
+	$idpccat = 'hola';
+}
+
+?>
 <script>
 
 function mod2(num,numi,numf){
@@ -47,7 +64,8 @@ elem5.style.visibility="collapse"
 
 <form action="infpuntcontl.php" method="post" target="_top">
 <table>
-<tr><td>Datos de <?php echo ucfirst($nc1);?></td><td>
+<tr>
+	<td>Datos de <?php  echo ucfirst($nc1);?></td><td>
 
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."'"; 
@@ -58,8 +76,12 @@ $sql.=" and idgestor='".$idgestor."'";
 if ($idcli!=0){;
 $sql.=" and nif='".$gente."'"; 
 };
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="idclientes" id="combobox">
 <?php if ($idgestor==0 and $idcli==0){;?>
@@ -67,11 +89,15 @@ $row=mysqli_num_rows($result);
 <?php };?>
 <option value="1">Teletrabajo</option>
 <?php 
-for ($i=0;$i<$row;$i++){;
+
+foreach ($result as $row) {
+	$idclientes=$row['idclientes'];
+	$nombre=$row['nombre'];
+/*for ($i=0;$i<$row;$i++){
 mysqli_data_seek($result,$i);
 $resultado=mysqli_fetch_array($result);
 $idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+$nombre=$resultado['nombre'];*/
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
@@ -80,18 +106,28 @@ $nombre=$resultado['nombre'];
 
 <tr><td>Parametro</td><td>
 <?php 
+
+
 $sqla="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."'"; 
-$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
-$rowa=mysqli_num_rows($resulta);
+$resulta=$conn->query($sqla);
+$resultado=$resulta->fetch();
+
+//$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
+//$rowa=mysqli_num_rows($resulta);
 ?>
 <select name="idpunt">
 <option value="todos">Todos</option>
 <option value="jornadas">JORNADAS</option>
-<?php for ($i=0;$i<$rowa;$i++){;
+<?php
+
+foreach ($resulta as $row) {
+	$idpcsubcat=$row['idpcsubcat'];
+	$subcategoria=$row['subcategoria'];
+ /*for ($i=0;$i<$rowa;$i++){
 mysqli_data_seek($resulta,$i);
 $resultadoa=mysqli_fetch_array($resulta);
 $idpcsubcat=$resultadoa['idpcsubcat'];
-$subcategoria=$resultadoa['subcategoria'];
+$subcategoria=$resultadoa['subcategoria'];*/
 ?>
 <option value="<?php  echo $idpcsubcat;?>"><?php  echo $subcategoria;?></option>
 <?php };?>

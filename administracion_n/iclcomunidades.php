@@ -19,7 +19,9 @@ $fecha=$year[$j]."-".$mes[$j]."-".$dia[$j];
 $sql13 = "INSERT INTO festivoscomunidad(dia,mes,year,pais,fecha,comunidad) 
 VALUES ('$dia[$j]','$mes[$j]','$year[$j]','$pais','$fecha','$comunidad')";
 //echo $sql13;
-$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
+$result13=$conn->query($sql13);
+
+//$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
 echo ("introducida fecha: ".$fecha."<br/>");
 };
 
@@ -37,18 +39,25 @@ echo ("introducida fecha: ".$fecha."<br/>");
 </td></tr>
 <?php
 $sql2="select * from comunidades where idpais='724'";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result comunidades");
-$row=mysqli_num_rows($result2);
+
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result comunidades");
+//$row=mysqli_num_rows($result2);
 ?>
 <tr><td class="tit">Comunidades</td>
 <td>
 <select name="comunidad">
 <?php  
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result2, $i);
-$resultado=mysqli_fetch_array($result2);
-$id=$resultado['id'];
-$comunidad=$resultado['comunidad'];
+
+foreach ($result as $row) {
+	$id=$row['id'];
+	$comunidad=$row['comunidad'];	
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result2, $i);
+//$resultado=mysqli_fetch_array($result2);
+//$id=$resultado['id'];
+//$comunidad=$resultado['comunidad'];
 ?>
 <option value="<?php  echo $id;?>"><? echo $comunidad;?></option>
 <?php };?>

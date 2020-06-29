@@ -3,17 +3,23 @@ include('bbdd.php');
 
 if ($com=='comprobacion'){;
 
- include('portada_n/cabeceralibre.php');
-
+include('portada_n/cabeceralibre.php');
 
 $sql56="select * from proyectos where idproyectos='".$idpr."'";
-//echo $sql56;
-$result56=mysqli_query ($conn, $sql56) or die ("Invalid result sql56");
-$resultados56 = mysqli_fetch_array ($result56);
-$rgpdt=$resultados56['rgpd'];
-$avisolegalt=$resultados56['avisolegal'];
+$temp = $conn -> query($sql56);
+$result56 = $temp -> fetchAll();
 
+foreach ($conn-> query($sql56) as $fila) {
+	$rgpdt=$fila['rgpd'];
+	$avisolegalt=$fila['avisolegal'];
+}
+//echo $sql56;
+//$result56=mysqli_query ($conn, $sql56) or die ("Invalid result sql56");
+//$resultados56 = mysqli_fetch_array ($result56);
+//$rgpdt=$resultados56['rgpd'];
+//$avisolegalt=$resultados56['avisolegal'];
  ?>
+
 <style>
 .main3 {
 	 /*width: calc (100% - 200px);*/
@@ -26,9 +32,9 @@ $avisolegalt=$resultados56['avisolegal'];
 }
 
 .caja3{
-	 padding-top:5px;
-	 padding-left:5px;
-	 padding-right:5px;
+	padding-top:5px;
+	padding-left:5px;
+	padding-right:5px;
     border: 0px solid <?php  echo $colorborder;?>;
     text-align:center;
     min-width: 100px;
@@ -39,8 +45,8 @@ $avisolegalt=$resultados56['avisolegal'];
     border-radius: 8px;
     background-color:white;
     box-shadow: 1px 15px 18px #888888;
-	 display:inline-table;
-	 text-align:center;
+	display:inline-table;
+	text-align:center;
 }
 
 
@@ -55,10 +61,6 @@ $avisolegalt=$resultados56['avisolegal'];
     border: 0px solid #fff;
     text-align:center;
 }
-
-
-
-
 </style>
 
 
@@ -74,12 +76,12 @@ $avisolegalt=$resultados56['avisolegal'];
 
 <?php 
 $sql="select * from portadapag,paginapor where paginapor.idpag=portadapag.idpag and idempresa='".$ide."' and paginapor.idpag in ('1','2') order by idportada asc";
+$temp = $conn -> query($sql);
+$result = $temp -> fetchAll();
 //echo $sql;
-$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
-$row=mysqli_num_rows($result);
+//$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
+//$row=mysqli_num_rows($result);
 ?>
-
-
 <div class="tab">
 <form method="post" action="intro2p.php" name="login_form">
 <table>
@@ -95,20 +97,16 @@ $row=mysqli_num_rows($result);
 </form>
 
 </div>
-
-
-
-
 </div>
-
-
-
 </div>
-    
-
 </body>
 
 </html>
-<?php }else{;
+<?php
+
+}else{
 include ('cierre.php');
-};?>
+}
+
+
+?>

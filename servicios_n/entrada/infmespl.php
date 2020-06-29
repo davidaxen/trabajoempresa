@@ -136,8 +136,12 @@ $controlhorasalida=0;
 if ($idempleado=="todos"){;
 
 $sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleadot."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
+//$resultado10=mysqli_fetch_array($result10);
 $nombre=$resultado10['nombre'];
 $papellido=$resultado10['1apellido'];
 $sapellido=$resultado10['2apellido'];
@@ -155,17 +159,20 @@ $nempleado=$nombre.', '.$papellido.' '.$sapellido;
 <td><?php  echo $fecha_b;?></td>
 <td><?php  echo $hora;?></td>
 <td>
-<?php 
-<?php 
-if ($idclientest<10){;
-switch($idclientest){;
+<?php
+if ($idclientest<10){
+switch($idclientest){
 case '1':$nombrec="Teletrabajo";break;
-};
-}else{;
+}
+}else{
 $sqlempl="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientest."'";
 //echo $sql;
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
 $nombrec=$resultadoempl['nombre'];
 ?>
 <?php  echo $nombrec;?>
@@ -173,15 +180,18 @@ $nombrec=$resultadoempl['nombre'];
 <td>
 <?php 
 $sqlsub="SELECT * from puntservicios where idempresas='".$ide."' and idpcsubcat='".$idpcsubcat."' and idpccat='".$idpccat."' ";
-//echo $sqlsub;
-$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
-$resultadosub=mysqli_fetch_array($resultsub);
+//echo $sqlsub
+
+$resultsub=$conn->query($sqlsub);
+$resultadosub=$resultsub->fetch();
+//$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
+//$resultadosub=mysqli_fetch_array($resultsub);
 $subcategoria=$resultadosub['subcategoria'];
 ?>
 <?php  echo $subcategoria;?>
 </td>
 
-<?php if (($idpcsubcat==2) and ($idempleadot==$idempleadop) and ($difhoras!='0:0')){;?>
+<?php if (($idpcsubcat==2) and ($idempleadot==$idempleadop) and ($difhoras!='0:0')){?>
 <td><?php  echo $difhoras;?></td>
 <?php }else{;?>
 <td>&nbsp;</td>
@@ -194,7 +204,7 @@ $idempleadop=$idempleadot;
 <img src="/img/modificar.gif">
 </a></td>
 </tr>
-<?php };?>
+<?php }?>
 </table>
 
 

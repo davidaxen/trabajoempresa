@@ -12,7 +12,14 @@ include('../portada_n/cabecera2.php');?>
 </div>
 <div class="contenido">
 
-<?php 
+<?php
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 
@@ -36,8 +43,11 @@ $sql.="where estado='".$estador."'";
 };
 $sql.=" order by idempresas asc"; 
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?php 
 switch($estador){;
@@ -52,17 +62,23 @@ case 1: $tdf="Alta";break;
 
 <table width="800" class="table-bordered table pull-right" id="mytable">
 <tr class="subenc"><td>N&ordm; Empresa</td><td>Nombre Empresa</td><td>NIF</td><td>Logotipo</td><td>Opciones</td></tr>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
+<?php 
+
+foreach ($result as $row) {
+	
+ //for ($i=0; $i<$row; $i++){
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
 ?>
+
 <tr class="menor1">
-<td><?php $idempresas=$resultado['idempresas'];?><?php  echo$idempresas;?></td>
-<td><?php $nombre=$resultado['nombre'];?><?php  echo$nombre;?></td>
-<td><?php $nif=$resultado['nif'];?><?php  echo$nif;?></td>
-<td><?php $logotipo=$resultado['logotipo'];?><img src="../img/<?php  echo$logotipo;?>" width="50"></td>
+<td><?php $idempresas=$row['idempresas'];?><?php  echo$idempresas;?></td>
+<td><?php $nombre=$row['nombre'];?><?php  echo$nombre;?></td>
+<td><?php $nif=$row['nif'];?><?php  echo$nif;?></td>
+<td><?php $logotipo=$row['logotipo'];?><img src="../img/<?php  echo$logotipo;?>" width="50"></td>
 <td><a href="modempresa.php?idempresas=<?php  echo$idempresas;?>"><img src="../img/modificar.gif" border="0"></a></td>
 </tr>
+
 <?php };?>
 </table>
 <p>&nbsp;</p>

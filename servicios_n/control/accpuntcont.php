@@ -21,26 +21,26 @@ if ($idsiniestro==null){;
 <?php 
 $sql="SELECT * from siniestros where idempresa='".$ide."' ";
 $sql.="and terminado='0'";
+
 $result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
-
-
-/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=$result->fetchColumn();
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //echo $sql;
-$row=mysqli_num_rows($result);*/
+//$row=mysqli_num_rows($result);
 if ($row!=0){;?>
 <table>
 <tr><td>Numero de Siniestro</td><td>
 <select name="idsiniestro">
 <?php 
-/*for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);*/
-foreach ($resultmos as $rowmos) {
-$idsiniestro=$rowmos['idsiniestro'];
-$numsiniestro=$rowmos['numsiniestro'];
+
+foreach ($result as $row) {
+	$idsiniestro=$row['idsiniestro'];
+	$numsiniestro=$row['numsiniestro'];	
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idsiniestro=$resultado['idsiniestro'];
+//$numsiniestro=$resultado['numsiniestro'];
 ?>
 <option value="<?php  echo $idsiniestro;?>"><?php  echo $numsiniestro;?>
 <?php };?>
@@ -62,11 +62,12 @@ No tiene siniestros sin terminar.
 
 <tr class="subenc3"><td>Datos del Siniestro</td></tr>
 <?php 
-$sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'";
+$sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
+
 $result=$conn->query($sql);
 $resultado=$result->fetch();
-/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);*/
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $numsiniestro=$resultado['numsiniestro'];
 $contacto=$resultado['contacto'];
 $telefono=$resultado['telefono'];
@@ -95,40 +96,49 @@ $horaasig=$resultado['horaasignacion'];
 
 <tr class="subenc3"><td>Acciones Realizadas</td></tr>
 <?php 
-$sql="SELECT * from accsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'";
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
+$sql="SELECT * from accsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
 
-/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);*/
+$result=$conn->query($sql);
+$row=$result->fetchColumn();
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 if ($row==0){;
 ?>
 <tr><td>Ninguna Accion Realizada.</td></tr>
 <?php 
 }else{;
 
-/*for ($t=0;$t<$row;$t++){;
-mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);*/
-foreach ($resultmos as $rowmos) {
-$id=$rowmos['id'];
-$trabajor=$rowmos['trabajorealizado'];
-$trabajop=$rowmos['trabajopendiente'];
-$descripcion1=$rowmos['descripcion'];
-$diaent=$rowmos['diaentrada'];
-$horaent=$rowmos['horaentrada'];
-$diasal=$rowmos['diasalida'];
-$horasal=$rowmos['horasalida'];
-$idempleado=$rowmos['idempleado'];
+foreach ($result as $row)
+{
+	$id=$row['id'];
+	$trabajor=$row['trabajorealizado'];
+	$trabajop=$row['trabajopendiente'];
+	$descripcion1=$row['descripcion'];
+	$diaent=$row['diaentrada'];
+	$horaent=$row['horaentrada'];
+	$diasal=$row['diasalida'];
+	$horasal=$row['horasalida'];
+	$idempleado=$row['idempleado'];
 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
+//for ($t=0;$t<$row;$t++){;
+//mysqli_data_seek($result, $t);
+//$resultado=mysqli_fetch_array($result);
+//$id=$resultado['id'];
+//$trabajor=$resultado['trabajorealizado'];
+//$trabajop=$resultado['trabajopendiente'];
+//$descripcion1=$resultado['descripcion'];
+//$diaent=$resultado['diaentrada'];
+//$horaent=$resultado['horaentrada'];
+//$diasal=$resultado['diasalida'];
+//$horasal=$resultado['horasalida'];
+//$idempleado=$resultado['idempleado'];
+
+$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
+
 $result2=$conn->query($sql2);
 $resultado2=$result2->fetch();
-
-/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);*/
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$resultado2=mysqli_fetch_array($result2);
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];
 $segapellido=$resultado2['2apellido'];
@@ -166,19 +176,18 @@ $sql2="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
 if ($idempleado!=0){;
 $sql2.=" and idempleado='".$idempleado."'";
 };
+
 $result2=$conn->query($sql2);
-$resultado2=$result2->fetch();
 
-
-/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);*/
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$row2=mysqli_num_rows($result2);
 ?>
 <tr><td>
 <table>
 <tr class="subenc5"><td>Empleado</td><td>Dia</td><td>Hora</td></tr>
 <tr><td>
 <?php 
-//$resultado2=mysqli_fetch_array($result2);
+$resultado2=$result2->fetch();
 $idempleado=$resultado2['idempleado'];
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];

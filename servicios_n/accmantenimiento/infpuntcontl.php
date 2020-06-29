@@ -9,6 +9,26 @@ include('../../portada_n/cabecera3.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['m1'])) {
+	$m = $_REQUEST['m1'];
+}else{
+	$m = null;
+}
+
+if (isset($_REQUEST['d2'])) {
+	$d = $_REQUEST['d2'];
+}else{
+	$d = null;
+}
+
+
+if (isset($_REQUEST['y2'])) {
+	$y = $_REQUEST['y2'];
+}else{
+	$y = null;
+}
+
 switch($tipo){;
 
 case 'dia':
@@ -106,8 +126,11 @@ if ($idpunt!='todos'){
 $sql.=" and idpcsubcat='".$idpunt."'";
 }
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 
 
 
@@ -133,8 +156,11 @@ if ($idclientes!='todos'){;?>
 Datos del Puesto de Trabajo: 
 <?php 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>
@@ -173,15 +199,23 @@ echo "
 
 
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idcl=$resultado['idpiscina'];
-$dia=$resultado['dia'];
-$hora=$resultado['hora'];
-$idempleado=$resultado['idempleado'];
-$idpcsubcat=$resultado['idpcsubcat'];
-$cantidad=$resultado['cantidad'];
+
+foreach ($result as $row) {
+	$idcl=$resultado['idpiscina'];
+	$dia=$resultado['dia'];
+	$hora=$resultado['hora'];
+	$idempleado=$resultado['idempleado'];
+	$idpcsubcat=$resultado['idpcsubcat'];
+	$cantidad=$resultado['cantidad'];	
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idcl=$resultado['idpiscina'];
+//$dia=$resultado['dia'];
+//$hora=$resultado['hora'];
+//$idempleado=$resultado['idempleado'];
+//$idpcsubcat=$resultado['idpcsubcat'];
+//$cantidad=$resultado['cantidad'];
 $yt=fmod($i,2);
 ?>
 <?php if ($yt==0){;?><tr class="fpar"><?php };?> 
@@ -190,8 +224,11 @@ $yt=fmod($i,2);
 <td>
 <?php 
 $sql1c="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idcl."'"; 
-$result1c=mysqli_query ($conn,$sql1c) or die ("Invalid result1c");
-$resultado1c=mysqli_fetch_array($result1c);
+
+$result1c=$conn->query($sql1c);
+$resultado1c=$result1c->fetch();
+//$result1c=mysqli_query ($conn,$sql1c) or die ("Invalid result1c");
+//$resultado1c=mysqli_fetch_array($result1c);
 $nombrecliente=$resultado1c['nombre'];
 ?>
 <?php  echo $nombrecliente;?></td>
@@ -201,11 +238,14 @@ $nombrecliente=$resultado1c['nombre'];
 <?php 
 $sqlempl="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
 //echo $sql;
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
-$nombre=$resultadoempl['nombre'];
-$apellidop=$resultadoempl['1apellido'];
-$apellidos=$resultadoempl['2apellido'];
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
+//$nombre=$resultadoempl['nombre'];
+//$apellidop=$resultadoempl['1apellido'];
+//$apellidos=$resultadoempl['2apellido'];
 $nempleado=$nombre.' '.$apellidop.' '.$apellidos;
 ?>
 <?php  echo $nempleado;?>
@@ -214,8 +254,11 @@ $nempleado=$nombre.' '.$apellidop.' '.$apellidos;
 <?php 
 $sqlsub="SELECT * from puntservicios where idempresas='".$ide."' and idpcsubcat='".$idpcsubcat."' and idpccat='".$idpccat."' ";
 //echo $sql;
-$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
-$resultadosub=mysqli_fetch_array($resultsub);
+
+$resultsub=$conn->query($sqlsub);
+$resultadosub=$resultsub->fetch();
+//$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
+//$resultadosub=mysqli_fetch_array($resultsub);
 $subcategoria=$resultadosub['subcategoria'];
 ?>
 <?php  echo $subcategoria;?>

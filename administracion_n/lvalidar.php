@@ -14,6 +14,12 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
 if ($datos!='datos'){;
 ?>
 <form method="post" action="lvalidar.php">
@@ -37,8 +43,10 @@ $sql.=" where validar='".$estadovalidar."'";
 };
 $sql.=" order by idvalidar asc"; 
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?include ('../js/busqueda.php');?>
 
@@ -49,17 +57,29 @@ $row=mysqli_num_rows($result);
 <td>Tipo</td>
 <?php };?>
 <td>Nº Empresa</td><td>Nombre Empresa</td><td>NIF</td><td>Per.Con.</td><td>Tel.Con.</td><td>Email</td><td>Proyecto</td></tr>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$validar=$resultado['validar'];
-$idvalidar=$resultado['idvalidar'];
-$nombreemp=$resultado['nombreemp'];
-$nifemp=$resultado['nifemp'];
-$percontacto=$resultado['percontacto'];
-$telcontacto=$resultado['telcontacto'];
-$emailemp=$resultado['email'];
-$idpremp=$resultado['idpr'];
+<?php 
+
+foreach ($result as $row) {
+	$validar=$row['validar'];
+	$idvalidar=$row['idvalidar'];
+	$nombreemp=$row['nombreemp'];
+	$nifemp=$row['nifemp'];
+	$percontacto=$row['percontacto'];
+	$telcontacto=$row['telcontacto'];
+	$emailemp=$row['email'];
+	$idpremp=$row['idpr'];	
+
+ //for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$validar=$resultado['validar'];
+//$idvalidar=$resultado['idvalidar'];
+//$nombreemp=$resultado['nombreemp'];
+//$nifemp=$resultado['nifemp'];
+//$percontacto=$resultado['percontacto'];
+//$telcontacto=$resultado['telcontacto'];
+//$emailemp=$resultado['email'];
+//$idpremp=$resultado['idpr'];
 
 
 ?>
@@ -82,12 +102,15 @@ case 3:$nvalidar="Sin contrato";break;
 <td><?php  echo$nifemp;?></td>
 <td><?php  echo$percontacto;?></td>
 <td><?php  echo$telcontacto;?></td>
-<td><?php  echo$email;?></td>
+<td><?php  echo$emailemp;?></td>
 <td>
 <?php 
 $sqli="SELECT * from proyectos where idproyectos='".$idpremp."'"; 
-$resulti=mysqli_query ($conn,$sqli) or die ("Invalid resulti");
-$resultadoi=mysqli_fetch_array($resulti);
+
+$resulti=$conn->query($sqli);
+$resultadoi=$resulti->fetch();
+//$resulti=mysqli_query ($conn,$sqli) or die ("Invalid resulti");
+//$resultadoi=mysqli_fetch_array($resulti);
 $logopremp=$resultadoi['logo'];
 ?>
 <img src="images/<?php  echo$logopremp;?>" width="50">
