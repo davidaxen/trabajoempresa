@@ -1,6 +1,7 @@
 <?php 
 include('bbdd.php');
 
+
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
@@ -76,7 +77,7 @@ $sql1.=" and estado='".$estadoe."' ";
 $sql1.=" order by idempleado asc";
 //echo $sql1;
 
-$result1=$conn->query($sql1);
+$result=$conn->query($sql1);
 
 //$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 //$row=mysqli_num_rows($result);
@@ -153,7 +154,7 @@ if ($valoref=='1'){;?>
 
 
 <?php 
-
+$i=0;
 foreach ($result as $row) {
 
 //for ($i=0; $i<$row; $i++){;
@@ -214,10 +215,10 @@ $nomempl=$nombre.' '.$apellido1.' '.$apellido2;
 
 <?php 
 for ($rt=0;$rt<count($encab);$rt++){;
-$valoref=$resultado10[$dat[$rt]];
+$valoref=$resultado10[$dat[$rt]];	
 if ($valoref=='1'){;?>
 <td align="center">
-<?php $valortg=$resultado[$dat[$rt]];?>
+<?php $valortg=$row[$dat[$rt]];?>
 <input type="radio" name="<?php  echo $dat[$rt];?>[<?php  echo $i;?>]" value="1" <?php if ($valortg==1){;?>checked="checked"<?php };?>  disabled>
 </td>
 <?php };
@@ -226,11 +227,10 @@ if ($valoref=='1'){;?>
 
 <?php };?>
 
-
-
-
 </tr>
-<?php };?>
+<?php 
+$i=$i+1;
+};?>
 </table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

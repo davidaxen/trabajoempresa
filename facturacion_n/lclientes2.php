@@ -1,6 +1,8 @@
 <?php  
 include('bbdd.php');
 
+//error_reporting(0);
+
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
