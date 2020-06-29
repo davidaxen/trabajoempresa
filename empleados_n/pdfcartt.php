@@ -15,8 +15,11 @@ $imgemp='../img/'.$img;
 $firmaemp='../img/'.$firma;
 
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$dato."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $nombre=$resultado['nombre'];
 $apellido1=$resultado['1apellido']; 
 $apellido2=$resultado['2apellido'];
@@ -431,35 +434,46 @@ $pdf->AliasNbPages();
 
 if ($dato=='todo'){;
 $sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$result=$conn->query($sql);
+
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);
 for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idempl1=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellidop=$resultado['1apellido'];
-$apellidos=$resultado['2apellido'];
-$nif=$resultado['nif'];
-$entrada=$resultado['entrada'];
-$incidencia=$resultado['incidencia'];
-$alarma=$resultado['alarma'];
-$mensajes=$resultado['mensaje'];
-$accdiarias=$resultado['accdiarias'];
-$accmantenimiento=$resultado['accmantenimiento'];
-$niveles=$resultado['niveles'];
-$productos=$resultado['productos'];
-$revision=$resultado['revision'];
-$trabajo=$resultado['trabajo'];
-$siniestro=$resultado['siniestro'];
-$control=$resultado['control'];
-$mediciones=$resultado['mediciones'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $row) {
+$idempl1=$row['idempleado'];
+$nombre=$row['nombre'];
+$apellidop=$row['1apellido'];
+$apellidos=$row['2apellido'];
+$nif=$row['nif'];
+$entrada=$row['entrada'];
+$incidencia=$row['incidencia'];
+$alarma=$row['alarma'];
+$mensajes=$row['mensaje'];
+$accdiarias=$row['accdiarias'];
+$accmantenimiento=$row['accmantenimiento'];
+$niveles=$row['niveles'];
+$productos=$row['productos'];
+$revision=$row['revision'];
+$trabajo=$row['trabajo'];
+$siniestro=$row['siniestro'];
+$control=$row['control'];
+$mediciones=$row['mediciones'];
 
 
-$sql3="SELECT * from usuarios where idempresas='".$ide."' and idempleados='".$idempl1."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
+$sql3="SELECT * from usuarios where idempresas='".$ide."' and idempleados='".$idempl1."'";
+$result3=$conn->query($sql3);
+$fetchall3=$result3->fetchAll();
+$row3=count($fetchall3);
+
+$result3mos=$conn->query($sql3);
+$resultado3=$result3mos->fetch();
+
+/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
 $row3=mysqli_num_rows($result3);
-$resultado3=mysqli_fetch_array($result3);
+$resultado3=mysqli_fetch_array($result3);*/
 if ($row3!=0){;
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
@@ -489,9 +503,11 @@ $pdf->Document();
 
 
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$dato."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);
-$resultado=mysqli_fetch_array($result);
+$resultado=mysqli_fetch_array($result);*/
 $nif=$resultado['nif'];
 $nombre=$resultado['nombre'];
 $apellidop=$resultado['1apellido'];
@@ -512,10 +528,18 @@ $control=$resultado['control'];
 $mediciones=$resultado['mediciones'];
 
 
-$sql3="SELECT * from usuarios where idempresas='".$ide."' and idempleados='".$dato."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
+$sql3="SELECT * from usuarios where idempresas='".$ide."' and idempleados='".$dato."'";
+$result3=$conn->query($sql3);
+$fetchall3=$result3->fetchAll();
+$row3=count($fetchall3);
+
+$result3mos=$conn->query($sql3);
+$resultado3=$result3mos->fetch();
+
+
+/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
 $row3=mysqli_num_rows($result);
-$resultado3=mysqli_fetch_array($result3);
+$resultado3=mysqli_fetch_array($result3);*/
 if ($row3!=0){;
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
