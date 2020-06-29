@@ -20,7 +20,7 @@ include('../../portada_n/cabecera3.php');?>
 $sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
 $result=$conn->query($sql);
 $resultado=$result->fetch();
-
+var_dump($idpcsubcat);
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $resultado=mysqli_fetch_array($result);*/
@@ -33,7 +33,6 @@ $nombre=$resultado['nombre'];
 <?php
 
 $sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' ";
-var_dump($sql2);
 if (count($bloque)!=0){;
 $sql2.="and idpcsubcat not in (";
 for ($y=0;$y<count($bloque);$y++){;
@@ -51,7 +50,7 @@ $row2=mysqli_num_rows($result2);
 for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);*/
-$result2=$conn->query($sql);
+$result2=$conn->query($sql2);
 foreach ($result2 as $row2mos) {
 $idpcsubcatn=$row2mos['idpcsubcat'];
 $subcategoria=$row2mos['subcategoria'];

@@ -11,15 +11,19 @@ if ($ide!=null){;
 
 <?php 
 $sql="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."' order by idpuntcont asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 <table>
 <tr class="subenc"><td>Nombre</td>
 <?php 
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
-$resultado1=mysqli_fetch_array($result1);
+$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+$result1=$conn->query($sql);
+$resultado1=$result1->fetch();
+/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+$resultado1=mysqli_fetch_array($result1);*/
 $nombre=$resultado1['nombre'];
 ?>
 <td>
@@ -28,12 +32,13 @@ $nombre=$resultado1['nombre'];
 <table>
 <tr><td>N&ordm; Punto</td><td>Descripcion</td></tr>
 <?php 
-for ($i=0; $i<$row; $i++){;
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$descrip=$resultado['descripcion'];
-$id=$resultado['id'];
-$idpuntcont=$resultado['idpuntcont'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$descrip=$rowmos['descripcion'];
+$id=$rowmos['id'];
+$idpuntcont=$rowmos['idpuntcont'];
 ?>
 <tr>
 <td><a href="pdfindpuntcont.php?id=<?php  echo $id;?>" target="_blank"><?php  echo $idpuntcont;?></a></td><td><?php  echo strtoupper($descrip);?></td>

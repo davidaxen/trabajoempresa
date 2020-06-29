@@ -1,6 +1,6 @@
 <?php  
 include('bbdd.php');
-
+//error_reporting(0);
 if ($ide!=null){;
 
 include('../../portada_n/cabecera3.php');
@@ -149,7 +149,7 @@ $subcategoria=$resultado3['subcategoria'];
 
 <?php 
 $j=0;
-for ($k=0;$k<count($valores);$k++){
+for ($k=0;$k<count($bloque);$k++){
 
 if ($valores[$k]!=null){;
 if ($valores[$k]!=$idpcsubcat){;
@@ -179,7 +179,7 @@ $j=$j+1;
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
 unset($bqn);
-for ($ij=0;$ij<count($bloquen);$ij++){;
+for ($ij=0;$ij<count($bloque);$ij++){;
 if ($valores[$ij]!=null){;
 $bqn[$ij]=$valores[$ij];
 ?>
