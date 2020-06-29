@@ -30,7 +30,10 @@ include('../../estilo/acordeon.php');
 
 </div>
 
+
+
 Tienes las siguientes rutas introducidas:
+
 
 <?php 
 $sql2="SELECT * from ruta where idempresas='".$ide."' order by idruta asc"; 
@@ -128,7 +131,7 @@ $segape=$resultado['2apellido'];
 <?php 
 $sql21="SELECT * from clienteruta where idempresas='".$ide."' and idruta='".$idruta."'";
 $result21=$conn->query($sql21);
-$result21mos=$conn->query($sql21);
+$result21mos=$conn->query($sql2);
 $fetchAll21=$result21->fetchAll();
 $row21=count($fetchAll21);
 
@@ -156,14 +159,14 @@ $resultado23=$result23->fetch();
 $resultado23=mysqli_fetch_array($result23);*/
 $nombre=$resultado23['nombre'];
 echo "<tr><td>".$nombre."</td></tr>";
-}//for each 148;
+};
 
 echo "</table>Pincha <a href='apuntcont.php'> aqui </a> para asignar m&aacutes clientes";
-}//else 142;?>
+};?>
 
 </div>
 <?
-}//for each 58;
+};
 ?>
 
 
@@ -181,7 +184,7 @@ echo "</table>Pincha <a href='apuntcont.php'> aqui </a> para asignar m&aacutes c
 </div>
 
 <?php 
-}else {
+} else {;
 include ('../../cierre.php');
- }
+ };
  ?>

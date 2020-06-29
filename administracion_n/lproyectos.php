@@ -14,6 +14,13 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 <form method="post" action="lproyectos.php">
@@ -26,27 +33,38 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from proyectos where estado='".$estador."' order by idproyectos asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?include ('../js/busqueda.php');?>
 
 
 <table width="800" class="table-bordered table pull-right" id="mytable">
 <tr class="enctab"><td>Nº Proyecto</td><td>Nombre Proyecto</td><td>Web</td><td>Dias de Prueba</td><td>Logotipo</td><td>Empresas asociadas</td></tr>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idproyectos=$resultado['idproyectos'];
+<?php 
+
+foreach ($result as $row) {
+	$idproyectos=$row['idproyectos'];
+
+ //for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idproyectos=$resultado['idproyectos'];
+
+
 $sqlt="SELECT * from empresas where estado='1' and idproyectos='".$idproyectos."'"; 
-$resultt=mysqli_query ($conn,$sqlt) or die ("Invalid result");
-$rowt=mysqli_num_rows($resultt);
 
-
-$nombre=$resultado['nombre'];
-$web=$resultado['web'];
-$diasprueba=$resultado['diasprueba'];
-$logo=$resultado['logo'];
+$resultt=$conn->query($sqlt);
+$rowt = $resultt-> fetchColumn();
+//$resultt=mysqli_query ($conn,$sqlt) or die ("Invalid result");
+//$rowt=mysqli_num_rows($resultt);
+$nombre=$row['nombre'];
+$web=$row['web'];
+$diasprueba=$row['diasprueba'];
+$logo=$row['logo'];
 ?>
 <tr class="dattab">
 <td><?php  echo $idproyectos;?></td>

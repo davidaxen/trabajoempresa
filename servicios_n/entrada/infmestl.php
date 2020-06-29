@@ -5,19 +5,27 @@ $sql.=" and idempleado='".$idempleado."'";
 };
 $sql.=" order by  idempleado asc, idpiscina asc";
 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+$result=$conn->query($sql);
+$resultados=$result->fetch();
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 
 $j=0;
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
+foreach ($result as $row) {
 
-$idpcsubcat=$resultado['idpcsubcat'];
-$fecha_b=$resultado['dia'];
-$idempleado=$resultado['idempleado'];
-$idclientes=$resultado['idpiscina'];
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+
+$idpcsubcat=$row['idpcsubcat'];
+$fecha_b=$row['dia'];
+$idempleado=$row['idempleado'];
+$idclientes=$row['idpiscina'];
 
 if ( ($idempleadot!=$idempleado) or ($idclientest!=$idclientes) ) {
 	if ($idpcsubcat==1){
@@ -61,13 +69,22 @@ $idclientest=0;
 </thead>
 <tbody>
 <?php 
-for ($t=0;$t<count($valores);$t++){;
 
-$idclientest=$valores[$t]['idclientest'];
+foreach ($result as $row) {
+
+//for ($t=0;$t<count($valores);$t++){;
+
+$idclientest=$row[$t]['idclientest'];
 
 $sqlempl="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientest."'";
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+//$fetchAllempl=$resultempl->fetchAll();
+//$rowempl=count($fetchAllempl);
+
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
 $nombrec=$resultadoempl['nombre'];
 if ($idclientest=='1'){;
 $nombrec='Teletrabajo';
@@ -75,8 +92,12 @@ $nombrec='Teletrabajo';
 
 $idempleadot=$valores[$t]['idempleadot'];
 $sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleadot."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
+//$resultado10=mysqli_fetch_array($result10);
 $nombre=$resultado10['nombre'];
 $papellido=$resultado10['1apellido'];
 $sapellido=$resultado10['2apellido'];

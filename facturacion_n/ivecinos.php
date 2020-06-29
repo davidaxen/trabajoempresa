@@ -133,6 +133,5 @@ echo "Ha seleccionado varias comunidades";
 </table>
 </form>
 
-
 <?php };?>
 </div>

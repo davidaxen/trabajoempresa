@@ -1,16 +1,23 @@
 <?php 
 include('bbdd.php');
 
+
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['empleados'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['empleados'];
 
 
@@ -69,8 +76,11 @@ $sql1.=" and estado='".$estadoe."' ";
 };
 $sql1.=" order by idempleado asc";
 //echo $sql1;
-$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql1);
+
+//$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$row=mysqli_num_rows($result);
 ?>
 <table><tr><td><?php include ('../js/busqueda.php');?></td>
 
@@ -120,8 +130,12 @@ $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimie
 
 
 $sql10="select * from servicios where idempresa='".$ide."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result clientes");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result clientes");
+//$resultado10=mysqli_fetch_array($result10);
 
 for ($rt=0;$rt<count($encab);$rt++){;
 $valoref=$resultado10[$dat[$rt]];
@@ -140,17 +154,20 @@ if ($valoref=='1'){;?>
 
 
 <?php 
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
+$i=0;
+foreach ($result as $row) {
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
 ?>
 <tr class="dattab">
 <?php 
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellido1=$resultado['1apellido'];
-$apellido2=$resultado['2apellido'];
-$nif=$resultado['nif'];
+$idempleado=$row['idempleado'];
+$nombre=$row['nombre'];
+$apellido1=$row['1apellido'];
+$apellido2=$row['2apellido'];
+$nif=$row['nif'];
 $nomempl=$nombre.' '.$apellido1.' '.$apellido2;
 ?>
 <td><?php  echo strtoupper($nomempl);?>
@@ -198,10 +215,10 @@ $nomempl=$nombre.' '.$apellido1.' '.$apellido2;
 
 <?php 
 for ($rt=0;$rt<count($encab);$rt++){;
-$valoref=$resultado10[$dat[$rt]];
+$valoref=$resultado10[$dat[$rt]];	
 if ($valoref=='1'){;?>
 <td align="center">
-<?php $valortg=$resultado[$dat[$rt]];?>
+<?php $valortg=$row[$dat[$rt]];?>
 <input type="radio" name="<?php  echo $dat[$rt];?>[<?php  echo $i;?>]" value="1" <?php if ($valortg==1){;?>checked="checked"<?php };?>  disabled>
 </td>
 <?php };
@@ -210,11 +227,10 @@ if ($valoref=='1'){;?>
 
 <?php };?>
 
-
-
-
 </tr>
-<?php };?>
+<?php 
+$i=$i+1;
+};?>
 </table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

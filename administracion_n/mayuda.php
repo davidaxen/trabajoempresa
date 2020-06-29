@@ -14,6 +14,13 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 <form method="post" action="mayuda.php">
@@ -30,9 +37,12 @@ if ($datos!='datos'){;
 <?php 
 }else{;
 
-$sql="SELECT * from ayuda where menu='".$menu."' order by seccion asc,subseccion asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from ayuda where menu='".$menu."' order by seccion asc,subseccion asc";
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 
 switch($menu){;
 case '1':$valormenu="Administrar";break;

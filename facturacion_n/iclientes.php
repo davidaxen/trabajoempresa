@@ -6,8 +6,12 @@ include('../portada_n/cabecera2.php');
 include('../estilo/acordeon.php');
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 switch($tipo){
 case 1: $nc=$resultado31['clientes'];break;
 case 2: $nc=$resultado31['puestos'];break;
@@ -15,8 +19,12 @@ case 2: $nc=$resultado31['puestos'];break;
 
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 switch($tipo){
 case 1: $ic=$resultado32['clientes'];break;
 case 2: $ic=$resultado32['puestos'];break;
@@ -32,15 +40,29 @@ case 2: $ic=$resultado32['puestos'];break;
 
 
 <?php 
+
+if (isset($_REQUEST['idc'])) {
+  $idc = $_REQUEST['idc'];
+}else{
+  $idc = null;
+}
+
+
 $sql10="select liccli from empresas where idempresas='".$ide."'"; 
 //echo $sql10;
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result lic");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result lic");
+//$resultado10=mysqli_fetch_array($result10);
 $liccli=$resultado10['liccli'];
 
-$sql10="select count(idclientes) as tot from clientes where idempresas='".$ide."' and estado='1'"; 
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result empleados");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="select count(idclientes) as tot from clientes where idempresas='".$ide."' and estado='1'";
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result empleados");
+//$resultado10=mysqli_fetch_array($result10);
 $tota=$resultado10['tot'];
 
 
@@ -69,17 +91,28 @@ if ($idc==null){;?>
 <?php 
 $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
-$sql10="select * from servicios where idempresa='".$ide."'"; 
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="select * from servicios where idempresa='".$ide."'";
 
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
+//$resultado10=mysqli_fetch_array($result10);
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 ?>
 
 <div class="accordion">
@@ -228,8 +261,11 @@ default:
 <?php 
 
 $sql="select idclientes from clientes where idempresas='".$ide."' order by idclientes desc"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
+//$row=mysqli_num_rows($result);
 ?>
 <form action="intro2.php" method="post">
 <table>
@@ -240,7 +276,7 @@ $row=mysqli_num_rows($result);
 if ($row==0){;
 $idc=10;
 }else{;
-$resultado=mysqli_fetch_array($result);
+$resultado=$result->fetch();
 $idc=$resultado['idclientes'];
 $idc=$idc+1;
 };
@@ -259,17 +295,28 @@ $idc=$idc+1;
 $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus');
 
 
-$sql10="select * from servicios where idempresa='".$ide."'"; 
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="select * from servicios where idempresa='".$ide."'";
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
+//$resultado10=mysqli_fetch_array($result10);
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 ?>
 <div id="divicolumnai">
 

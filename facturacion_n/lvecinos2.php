@@ -5,13 +5,19 @@ include('bbdd.php');
 <?php if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['vecinos'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['vecinos'];
 
 
@@ -54,8 +60,11 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from vecinos where idempresa='".$ide."' and estado='".$estadoe."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 
 
@@ -98,24 +107,41 @@ Carta para todos los gestores</a>
 <tr class="enctab"><td>Nº <?php  echo ucfirst($nc);?></td><td>Nombre del <?php  echo ucfirst($nc);?></td><td>Referencia</td><td>Telefono 1</td><td>Telefono 2</td><td>Fax</td><td>Direccion</td><td>C.P.</td><td>E.mail</td><td>Comunidad</td><td>Opciones</td></tr>
 </thead>
 
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idvecino=$resultado['idvecino'];
-$nombre=$resultado['nombre'];
-$referencia=$resultado['referencia'];
-$tele1=$resultado['telefono1'];
-$tele2=$resultado['telefono2'];
-$fax=$resultado['fax'];
-$direccion=$resultado['direccion'];
-$cp=$resultado['cp'];
-$emailn=$resultado['email'];
-$idclientevec=$resultado['idcliente'];
+<?php 
+
+foreach ($result as $row) {
+	$idvecino=$row['idvecino'];
+	$nombre=$row['nombre'];
+	$referencia=$row['referencia'];
+	$tele1=$row['telefono1'];
+	$tele2=$row['telefono2'];
+	$fax=$row['fax'];
+	$direccion=$row['direccion'];
+	$cp=$row['cp'];
+	$emailn=$row['email'];
+	$idclientevec=$row['idcliente'];	
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idvecino=$resultado['idvecino'];
+//$nombre=$resultado['nombre'];
+//$referencia=$resultado['referencia'];
+//$tele1=$resultado['telefono1'];
+//$tele2=$resultado['telefono2'];
+//$fax=$resultado['fax'];
+//$direccion=$resultado['direccion'];
+//$cp=$resultado['cp'];
+//$emailn=$resultado['email'];
+//$idclientevec=$resultado['idcliente'];
 
 $sql33="select * from clientes where idempresas='".$ide."' and idclientes='".$idclientevec."'";
 //echo $sql33;
-$result33=mysqli_query($conn,$sql33) or die ("Invalid result clientes");
-$resultado33=mysqli_fetch_array($result33);
+
+$result33=$conn->query($sql33);
+$resultado33=$result33->fetch();
+
+//$result33=mysqli_query($conn,$sql33) or die ("Invalid result clientes");
+//$resultado33=mysqli_fetch_array($result33);
 $nombrecli=$resultado33['nombre'];
 ?>
 <tr class="dattab">

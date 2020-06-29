@@ -14,6 +14,13 @@ include('../portada_n/cabecera2.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['datos'])) {
+	$datos = $_REQUEST['datos'];
+}else{
+	$datos = "";
+}
+
 if ($datos!='datos'){;
 ?>
 <form method="post" action="lempresa.php">
@@ -26,8 +33,14 @@ if ($datos!='datos'){;
 }else{;
 
 $sql="SELECT * from empresas where estado='".$estador."' order by idempresas asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?include ('../js/busqueda.php');?>
 
@@ -36,17 +49,21 @@ $row=mysqli_num_rows($result);
 <thead>
 <tr class="enctab"><td>Nº Empresa</td><td>Nombre Empresa</td><td>NIF</td><td>Dom.</td><td>Loc.</td><td>CP.</td><td>Nº Cuenta</td><td>Logotipo</td></tr>
 </thead>
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempresas=$resultado['idempresas'];
-$nombre=$resultado['nombre'];
-$nif=$resultado['nif'];
-$domicilio=$resultado['domicilio'];
-$localidad=$resultado['localidad'];
-$cp=$resultado['cp'];
-$ncc=$resultado['ncc'];
-$logotipo=$resultado['logotipo'];
+<?php  
+
+foreach ($result as $row) {
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+$idempresas=$row['idempresas'];
+$nombre=$row['nombre'];
+$nif=$row['nif'];
+$domicilio=$row['domicilio'];
+$localidad=$row['localidad'];
+$cp=$row['cp'];
+$ncc=$row['ncc'];
+$logotipo=$row['logotipo'];
 ?>
 <tr class="dattab">
 <td><?php  echo $idempresas;?></td>

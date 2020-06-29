@@ -24,7 +24,10 @@ $sql1u="where user='".$gente."'";
 $sqlau="password='".$pass."' ";
 $sqlu=$sql0u.$sqlau.$sql1u;
 //echo $sqlu;
-$resultdu=mysqli_query ($conn,$sqlu) or die ("Invalid result ".$nombreu." ");
+
+$resultdu=$conn->query($sqlu);
+
+//$resultdu=mysqli_query ($conn,$sqlu) or die ("Invalid result ".$nombreu." ");
 $_COOKIE['part']=$pass;
 
 }else  {;
@@ -47,7 +50,7 @@ $textomal="La contraseña introducidas no es la correcta";
 if($subtabla=='datos'){;
 $idempresasa=$datosa[0];
 //echo "<br/>".$idempresasa;
-$sql0="update empresas set ";
+$sql0="update empresas set   ";
 $sql1="where idempresas='".$idempresasa."'";
 //echo $sql0;
 //echo $sql1;
@@ -57,17 +60,25 @@ $sql1="where idempresas='".$idempresasa."'";
 $nccn=$ent2."-".$suc2."-".$dc2."-".$cc2;
 $datosn[5]=$nccn;
 
+
+
 $nombrecampo=$nombrea;
+//var_dump($nombrecampo);
 $valoractual=$datosa;
+//var_dump($valoractual);
 $valornuevo=$datosn;
 
 //echo (count($nombrecampo));
 //for ($j=0;$j<count($nombrecampo);$j++){;
-for ($j=2;$j<14;$j++){;
+for ($j=2;$j<14;$j++){
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalidq result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//var_dump($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalidq result ".$nombrecampo[$j]." ");
 echo ($sql.'<br>');
 };
 };
@@ -76,7 +87,9 @@ $j=24;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalidq result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalidq result ".$nombrecampo[$j]." ");
 echo ($sql.'<br>');
 };
 
@@ -85,7 +98,9 @@ for ($j=38;$j<44;$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid resulto ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid resulto ".$nombrecampo[$j]." ");
 echo ($sql.'<br>');
 };
 };
@@ -94,7 +109,8 @@ $j=46;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalidw result ".$nombrecampo[$j]." ");
+$resultd=$conn->query($sqlu);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalidw result ".$nombrecampo[$j]." ");
 echo ($sql.'<br>');
 };
 
@@ -102,7 +118,9 @@ $j=51;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid resultw ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid resultw ".$nombrecampo[$j]." ");
 echo ($sql.'<br>');
 };
 
@@ -145,7 +163,9 @@ if ($valoractual[$t]!=$valornuevo[$t]){;
 $sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
 $sql=$sql00.$sqla.$sql01;
 //echo ($sql.'<br>');
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$t]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$t]." ");
 };
 };
 
@@ -191,7 +211,9 @@ if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>'.$j);
-$resultd=mysqli_query ($conn,$sql) or die ("Invalido result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalido result ".$nombrecampo[$j]." ");
 };
 };
 
@@ -222,7 +244,9 @@ if(move_uploaded_file($_FILES[$imagenes[$yh]]['tmp_name'], $path)) {;
 echo "El archivo ". $rf . " ha sido subido<br>";
 $sqla=$nombrecampo[$yh]."='".$rf."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$yh]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$yh]." ");
 }else{;
 echo "Ha ocurrido un error, trate de nuevo!<br>";
 };
@@ -258,7 +282,10 @@ $sql="INSERT INTO portadapag (idempresa, idpag) VALUES (".$ide.", '".$valornue."
 };
 //echo $sql.'<br/>';
 if ($sql!=null){
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$y." ");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$y." ");
 };
 };
 
@@ -293,7 +320,9 @@ if(move_uploaded_file($_FILES[$imagenes[$yh]]['tmp_name'], $path)) {;
 echo "El archivo ". $rf . " ha sido subido<br>";
 $sql="update menuadministracionimg set ".$nombrecampo[$yh]."='".$datimg2[$yh]."' where idempresa='".$ide."'";
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result");
 }else{;
 echo "Ha ocurrido un error, trate de nuevo!<br>";
 };
@@ -328,7 +357,10 @@ if(move_uploaded_file($_FILES[$imagenes[$yh]]['tmp_name'], $path)) {;
 echo "El archivo ". $rf . " ha sido subido<br>";
 $sql="update menuserviciosimg set ".$nombrecampo[$yh]."='".$datimg2[$yh]."' where idempresa='".$ide."'";
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result");
 }else{;
 echo "Ha ocurrido un error, trate de nuevo!<br>";
 };
@@ -358,7 +390,10 @@ for($yh=0;$yh<count($nombrecampo);$yh++){;
 if($encant[$yh]!=$encn[$yh]) {;
 $sql="update menuadministracionnombre set ".$nombrecampo[$yh]."='".$encn[$yh]."' where idempresa='".$ide."'";
 //echo $sql; 
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result admin");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result admin");
 };
 
 
@@ -378,7 +413,10 @@ for($yh=0;$yh<count($nombrecampo);$yh++){;
 if($encant[$yh]!=$encn[$yh]) {;
 $sql="update menuserviciosnombre set ".$nombrecampo[$yh]."='".$encn[$yh]."' where idempresa='".$ide."'";
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result servicios");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result servicios");
 };
 
 

@@ -13,11 +13,7 @@ include('../../estilo/acordeon.php');
 <p class="enc">LISTADO DE PUNTOS DE <?php  echo strtoupper($nc);?> DE PUESTOS DE TRABAJO<br/> QUE YA TIENEN ELEGIDO ALG&Uacute;N PUNTO</p></div>
 <div class="contenido">
 <p>&nbsp;</p>
-<?php
-if (!isset($idclientes)) {
-	$idclientes=null;
-}
-
+<?php 
 if ($idclientes==null){;?>
 <!--
 <table><tr><td><?php include ('../../js/busqueda.php');?></td>
@@ -161,7 +157,7 @@ $bqn[$j]=$valores[$k];
 ?>
 &bloque[<?php  echo $j?>]=<?php  echo $bqn[$j];?>
 <?php 
-
+$j=$j+1;
 };
 };
 };
@@ -174,7 +170,7 @@ $bqn[$j]=$valores[$k];
 
 </td></tr>
 
-<?php $j=$j+1;};?>
+<?php };?>
 </table>
 </td>
 

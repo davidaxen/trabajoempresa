@@ -14,11 +14,7 @@ include('../../estilo/acordeon.php');
 <p class="enc">LISTADO DE PUNTOS DE <?php  echo strtoupper($nc);?> DE PUESTOS DE TRABAJO<br/> QUE YA TIENEN ELEGIDO ALG&Uacute;N PUNTO</p></div>
 <div class="contenido">
 <p>&nbsp;</p>
-<?php
-if(!isset($idclientes)){
-	$idclientes=null;
-}
-
+<?php 
 if ($idclientes==null){;?>
 <!--
 <table><tr><td><?php include ('../../js/busqueda.php');?></td>
@@ -102,8 +98,8 @@ $sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".
 $result2=$conn->query($sql2);
 $result2mos1=$conn->query($sql2);
 $result2mos2=$conn->query($sql2);
-$fetchAll2=$result2->fetchAll();
-$row2=count($fetchAll2);
+$fetchAll=$result2->fetchAll();
+$row2=count($fetchAll);
 
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");

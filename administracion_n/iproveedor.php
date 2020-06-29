@@ -24,6 +24,14 @@ $ic=$resultado32['proveedor'];
 
 
 <?php 
+
+if (isset($_REQUEST['idc'])) {
+	$idc = $_REQUEST['idc'];
+}else{
+	$idc = null;
+}
+
+
 if ($idc==null){;?>
 
 <form action="iproveedor.php" method="post" name="form2">

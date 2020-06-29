@@ -18,8 +18,12 @@ $sql.=" and incidencia='1'";
 if ($idcli!=0){;
 $sql.=" and nif='".$gente."'";
 };
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
+
 ?>
 <select name="idclientes" id="combobox">
 <?php if($idcli==0){;?> 
@@ -27,11 +31,15 @@ $row=mysqli_num_rows($result);
 <option value="0">Fuera de Trabajo</option>
 <?php };
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+foreach ($result as $row) {
+	$idclientes=$resultado['idclientes'];
+	$nombre=$resultado['nombre'];	
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idclientes=$resultado['idclientes'];
+//$nombre=$resultado['nombre'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>

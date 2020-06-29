@@ -11,9 +11,16 @@ include('bbdd.php');
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['enviar'])) {
+	$enviar = $_REQUEST['enviar'];
+}else{
+	$enviar = 'enviar';
+}
+
 if ($ide!=null){;
 
-if ($enviar=='enviar'){;
+if ($enviar==""){;
 
 $sql13 = "INSERT INTO ayuda(menu,seccion,subseccion,titulo) 
 VALUES ('$menu','$seccion','$subseccion','$texto')";

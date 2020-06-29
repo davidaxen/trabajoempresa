@@ -18,19 +18,28 @@ $sql.=" and accdiarias='1'";
 if ($idcli!=0){;
 $sql.=" and nif='".$gente."'";
 };
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="idclientes" id="combobox">
 <?php if($idcli==0){;?> 
 <option value="todos">Todos</option>
 <?php };
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
+foreach ($result as $row) {
+	$idclientes=$resultado['idclientes'];
+	$nombre=$resultado['nombre'];	
+
+
+//for ($i=0;$i<$row;$i++){
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idclientes=$resultado['idclientes'];
+//$nombre=$resultado['nombre'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>
@@ -38,17 +47,27 @@ $nombre=$resultado['nombre'];
 <tr><td>Parametro</td><td>
 <?php 
 $sqla="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."'"; 
-$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
-$rowa=mysqli_num_rows($resulta);
+
+$resulta=$conn->query($sqla);
+$resultadoa=$resulta->fetch();
+
+//$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
+//$rowa=mysqli_num_rows($resulta);
 ?>
 <select name="idpunt">
 <option value="todos">Todos
 <?php 
-for ($i=0;$i<$rowa;$i++){;
-mysqli_data_seek($resulta,$i);
-$resultadoa=mysqli_fetch_array($resulta);
-$idpcsubcat=$resultadoa['idpcsubcat'];
-$subcategoria=$resultadoa['subcategoria'];
+
+foreach ($resulta as $row) {
+	$idpcsubcat=$resultadoa['idpcsubcat'];
+	$subcategoria=$resultadoa['subcategoria'];
+
+
+//for ($i=0;$i<$rowa;$i++){;
+//mysqli_data_seek($resulta,$i);
+//$resultadoa=mysqli_fetch_array($resulta);
+//$idpcsubcat=$resultadoa['idpcsubcat'];
+//$subcategoria=$resultadoa['subcategoria'];
 ?>
 <option value="<?php  echo $idpcsubcat;?>"><?php  echo $subcategoria;?>
 <?php };?>

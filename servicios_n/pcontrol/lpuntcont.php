@@ -63,8 +63,7 @@ $nombre=$resultado1['nombre'];
 <?php 
 $sql2="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."'";
 $result2=$conn->query($sql2);
-$fetchAll2=$result2->fetchAll();
-$row2=count($fetchAll2);
+$row2=$result2->fetchColumn();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/

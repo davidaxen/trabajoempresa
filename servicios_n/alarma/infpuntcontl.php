@@ -53,8 +53,11 @@ case 12: $mpos=1;$ypos=$y+1;$fechaant="Noviembre ".$y;$fechaact="Diciembre ".$y;
 Datos del Puesto de Trabajo
 <?php 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>
@@ -83,27 +86,47 @@ if ($idclientes!='todos'){;
 $sql.=" and idclientes='".$idclientes."'";
 };
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$dm=$resultado['d'];
-$mm=$resultado['m'];
-$ym=$resultado['y'];
-$hm=$resultado['h'];
-$minm=$resultado['min'];
-$segm=$resultado['seg'];
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
+
+foreach ($result as $row) {
+	$dm=$row['d'];
+	$mm=$row['m'];
+	$ym=$row['y'];
+	$hm=$row['h'];
+	$minm=$row['min'];
+	$segm=$row['seg'];
+	$user=$row['user'];
+	$mensaje=$row['mensaje'];
+	$respuesta=$row['respuesta'];
+	$idempleado=$row['idempleados'];
+	$diaresp=$row['diaresp'];
+	$horaresp=$row['horaresp'];
+	$respondido=$row['respondido'];
+
+
 $diat=$dm.'-'.$mm.'-'.$ym;
 $horat=$hm.':'.$minm.':'.$segm;
-$user=$resultado['user'];
-$mensaje=$resultado['mensaje'];
-$respuesta=$resultado['respuesta'];
-$idempleado=$resultado['idempleados'];
-$diaresp=$resultado['diaresp'];
-$horaresp=$resultado['horaresp'];
-$respondido=$resultado['respondido'];
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$dm=$resultado['d'];
+//$mm=$resultado['m'];
+//$ym=$resultado['y'];
+//$hm=$resultado['h'];
+//$minm=$resultado['min'];
+//$segm=$resultado['seg'];
+//$user=$resultado['user'];
+//$mensaje=$resultado['mensaje'];
+//$respuesta=$resultado['respuesta'];
+//$idempleado=$resultado['idempleados'];
+//$diaresp=$resultado['diaresp'];
+//$horaresp=$resultado['horaresp'];
+//$respondido=$resultado['respondido'];
 ?>
 <tr class="subenc"><td><?php  echo $diat;?></td>
 <td><?php  echo $horat;?></td>
@@ -112,8 +135,11 @@ $respondido=$resultado['respondido'];
 if ($idempleado!=null){;
 $sqlempl="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
 //echo $sql;
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
 $nombre=$resultadoempl['nombre'];
 $apellidop=$resultadoempl['1apellido'];
 $apellidos=$resultadoempl['2apellido'];
@@ -144,27 +170,44 @@ $sql.=" and idclientes='".$idclientes."'";
 };
 $sql.=" and dia between '".$fechaa."' and '".$fechab."' order by id asc";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$dm=$resultado['d'];
-$mm=$resultado['m'];
-$ym=$resultado['y'];
-$hm=$resultado['h'];
-$minm=$resultado['min'];
-$segm=$resultado['seg'];
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
+foreach ($result as $row) {
+	$dm=$row['d'];
+	$mm=$row['m'];
+	$ym=$row['y'];
+	$hm=$row['h'];
+	$minm=$row['min'];
+	$segm=$row['seg'];
+	$user=$row['user'];
+	$mensaje=$row['mensaje'];
+	$respuesta=$row['respuesta'];
+	$idempleado=$row['idempleados'];
+	$diaresp=$row['diaresp'];
+	$horaresp=$row['horaresp'];
+	$respondido=$row['respondido'];	
+
 $diat=$dm.'-'.$mm.'-'.$ym;
 $horat=$hm.':'.$minm.':'.$segm;
-$user=$resultado['user'];
-$mensaje=$resultado['mensaje'];
-$respuesta=$resultado['respuesta'];
-$idempleado=$resultado['idempleados'];
-$diaresp=$resultado['diaresp'];
-$horaresp=$resultado['horaresp'];
-$respondido=$resultado['respondido'];
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$dm=$resultado['d'];
+//$mm=$resultado['m'];
+//$ym=$resultado['y'];
+//$hm=$resultado['h'];
+//$minm=$resultado['min'];
+//$segm=$resultado['seg'];
+//$user=$resultado['user'];
+//$mensaje=$resultado['mensaje'];
+//$respuesta=$resultado['respuesta'];
+//$idempleado=$resultado['idempleados'];
+//$diaresp=$resultado['diaresp'];
+//$horaresp=$resultado['horaresp'];
+//$respondido=$resultado['respondido'];
 
 ?>
 <tr class="subenc">
@@ -175,8 +218,11 @@ $respondido=$resultado['respondido'];
 if ($idempleado!=0){;
 $sqlempl="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
 //echo $sql;
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
 $nombre=$resultadoempl['nombre'];
 $apellidop=$resultadoempl['1apellido'];
 $apellidos=$resultadoempl['2apellido'];
