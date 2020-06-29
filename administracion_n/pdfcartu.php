@@ -248,68 +248,88 @@ $pdf->AliasNbPages();
 
 if ($dato=='todo'){;
 $sql="SELECT * from usuariost where idempresa='".$ide."' and estado='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_affected_rows();
-for ($i=0;$i<$row;$i++){;
-$idempl1=mysqli_result($result,$i,'idusuario');
-$nombre=mysqli_result($result,$i,'nombre');
-$nif=mysqli_result($result,$i,'nif');
-$portada=mysqli_result($result,$i,'portada');
-$administracion=mysqli_result($result,$i,'administracion');
-$servicios=mysqli_result($result,$i,'servicios');
-$documentacion=mysqli_result($result,$i,'documentacion');
-$informes=mysqli_result($result,$i,'informes');
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_affected_rows();
+
+foreach ($result as $row) {
+
+//for ($i=0;$i<$row;$i++){;
+$idempl1=$row['idusuario'];
+$nombre=$row['nombre'];
+$nif=$row['nif'];
+$portada=$row['portada'];
+$administracion=$row['administracion'];
+$servicios=$row['servicios'];
+$documentacion=$row['documentacion'];
+$informes=$row['informes'];
 
 
 
-if ($nif!=''){;
+if ($nif!=''){
 $sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$nif."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_affected_rows();
-if ($row3!=0){;
-$user=mysqli_result($result3,0,'user');
-$pass=mysqli_result($result3,0,'password');
 
-}else{;
+$result3=$conn->query($sql3);
+$fetchAll3=$result3->fetchAll();
+$row3=count($fetchAll3);
+
+//$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
+//$row3=mysqli_affected_rows();
+
+foreach ($result3 as $row) {
+if ($row!=0){
+$user=$row['user'];
+$pass=$row['password'];
+
+}else{
 $user="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
 $pass="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
-};
-}else{;
-$user="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
-$pass="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
-};
-
+}
+}
 $pdf->Portada();
-};
-}else{;
+}else{
 
 
 $sql="SELECT * from usuariost where idempresa='".$ide."' and nif='".$dato."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_affected_rows();
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_affected_rows();
 $i=0;
-$idempl1=mysqli_result($result,$i,'idusuario');
-$nombre=mysqli_result($result,$i,'nombre');
-$nif=mysqli_result($result,$i,'nif');
-$portada=mysqli_result($result,$i,'portada');
-$administracion=mysqli_result($result,$i,'administracion');
-$servicios=mysqli_result($result,$i,'servicios');
-$documentacion=mysqli_result($result,$i,'documentacion');
-$informes=mysqli_result($result,$i,'informes');
+$idempl1=$result['idusuario'];
+$nombre=$result['nombre'];
+$nif=$result['nif'];
+$portada=$result['portada'];
+$administracion=$result['administracion'];
+$servicios=$result['servicios'];
+$documentacion=$result['documentacion'];
+$informes=$result['informes'];
 
-$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$dato."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_affected_rows();
+$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$dato."'";
 
-if ($row3!=0){;
-$user=mysqli_result($result3,0,'user');
-$pass=mysqli_result($result3,0,'password');
-}else{;
+$result3=$conn->query($sql3);
+$fetchAll3=$result3->fetchAll();
+$row3=count($fetchAll3);
+
+//$result3=mysqli_query ($conn,$sql3) or die ("Invalid result2");
+//$row3=mysqli_affected_rows();
+
+if ($row3!=0){
+$user=$row3['user'];
+$pass=$row3['password'];
+}else{
 $user="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
 $pass="HABLE CON EL DEPARTAMENTO DE INFORMATICA";
-};
+}
 $pdf->Portada();
-
-};
+}
 $pdf->Output();
 ?>

@@ -9,6 +9,26 @@ include('../../portada_n/cabecera3.php');?>
 <div class="contenido">
 
 <?php 
+
+if (isset($_REQUEST['m1'])) {
+	$m = $_REQUEST['m1'];
+}else{
+	$m = null;
+}
+
+if (isset($_REQUEST['d2'])) {
+	$d = $_REQUEST['d2'];
+}else{
+	$d = null;
+}
+
+
+if (isset($_REQUEST['y2'])) {
+	$y = $_REQUEST['y2'];
+}else{
+	$y = null;
+}
+
 switch($tipo){;
 
 case 'dia':
@@ -95,13 +115,23 @@ break;
 
 };
 
+if (isset($_REQUEST['idclientes'])) {
+	$idclientes = $_REQUEST['idclientes'];
+}else{
+	$idclientes = "todos";
+}
+
 
 $sql="SELECT * from almpcronda where idempresas='".$ide."' and idronda='c' ";
 $sql.=$sqla; 
 $sql.=" and idcliente='".$idclientes."'";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 
 
 
@@ -123,17 +153,25 @@ if ($tipo!='fentre'){;?>
 </td>
 <td width="500">
 <?php 
-if ($idclientes!='todos'){;?>
+
+
+
+if ($idclientes!='todos'){?>
 Datos del Puesto de Trabajo: 
 <?php 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
+
+
 ?>
 <?php  echo $nombre;?>
 <br/>
-<?php };?>
+<?php } ?>
 <?php  echo $tituloenc;?>
 </td>
 <td width="50">
@@ -164,12 +202,17 @@ echo "
 
 
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$hora=$resultado['hora'];
-$idpcronda=$resultado['id'];
-$dia=$resultado['dia'];
+
+foreach ($result as $row) {
+	$hora=$row['hora'];
+	$idpcronda=$row['id'];
+	$dia=$row['dia'];
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$hora=$resultado['hora'];
+//$idpcronda=$resultado['id'];
+//$dia=$resultado['dia'];
 $ya=strtok($dia,'-');
 $ma=strtok('-');
 $da=strtok('-');

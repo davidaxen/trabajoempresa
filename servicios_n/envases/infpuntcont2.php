@@ -32,35 +32,65 @@ if ($enviar==null){;
 
 
 <?php 
+
+
+if (isset($_REQUEST['valor1'])) {
+	$valor1 = $_REQUEST['valor1'];
+}else{
+	$valor1="1";
+}
+
+if (isset($_REQUEST['valor2'])) {
+	$valor2 = $_REQUEST['valor2'];
+}else{
+	$valor2= "20";
+}
+
+//el super usuario no tiene idempresas
+
 $sql2="SELECT * from envases where idempresas='".$ide."'"; 
 if ($estado!=""){;
 $sql2.=" and estado='".$estado."'";
 };
 if (($valor1!="") and ($valor2!="")){;
 $sql2.=" and idenvases between '".$valor1."' and '".$valor2."'";
-}else{;
+
+}else{
 if ($valor1!=""){;
 $sql2.=" and idenvases='".$valor1."'";
 };
 };
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
 
-if ($row2!=0){?>
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$row2=mysqli_num_rows($result2);
+
+if ($resultado2!=0){?>
 	<table>
 	<tr class="enca"><td>Codigo Envase</td><td>Vida Util</td><td>Num de rellenados</td><td>Activo</td><td>Codigos</td></tr>
 
-		<?php  for ($t=0;$t<$row2;$t++){
-		mysqli_data_seek($result2,$t);		
-		$resultado2=mysqli_fetch_array($result2);
-		$idenvases=$resultado2['idenvases'];
-		$vutil=$resultado2['rellenados'];
-		$activo=$resultado2['estado'];
+		<?php  
 
-		$sql22="SELECT count(id) as numre from almenvases where idempresas='".$ide."' and idenvases='".$idenvases."' and tipocliente='1'"; 
-		//echo $sql22;
-		$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
-		$resultado22=mysqli_fetch_array($result22);
+		foreach ($result2 as $row) {
+			$idenvases=$resultado2['idenvases'];
+			$vutil=$resultado2['rellenados'];
+			$activo=$resultado2['estado'];
+
+		//for ($t=0;$t<$row2;$t++){
+		//mysqli_data_seek($result2,$t);		
+		//$resultado2=mysqli_fetch_array($result2);
+		//$idenvases=$resultado2['idenvases'];
+		//$vutil=$resultado2['rellenados'];
+		//$activo=$resultado2['estado'];
+
+		$sql22="SELECT count(id) as numre from almenvases where idempresas= '".$ide."' and idenvases='".$idenvases."' and tipocliente= 1 "; 
+
+		$result22=$conn->query($sql22);
+		$resultado22=$result22->fetch();
+		//$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
+		//$resultado22=mysqli_fetch_array($result22);
 		$numre=$resultado22['numre'];
 		?>
 

@@ -129,22 +129,27 @@ body {
 <?php 
 $sql="select * from portadapag,paginapor where paginapor.idpag=portadapag.idpag and idempresa='".$ide."' order by idportada asc";
 //echo $sql;
-$result=$conn->query($sql);
 
-/*$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
-$row=mysqli_num_rows($result);*/
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+//$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
+//$row=mysqli_num_rows($result);
 ?>
 
 
 <div class="tab">
 <?php 
-/*for ($j=0;$j<$row;$j++){;
-mysqli_data_seek($result,$j);
-$resultado=mysqli_fetch_array($result);*/
-foreach ($result as $rowmos) {
-$tituloport=$rowmos['titulo'];
-$pagport=$rowmos['pag'];
-$iconoport=$rowmos['icono'];
+
+foreach ($result as $row) {
+
+//for ($j=0;$j<$row;$j++){;
+//mysqli_data_seek($result,$j);
+//$resultado=mysqli_fetch_array($result);
+$tituloport=$row['titulo'];
+$pagport=$row['pag'];
+$iconoport=$row['icono'];
 ?>
 
   <button class="tablinks" onclick="openCity(event, 'd<?php  echo $j;?>')" <?php if($j==0){;?>id="defaultOpen"<?php }?> >
@@ -158,14 +163,16 @@ $iconoport=$rowmos['icono'];
 
 
 
-<?php 
-/*for ($j=0;$j<$row;$j++){;
-mysqli_data_seek($result,$j);
-$resultado=mysqli_fetch_array($result);*/
-foreach ($result as $rowmos) {
-$tituloport=$rowmos['titulo'];
-$pagport=$rowmos['pag'];
-$iconoport=$rowmos['icono'];
+<?php
+
+foreach ($result as $row) {
+
+//for ($j=0;$j<$row;$j++){;
+//mysqli_data_seek($result,$j);
+//$resultado=mysqli_fetch_array($result);
+$tituloport=$row['titulo'];
+$pagport=$row['pag'];
+$iconoport=$row['icono'];
 ?>
 <div id="d<?php  echo $j;?>" class="tabcontent">
   <h3> <img src="../img/iconos/<?php echo $iconoport;?>" width="32px" style="vertical-align:middle;"> <?php  echo $tituloport;?></h3>

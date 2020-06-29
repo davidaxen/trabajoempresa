@@ -62,8 +62,11 @@ case 12: $mpos=1;$ypos=$y+1;$fechaant="Noviembre ".$y;$fechaact="Diciembre ".$y;
 <?php 
 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>
@@ -71,15 +74,20 @@ $nombre=$resultado1['nombre'];
 </table>
 <?php 
 $sql10="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='10'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result10");
-$row10=mysqli_num_rows($result10);
 
+$result10=$conn->query($sql10);
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result10");
+//$row10=mysqli_num_rows($result10);
 
-for($th=0;$th<$row10;$th++){;
-mysqli_data_seek($result10, $th);
-$resultado10=mysqli_fetch_array($result10);
-$nombresub=$resultado10['subcategoria'];
-$idpcsubcat=$resultado10['idpcsubcat'];
+foreach ($result10 as $row) {
+	$nombresub=$row['subcategoria'];
+	$idpcsubcat=$row['idpcsubcat'];
+
+//for($th=0;$th<$row10;$th++){;
+//mysqli_data_seek($result10, $th);
+//$resultado10=mysqli_fetch_array($result10);
+//$nombresub=$resultado10['subcategoria'];
+//$idpcsubcat=$resultado10['idpcsubcat'];
 ?>
 
 
@@ -101,14 +109,21 @@ if ($tipo=="anual"){;
 <?php 
 $sql20="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."'";
 //echo $sql;
-$result20=mysqli_query ($conn,$sql20) or die ("Invalid result20");
-$row20=mysqli_num_rows($result20);
 
-for ($i=0;$i<$row20;$i++){;
-mysqli_data_seek($result20, $i);
-$resultado20=mysqli_fetch_array($result20);
-$nombrep=$resultado20['nombre'];
-$idpuntoslectura=$resultado20['idpuntoslectura'];
+$result20=$conn->query($sql20);
+
+//$result20=mysqli_query ($conn,$sql20) or die ("Invalid result20");
+//$row20=mysqli_num_rows($result20);
+
+foreach ($result20 as $row) {
+	$nombrep=$row['nombre'];
+	$idpuntoslectura=$row['idpuntoslectura'];
+
+//for ($i=0;$i<$row20;$i++){;
+//mysqli_data_seek($result20, $i);
+//$resultado20=mysqli_fetch_array($result20);
+//$nombrep=$resultado20['nombre'];
+//$idpuntoslectura=$resultado20['idpuntoslectura'];
 ?>
 <td><?php  echo $nombrep;?></td>
 
@@ -118,12 +133,15 @@ $fechaa=date("Y-m-d", mktime(0, 0, 0, $tj, 1, $y));
 $fechab=date("Y-m-d", mktime(0, 0, 0, $tj+1, 0, $y));
 $sql="SELECT * from almpc where idempresas='".$ide."' and idpiscina='".$idclientes."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idpuntomed='".$idpuntoslectura."' and dia between '".$fechaa."' and '".$fechab."' order by id asc";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row25=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row25=mysqli_num_rows($result);
 if($row25==0){;
 $cantidad=0;
 }else{;
-$resultado=mysqli_fetch_array($result);
+$resultado=$result->fetch();
 $cantidad=$resultado['cantidad'];
 };
 ?>
@@ -143,34 +161,42 @@ $cantidad=$resultado['cantidad'];
 <?php 
 $sql20="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."'";
 //echo $sql;
-$result20=mysqli_query ($conn,$sql20) or die ("Invalid result20");
-$row20=mysqli_num_rows($result20);
+$result20=$conn->query($sql20);
 
-for ($i=0;$i<$row20;$i++){;
-mysqli_data_seek($result20, $i);
-$resultado20=mysqli_fetch_array($result20);
-$nombrep=$resultado20['nombre'];
-$idpuntoslectura=$resultado20['idpuntoslectura'];
+//$result20=mysqli_query ($conn,$sql20) or die ("Invalid result20");
+//$row20=mysqli_num_rows($result20);
 
-
+foreach ($result20 as $row) {
+	$nombrep=$row['nombre'];
+	$idpuntoslectura=$row['idpuntoslectura'];
+//for ($i=0;$i<$row20;$i++){;
+//mysqli_data_seek($result20, $i);
+//$resultado20=mysqli_fetch_array($result20);
+///$nombrep=$resultado20['nombre'];
+///$idpuntoslectura=$resultado20['idpuntoslectura'];
 
 $fechaa=date("Y-m-d", mktime(0, 0, 0, $m, 1, $y));
 $fechab=date("Y-m-d", mktime(0, 0, 0, $m+1, 0, $y));
 $sql="SELECT * from almpc where idempresas='".$ide."' and idpiscina='".$idclientes."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idpuntomed='".$idpuntoslectura."' and dia between '".$fechaa."' and '".$fechab."' order by id asc";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row25=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$row25=$result->fetchColumn();
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row25=mysqli_num_rows($result);
 ?>
 
 <td><?php  echo $nombrep;?></td>
 <?php 
-for ($ty=0;$ty<$row25;$ty++){;
+
+foreach ($result as $row) {
+//for ($ty=0;$ty<$row25;$ty++){;
 if($row25==0){;
 $cantidad=0;
-}else{;
-mysqli_data_seek($result, $ty);
-$resultado=mysqli_fetch_array($result);
-$cantidad=$resultado['cantidad'];
+}else{
+//mysqli_data_seek($result, $ty);
+//$resultado=mysqli_fetch_array($result);
+$cantidad=$row['cantidad'];
 };
 ?>
 <td><?php  echo $cantidad;?></td>

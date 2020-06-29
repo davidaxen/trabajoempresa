@@ -3,7 +3,15 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-include('../../portada_n/cabecera3.php');?>
+include('../../portada_n/cabecera3.php');
+
+if (isset($_REQUEST['enviar'])) {
+	$enviar = $_REQUEST['enviar'];
+}else{
+	$enviar=null;
+}
+
+?>
 
 <div id="main">
 <div class="titulo">
@@ -42,6 +50,21 @@ if ($enviar==null){;
 
 
 <?php 
+
+if (isset($_REQUEST['valor1'])) {
+	$valor1 = $_REQUEST['valor1'];
+}else{
+	$valor1="";
+}
+
+if (isset($_REQUEST['valor2'])) {
+	$valor2 = $_REQUEST['valor2'];
+}else{
+	$valor2="";
+}
+
+
+
 $sql2="SELECT * from envases where idempresas='".$ide."'"; 
 if ($estado!=""){;
 $sql2.=" and estado='".$estado."'";
@@ -53,22 +76,43 @@ if ($valor1!=""){;
 $sql2.=" and idenvases='".$valor1."'";
 };
 };
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysql_num_rows($result2);
 
-if ($row2!=0){;?>
+$resultado2s=$conn->query($sql2);
+
+$result2=$conn->query($sql2);
+//$num_rows=$result2->fetchAll();
+$resultado2=$result2->fetchColumn();
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$row2=mysqli_num_rows($result2);
+
+if ($resultado2!=0){;?>
 <table>
 <tr class="enca"><td>Codigo Envase</td><td>Vida Util</td><td>Num de rellenados</td><td>Activo</td><td>Opcion</td></tr>
-<?php  for ($t=0;$t<$row2;$t++){;
-mysqli_data_seek($result2,$t);
-$resultado2=mysqli_fetch_array($result2);
-$idenvases=$resultado2['idenvases'];
-$vutil=$resultado2['rellenados'];
-$activo=$resultado2['estado'];
+<?php  
+
+
+foreach ($resultado2s as $row) {
+	$idenvases=$row['idenvases'];
+	$vutil=$row['rellenados'];
+	$activo=$row['estado'];
+
+//for ($t=0;$t<$row2;$t++){;
+//mysqli_data_seek($result2,$t);
+//$resultado2=mysqli_fetch_array($result2);
+//$idenvases=$resultado2['idenvases'];
+//$vutil=$resultado2['rellenados'];
+//$activo=$resultado2['estado'];
 
 $sql22="SELECT count(id) as numre from almenvases where idempresas='".$ide."' and idenvases='".$idenvases."' and tipocliente='1'"; 
-$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
-$resultado22=mysqli_fetch_array($result22);
+
+$result22=$conn->query($sql22);
+$resultado22=$result22->fetch();
+
+
+
+//$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
+//$resultado22=mysqli_fetch_array($result22);
 $numre=$resultado22['numre'];
 ?>
 <tr><td><?php  echo $idenvases;?></td><td><?php  echo $vutil;?></td><td><?php  echo $numre;?></td>

@@ -1,6 +1,19 @@
 <?php 
 include('bbdd.php');
-include('combo1.php');?>
+include('combo1.php');
+if (isset($_REQUEST['nc2'])) {
+	$nc2 = $_REQUEST['nc2'];
+}else{
+	$nc2 = 'usuario';
+}
+
+if (isset($_REQUEST['idpccat'])) {
+	$idpccat = $_REQUEST['idpccat'];
+}else{
+	$idpccat = 'hola';
+}
+
+?>
 
 <div id="inicioy2" style="visibility:visible">
 <form action="infpuntcontle.php" method="get"  name="form1" target="_top">
@@ -12,19 +25,28 @@ include('combo1.php');?>
 $sql="SELECT * from empleados where idempresa='".$ide."'"; 
 if ($idtrab!='0'){;
 $sql.=" and idempleado='".$idtrab."'";
-};
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+}
 
-if ($idtrab!='0'){;
+$result=$conn->query($sql);
+$resultado=$result->fetch();
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$papellido=$resultado['1apellido'];
-$sapellido=$resultado['2apellido'];
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
+
+if ($idtrab!='0'){
+
+foreach ($result as $row) {
+	$idempleado=$row['idempleado'];
+	$nombre=$row['nombre'];
+	$papellido=$row['1apellido'];
+	$sapellido=$row['2apellido'];	
+//for ($i=0;$i<$row;$i++){
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idempleado=$resultado['idempleado'];
+//$nombre=$resultado['nombre'];
+//$papellido=$resultado['1apellido'];
+//$sapellido=$resultado['2apellido'];
 ?>
 <input name="idempleado" type="hidden" value="<?php  echo $idempleado;?>"><?php  echo $nombre;?>, <?php  echo $papellido;?> <?php  echo $sapellido;?>
 <?php 
@@ -34,16 +56,23 @@ $sapellido=$resultado['2apellido'];
 <select name="idempleado" id="combodato">
 <option value="todos">Todos</option>
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$papellido=$resultado['1apellido'];
-$sapellido=$resultado['2apellido'];
+
+foreach ($result as $row) {
+	$idempleado=$row['idempleado'];
+	$nombre=$row['nombre'];
+	$papellido=$row['1apellido'];
+	$sapellido=$row['2apellido'];
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idempleado=$resultado['idempleado'];
+//$nombre=$resultado['nombre'];
+//$papellido=$resultado['1apellido'];
+//$sapellido=$resultado['2apellido'];
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombre;?>, <?php  echo $papellido;?> <?php  echo $sapellido;?>
-<?php };?>
+<?php }?>
 </select>
 <?php };?>
 </td></tr>
@@ -52,17 +81,27 @@ $sapellido=$resultado['2apellido'];
 <tr><td>Parametro</td><td>
 <?php 
 $sqla="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."'"; 
-$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
-$rowa=mysqli_num_rows($resulta);
+
+$resulta=$conn->query($sqla);
+$resultado=$resulta->fetch();
+
+//$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
+//$rowa=mysqli_num_rows($resulta);
 ?>
 <select name="idpunt">
 <option value="todos">Todos</option>
 <option value="jornadas">JORNADAS</option>
-<?php for ($i=0;$i<$rowa;$i++){;
-mysqli_data_seek($resulta,$i);
-$resultadoa=mysqli_fetch_array($resulta);
-$idpcsubcat=$resultadoa['idpcsubcat'];
-$subcategoria=$resultadoa['subcategoria'];
+<?php 
+
+foreach ($resulta as $row) {
+	$idpcsubcat=$row['idpcsubcat'];
+	$subcategoria=$row['subcategoria'];
+
+//for ($i=0;$i<$rowa;$i++){;
+//mysqli_data_seek($resulta,$i);
+//$resultadoa=mysqli_fetch_array($resulta);
+//$idpcsubcat=$resultadoa['idpcsubcat'];
+//$subcategoria=$resultadoa['subcategoria'];
 ?>
 <option value="<?php  echo $idpcsubcat;?>"><?php  echo $subcategoria;?></option>
 <?php };?>

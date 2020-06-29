@@ -36,28 +36,39 @@ $sql="SELECT * from empleados where idempresa='".$ide."' and estado='".$estado."
 if ($idtrab!=0){;
 $sql.=" and idempleado='".$idtrab."'";
 };
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 
 <?php  if ($idtrab==0){;?>
 <select name="idempl" id="combobox">
 <option value=""></option>
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellidop=$resultado['1apellido'];
-$apellidos=$resultado['2apellido'];
+
+foreach ($result as $row) {
+	$idempleado=$row['idempleado'];
+	$nombre=$row['nombre'];
+	$apellidop=$row['1apellido'];
+	$apellidos=$row['2apellido'];	
+
 $nombret=$nombre.' '.$apellidop.' '.$apellidos;
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$idempleado=$resultado['idempleado'];
+//$nombre=$resultado['nombre'];
+//$apellidop=$resultado['1apellido'];
+//$apellidos=$resultado['2apellido'];
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombret;?>
 <?php };?>
 </select>
 <?php  }else{;
-$resultado=mysqli_fetch_array($result);
+$resultado=$result->fetch();
+//$resultado=mysqli_fetch_array($result);
 $idempleado=$resultado['idempleado'];
 $nombre=$resultado['nombre'];
 $apellidop=$resultado['1apellido'];

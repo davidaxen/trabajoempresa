@@ -31,7 +31,10 @@ $sql1 = "INSERT INTO proveedores (idproveedor,nombre,nif,cp,domicilio,provincia,
 VALUES ('$idp','$proveedor','$nifp','$cpp','$direccionp',
 '$provinciap','$localidadp','$ide','1','$telefonop','$emailp')";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iproveedores");
+
+$result1=$conn->query($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iproveedores");
 
 
 };

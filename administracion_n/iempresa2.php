@@ -61,16 +61,24 @@ if ($idprt==null){;
 <?php 
 
 $sql="select * from proyectos where gestorproyecto='".$ide."' order by idproyectos asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result idproyectos");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result idproyectos");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="idprt">
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idproyectos=$resultado['idproyectos'];
-$nombrep=$resultado['nombre'];
+
+foreach ($result as $row) {
+
+$idproyectos=$row['idproyectos'];
+$nombrep=$row['nombre'];	
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idproyectos=$resultado['idproyectos'];
+//$nombrep=$resultado['nombre'];
 ?>
 <option value="<?php  echo$idproyectos;?>" ><?php  echo$nombrep;?>
 <?php };?>
@@ -144,16 +152,22 @@ $nombrep=$resultado['nombre'];
 <td>
 <?php 
 $sql="select * from pais order by nombrepais asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result empleados");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result empleados");
+//$row=mysqli_num_rows($result);
 ?>
 <select name="pais2">
 <?php 
-for ($i;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idpais=$resultado['idpais'];
-$nombrepais=$resultado['nombrepais'];
+
+foreach ($result as $row) {
+$idpais=$row['idpais'];
+$nombrepais=$row['nombrepais'];
+//for ($i;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idpais=$resultado['idpais'];
+//$nombrepais=$resultado['nombrepais'];
 ?>
 <option value="<?php  echo$idpais;?>" <?php if ($idpais==724){;?>selected<?php };?> ><?php  echo$nombrepais;?>
 <?php };?>
@@ -234,6 +248,10 @@ $camposc=array('mensaje','incidenciasplus');
 $camposa=array('cuadrante','jornadas');
 
 $sqlopc="select * from precioproyectos where idproyectos='".$idprt."' and estado='1'";
+
+
+
+
 $resultopc=mysqli_query ($conn,$sqlopc) or die ("Invalid resultopc");
 
 for($numqr=0;$numqr<count($camposqr);$numqr++){;

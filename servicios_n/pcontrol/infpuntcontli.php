@@ -50,8 +50,12 @@ case 12: $mpos=1;$ypos=$y+1;$fechaant="Noviembre ".$y;$fechaact="Diciembre ".$y;
 <?php 
 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>
@@ -61,13 +65,20 @@ $nombre=$resultado1['nombre'];
 $fechaa=date("Y-m-d", mktime(0, 0, 0, $m, $d, $y));
 $sql="SELECT * from almpcronda where idempresas='".$ide."' and idcliente='".$idclientes."' and (texto!='' or img!='') and dia='".$fechaa."'";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$hora=$resultado['hora'];
-$idpcronda=$resultado['id'];
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
+foreach ($result as $row) {
+	$hora=$resultado['hora'];
+	$idpcronda=$resultado['id'];
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+//$hora=$resultado['hora'];
+//$idpcronda=$resultado['id'];
 ?>
 <tr class="subenc"><td><?php  echo $fechaa;?></td>
 <td><a href="ipcdhorai.php?idpcronda=<?php  echo $idpcronda;?>&hora=<?php  echo $hora;?>&d=<?php  echo $d;?>&m=<?php  echo $m;?>&y=<?php  echo $y;?>&idclientes=<?php  echo $idclientes;?>&ide=<?php  echo $ide;?>">
@@ -82,9 +93,12 @@ $idpcronda=$resultado['id'];
 $fechaa=date("Y-m-d", mktime(0, 0, 0, $m, 1, $y));
 $fechab=date("Y-m-d", mktime(0, 0, 0, $m+1, 0, $y));
 $sql="SELECT * from almpcronda where idempresas='".$ide."' and idcliente='".$idclientes."' and idronda='c' and dia between '".$fechaa."' and '".$fechab."' order by id asc";
-//echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 ?>
 
 
@@ -99,8 +113,11 @@ if ($idclientes=="todos"){;
 $nombre="Todos";
 }else{;
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 };
 ?>

@@ -6,13 +6,21 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
-$nc=$resultado31['gestores'];
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
+//$nc=$resultado31['gestores'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['gestores'];
 
 include('../portada_n/cabecera2.php');
@@ -29,8 +37,10 @@ if ($enviar==null){;
 
 
 $sql="SELECT * from gestores where idempresa='".$ide."' and idgestor='".$idgestora."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $idgestora=$resultado['idgestor'];
 $nombre=$resultado['nombregestor'];
 $percontacto=$resultado['percontacto'];
@@ -99,7 +109,10 @@ if ($datosnue[$i]!=$datos[$i]){;
 $sqla="$bbdd[$i]='".$datosnue[$i]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo $sql;
-$resultd=mysqli_query($conn,$sql) or die ("Invalid result");
+
+$result=$conn->query($sql);
+
+//$resultd=mysqli_query($conn,$sql) or die ("Invalid result");
 };
 
 };
@@ -109,7 +122,10 @@ if ($userg==''){;
 $sql00 = "INSERT INTO usuarios (user,password,idempresas,idcliente,idempleados,idgestor,administracion,servicios,informes,
 datoslateral,portada,datoslateral2,cliente,gestor,trabajador,documentacion,validar,estado) 
 VALUES ('$usergnue','$tele1','$ide','0','0','$idgestor','0','0','0','0','0','0','0','1','0','0','1','1')";
-$result00=mysqli_query($conn,$sql00) or die ("Invalid result user");
+
+$result=$conn->query($sql00);
+
+//$result00=mysqli_query($conn,$sql00) or die ("Invalid result user");
 };
 
 

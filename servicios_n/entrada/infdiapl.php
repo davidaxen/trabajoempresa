@@ -10,8 +10,13 @@ $sql.=" and idempleado='".$idempleado."'";
 $sql.=" order by idempleado asc, idpiscina asc";
 };
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 ?>
 
 <?php include ('../../js/busqueda.php');?>
@@ -30,16 +35,18 @@ $row=mysqli_num_rows($result);
 <?php 
 $idempleadop=0;
 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$fecha_b=$resultado['dia'];
-$hora=$resultado['hora'];
-$idempleadot=$resultado['idempleado'];
-$idclientest=$resultado['idpiscina'];
-$idpcsubcat=$resultado['idpcsubcat'];
-$lon=$resultado['lon'];
-$lat=$resultado['lat'];
+foreach ($result as $row) {
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+$fecha_b=$row['dia'];
+$hora=$row['hora'];
+$idempleadot=$row['idempleado'];
+$idclientest=$row['idpiscina'];
+$idpcsubcat=$row['idpcsubcat'];
+$lon=$row['lon'];
+$lat=$row['lat'];
 $yt=fmod($i,2);
 
 
@@ -127,9 +134,13 @@ $controlhorasalida=0;
 
 <?php 
 if ($idempleado=="todos"){;
-$sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleadot."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
-$resultado10=mysqli_fetch_array($result10);
+$sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleadot."'";
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result1");
+//$resultado10=mysqli_fetch_array($result10);
 $nombre=$resultado10['nombre'];
 $papellido=$resultado10['1apellido'];
 $sapellido=$resultado10['2apellido'];
@@ -153,8 +164,11 @@ $nempleado=$nombre.', '.$papellido.' '.$sapellido;
 <?php 
 $sqlempl="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientest."'";
 //echo $sql;
-$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
-$resultadoempl=mysqli_fetch_array($resultempl);
+
+$resultempl=$conn->query($sqlempl);
+$resultadoempl=$resultempl->fetch();
+//$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
+//$resultadoempl=mysqli_fetch_array($resultempl);
 $nombrec=$resultadoempl['nombre'];
 if ($idclientest=='1'){;
 $nombrec='Teletrabajo';
@@ -168,8 +182,12 @@ $nombrec='Teletrabajo';
 <?php 
 $sqlsub="SELECT * from puntservicios where idempresas='".$ide."' and idpcsubcat='".$idpcsubcat."' and idpccat='".$idpccat."' ";
 //echo $sqlsub;
-$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
-$resultadosub=mysqli_fetch_array($resultsub);
+
+$resultsub=$conn->query($sqlsub);
+$resultadosub=$resultsub->fetch();
+
+//$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
+//$resultadosub=mysqli_fetch_array($resultsub);
 $subcategoria=$resultadosub['subcategoria'];
 ?>
 <?php  echo $subcategoria;?>

@@ -261,30 +261,46 @@ $pdf->AliasNbPages();
 if ($dato=='todo'){;
 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idempl1=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
-$nif=$resultado['nif'];
-$entrada=$resultado['entrada'];
-$incidencia=$resultado['incidencia'];
-$accdiarias=$resultado['accdiarias'];
-$accmantenimiento=$resultado['accmantenimiento'];
-$niveles=$resultado['niveles'];
-$productos=$resultado['productos'];
-$revision=$resultado['revision'];
-$trabajo=$resultado['trabajo'];
+
+$result=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
+
+foreach ($result as $row) {
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+$idempl1=$row['idclientes'];
+$nombre=$row['nombre'];
+$nif=$row['nif'];
+$entrada=$row['entrada'];
+$incidencia=$row['incidencia'];
+$accdiarias=$row['accdiarias'];
+$accmantenimiento=$row['accmantenimiento'];
+$niveles=$row['niveles'];
+$productos=$row['productos'];
+$revision=$row['revision'];
+$trabajo=$row['trabajo'];
 
 
 if ($nif!=''){;
 $sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$nif."'"; 
-$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_affected_rows();
+
+$result3=$conn->query($sql3);
+$fetchAll3=$result->fetchAll();
+$row3=count($fetchAll3);
+
+
+//$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
+//$row3=mysqli_affected_rows();
 if ($row3!=0){;
-$resultado3=mysqli_fetch_array($result3);
+$resultado3=$result3->fetch();
+//$resultado3=mysqli_fetch_array($result3);
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
 
@@ -304,8 +320,12 @@ $pdf->Portada();
 
 
 $sql="SELECT * from clientes where idempresas='".$ide."' and nif='".$dato."'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultados=$result->fetch();
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $idempl1=$resultado['idclientes'];
 $nombre=$resultado['nombre'];
 $nif=$resultado['nif'];
@@ -319,11 +339,16 @@ $revision=$resultado['revision'];
 $trabajo=$resultado['trabajo'];
 
 $sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$dato."'"; 
-$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_num_rows($result3);
+
+$result3=$conn->query($sql3);
+$fetchAll3=$result3->fetchAll();
+$row3=count($fetchAll3);
+//$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
+//$row3=mysqli_num_rows($result3);
 
 if ($row3!=0){;
-$resultado3=mysqli_fetch_array($result3);
+$resultado3=$result3->fetch();
+//$resultado3=mysqli_fetch_array($result3);
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
 

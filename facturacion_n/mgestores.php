@@ -5,13 +5,19 @@ include('bbdd.php');
 <?php if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['gestores'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['gestores'];
 
 
@@ -36,9 +42,12 @@ if ($datos!='datos'){;
 <?php 
 }else{;
 
-$sql="SELECT * from gestores where idempresa='".$ide."' and estado='".$estado."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from gestores where idempresa='".$ide."' and estado='".$estado."'";
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <?php  include ('../js/busqueda.php');?>
 
@@ -48,18 +57,30 @@ $row=mysqli_num_rows($result);
 <tr class="enctab"><td>Nº  <?php  echo strtoupper($nc);?></td><td>Nombre del <?php  echo strtoupper($nc);?></td><td>Persona de Contacto</td><td>Telefono 1</td><td>Telefono 2</td><td>Fax</td><td>Direccion</td><td>C.P.</td><td>E.mail</td><td>Opcion</td></tr>
 </thead>
 
-<?php  for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idgestor=$resultado['idgestor'];
-$nombre=$resultado['nombregestor'];
-$percontacto=$resultado['percontacto'];
-$tele1=$resultado['telefono1'];
-$tele2=$resultado['telefono2'];
-$fax=$resultado['fax'];
-$direccion=$resultado['direccion'];
-$cp=$resultado['cp'];
-$emailn=$resultado['email'];
+<?php  
+
+foreach ($result as $row) {
+	$idgestor=$row['idgestor'];
+	$nombre=$row['nombregestor'];
+	$percontacto=$row['percontacto'];
+	$tele1=$row['telefono1'];
+	$tele2=$row['telefono2'];
+	$fax=$row['fax'];
+	$direccion=$row['direccion'];
+	$cp=$row['cp'];
+	$emailn=$row['email'];	
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idgestor=$resultado['idgestor'];
+//$nombre=$resultado['nombregestor'];
+//$percontacto=$resultado['percontacto'];
+//$tele1=$resultado['telefono1'];
+//$tele2=$resultado['telefono2'];
+//$fax=$resultado['fax'];
+//$direccion=$resultado['direccion'];
+//$cp=$resultado['cp'];
+//$emailn=$resultado['email'];
 
 ?>
 <tr class="dattab">

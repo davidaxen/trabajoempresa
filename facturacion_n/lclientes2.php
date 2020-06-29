@@ -4,8 +4,11 @@ include('bbdd.php');
 if ($ide!=null){;
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 switch($tipo){
 case 1: $nc=$resultado31['clientes'];break;
 case 2: $nc=$resultado31['puestos'];break;
@@ -13,8 +16,12 @@ case 2: $nc=$resultado31['puestos'];break;
 
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 switch($tipo){
 case 1: $ic=$resultado32['clientes'];break;
 case 2: $ic=$resultado32['puestos'];break;
@@ -66,9 +73,12 @@ echo "<option value=3>Traspaso";
 <?php 
 }else{;
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estadoe."' and tipo='".$tipo."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estadoe."' and tipo='".$tipo."'";
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 ?>
 <table><tr><td><?php include ('../js/busqueda.php');?></td>
 
@@ -109,16 +119,28 @@ $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimie
 
 
 $sql10="select * from servicios where idempresa='".$ide."'"; 
-$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
+//$resultado10=mysqli_fetch_array($result10);
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+//$resultado31=mysqli_fetch_array($result31);
 
 $sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+//$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+//$resultado32=mysqli_fetch_array($result32);
 
 
 for ($rt=0;$rt<count($dat);$rt++){;
@@ -135,12 +157,19 @@ if ($valoref=='1'){;?>
 </tr>
 </thead>
 <?php 
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
-$nif=$resultado['nif'];
+
+
+foreach ($result as $row) {
+	$idclientes=$row['idclientes'];
+	$nombre=$row['nombre'];
+	$nif=$row['nif'];	
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+//$idclientes=$resultado['idclientes'];
+//$nombre=$resultado['nombre'];
+//$nif=$resultado['nif'];
 ?>
 <tr class="dattab">
 <td><?php  echo $idclientes;?></td>
