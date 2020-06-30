@@ -3,13 +3,19 @@
 include('bbdd.php');
 
 $sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
-$resultado31=mysqli_fetch_array($result31);
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+/*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
+$resultado31=mysqli_fetch_array($result31);*/
 $nc=$resultado31['gestores'];
 
 $sql32="select * from menuadministracionimg where idempresa='".$ide."'";
-$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
-$resultado32=mysqli_fetch_array($result32);
+$result32=$conn->query($sql32);
+$resultado32=$result32->fetch();
+
+/*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
+$resultado32=mysqli_fetch_array($result32);*/
 $ic=$resultado32['gestores'];
 
  include('../portada_n/cabecera2.php');?>
@@ -35,8 +41,8 @@ if ($idc==null){;
 
 <tr><td class="tit">Nombre de <?php  echo ucfirst($nc);?></td><td><input type="text" name="gestor" size="80"></td></tr>
 <tr><td class="tit">Persona de Contacto</td><td><input type="text" name="percontacto" size="80"></td></tr>
-<tr><td class="tit">Direcci髇</td><td><input type="text" name="direccion" size="80"></td></tr>
-<tr><td class="tit">C骴igo Postal</td><td><input type="text" name="cp" maxlength="5" size="6"></td></tr>
+<tr><td class="tit">Direcci贸n</td><td><input type="text" name="direccion" size="80"></td></tr>
+<tr><td class="tit">C贸digo Postal</td><td><input type="text" name="cp" maxlength="5" size="6"></td></tr>
 <tr><td class="tit">Telefono 1</td><td><input type="text" name="tele1" maxlength="9" size="10"></td></tr>
 <tr><td class="tit">Telefono 2</td><td><input type="text" name="tele2" maxlength="9" size="10"></td></tr>
 <tr><td class="tit">Fax</td><td><input type="text" name="fax1" maxlength="9" size="10"></td></tr>
@@ -54,6 +60,8 @@ if ($idc==null){;
 <?php 
 
 $sql="select idgestor from gestores where idempresa='".$ide."' order by idgestor desc"; 
+
+
 $result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
 $row=mysqli_num_rows($result);
 ?>
@@ -74,8 +82,8 @@ $idc=$idc+1;
 <tr><td class="tit">Codigo del <?php  echo strtoupper($nc);?></td><td><input type="hidden" name="idc" value="<?php  echo $idc;?>"><?php  echo $idc;?></td></tr>
 <tr><td class="tit">Nombre del <?php  echo strtoupper($nc);?></td><td><input type="hidden" name="gestor" value="<?php  echo $gestor;?>"><?php  echo $gestor;?></td></tr>
 <tr><td class="tit">Persona de Contacto</td><td><input type="hidden" name="percontacto" value="<?php  echo $percontacto;?>"><?php  echo $percontacto;?></td></tr>
-<tr><td class="tit">Direcci髇</td><td><input type="hidden" name="direccion" value="<?php  echo $direccion;?>"><?php  echo $direccion;?></td></tr>
-<tr><td class="tit">C骴igo Postal</td><td><input type="hidden" name="cp" value="<?php  echo $cp;?>"><?php  echo $cp;?></td></tr>
+<tr><td class="tit">Direcci贸n</td><td><input type="hidden" name="direccion" value="<?php  echo $direccion;?>"><?php  echo $direccion;?></td></tr>
+<tr><td class="tit">C贸digo Postal</td><td><input type="hidden" name="cp" value="<?php  echo $cp;?>"><?php  echo $cp;?></td></tr>
 <tr><td class="tit">Telefono 1</td><td><input type="hidden" name="tele1" value="<?php  echo $tele1;?>"><?php  echo $tele1;?></td></tr>
 <tr><td class="tit">Telefono 2</td><td><input type="hidden" name="tele2" value="<?php  echo $tele2;?>"><?php  echo $tele2;?></td></tr>
 <tr><td class="tit">Fax</td><td><input type="hidden" name="fax1" value="<?php  echo $fax1;?>"><?php  echo $fax1;?></td></tr>

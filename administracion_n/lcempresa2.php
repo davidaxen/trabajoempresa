@@ -88,7 +88,6 @@ $rowp=count($fetchAll2);
 //$rowp=mysqli_num_rows($resultp);
 
 $sql="SELECT * from empresas where ";
-$sql2=" estado='".$estador."'";
 if ($rowp>0){;
 $sql.=" idproyectos ";
 if ($rowp==1){
@@ -118,7 +117,6 @@ $sql.=")";
 
 $sql.=" order by idempresas asc";
 //echo $sql;
-
 $result=$conn->query($sql);
 
 //$resultado=$result->fetch();
