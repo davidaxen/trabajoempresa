@@ -45,6 +45,8 @@ $sql.=" and tipo='".$tipo."' order by idclientes asc";
 //echo $sql;
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $resultado=$result->fetch();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
@@ -60,7 +62,7 @@ $row=count($fetchAll);
 </thead>
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result,$i);
 //$resultado=mysqli_fetch_array($result);

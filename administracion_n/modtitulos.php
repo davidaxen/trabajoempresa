@@ -66,7 +66,7 @@ $dat=array('clientes','gestores','empleados','empresas','empresa','usuario','vis
 <div class="panel" style="column-count:2;">
 
 <?php 
-for ($t=0;$t<count($dat);$t++){;
+for ($t=0;$t<count($dat);$t++){
 
 $servi=$resultado02[$dat[$t]];
   if ($servi==1){;?>

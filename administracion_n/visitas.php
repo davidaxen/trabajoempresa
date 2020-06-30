@@ -27,6 +27,7 @@ if (($ide!=null) or ($validar==0)){;
 $sql="SELECT * from usuarios where idempresas='".$ide."'"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
@@ -40,14 +41,13 @@ $row=count($fetchAll);
 <table width="800" class="table-bordered table pull-right" id="mytable">
 <tr class="enctab"><td>Cod Usuario</td><td>Nombre</td><td>N&ordm; visitas</td><td>Ultima Visita</td><td>Mas info</td></tr>
 <?php 
-
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result,$i);
 //$resultado=mysqli_fetch_array($result);
 ?>
 <tr class="dattab">
-<td><?php $user1=$row['user'];?><?php  echo$user1;?></td>
+<td><?php $user1=$row['user'];?><?php  echo $user1;?></td>
 
 <?php 
 $idcliente=$row['idcliente'];

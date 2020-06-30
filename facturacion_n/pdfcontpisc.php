@@ -27,8 +27,11 @@ $imghoja2='../img/'.$imghoja2;
 
 $sql="SELECT nombre from clientes where idclientes='".$idclientes."' and idempresas='".$ide."'"; 
 //echo $sql;
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $nombre=$resultado['nombre'];
 
 
@@ -377,12 +380,20 @@ $this->Cell(520,20,strtoupper($titulo),1,1,'C');
 //$sql1="SELECT * from pcsubcat where idpccat='".$idpccat."' and idempresas='".$ide."'"; 
 $sql1="SELECT * from codservicios where idpccat='".$idpccat."' and idclientes='".$idclientes."' and idempresas='".$ide."' and activo='1'"; 
 //echo $sql1;
-$result1=mysqli_query($conn, $sql1) or die ("Invalid result 1 b");
-$row1=mysqli_num_rows($result1);
 
-for ($t=0;$t<$row1;$t++){;
-mysqli_data_seek($result1,$t);
-$hto=fmod($t,12);
+$result1=$conn->query($sql1);
+$fetchAll1=$result1->fetchAll();
+$row1=count($fetchAll1);
+
+//$result1=mysqli_query($conn, $sql1) or die ("Invalid result 1 b");
+//$row1=mysqli_num_rows($result1);
+
+foreach ($result1 as $row) {
+
+//for ($t=0;$t<$row1;$t++){;
+$result1->setFetchMode(PDO::FETCH_CLASS,'$row1');
+//mysqli_data_seek($result1,$t);
+$hto=fmod($row,12);
 if (($hto==0) and ($t>0)){;
 $this->AddPage();
 $this->Header0();
@@ -393,13 +404,16 @@ $this->Cell(520,20,strtoupper($titulo),1,1,'C');
 };
 
 
-if($t<$row1){;
-$resultado1=mysqli_fetch_array($result1);
-$idpcsubcat=$resultado1['idpcsubcat'];
+if($row<$row1){;
+//$resultado1=mysqli_fetch_array($result1);
+$idpcsubcat=$row['idpcsubcat'];
 
 $sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
-$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 c");
-$resultado11=mysqli_fetch_array($result11);
+
+$result11=$conn->query($sql11);
+$resultado11=$result11->fetch();
+//$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 c");
+//$resultado11=mysqli_fetch_array($result11);
 $subcategoria=strtoupper($resultado11['subcategoria']);
 $rellr=$resultado11['rellr'];
 $rellg=$resultado11['rellg'];
@@ -424,13 +438,15 @@ $this->SetFillColor(0,0,0);
 };
 
 
-$t=$t+1;
-if($t<$row1){;
-$resultado1=mysqli_fetch_array($result1);
-$idpcsubcat=$resultado1['idpcsubcat'];
+$row=$row+1;
+if($row<$row1){;
+//$resultado1=mysqli_fetch_array($result1);
+$idpcsubcat=$row['idpcsubcat'];
 $sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
-$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 d");
-$resultado11=mysqli_fetch_array($result11);
+$result11=$conn->query($sql11);
+$resultado11=$result11->fetch();
+//$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 d");
+//$resultado11=mysqli_fetch_array($result11);
 $subcategoria=strtoupper($resultado11['subcategoria']);
 $rellr=$resultado11['rellr'];
 $rellg=$resultado11['rellg'];
@@ -506,15 +522,24 @@ $this->Ln(30);
 //$sql1="SELECT * from pcsubcat where idpccat='".$idpccat."' and idempresas='".$ide."'"; 
 $sql1="SELECT * from codservicios where idpccat='".$idpccat."' and idclientes='".$idclientes."' and idempresas='".$ide."' and activo='1'"; 
 //echo $sql1;
-$result1=mysqli_query($conn, $sql1) or die ("Invalid result 1a");
-$row1=mysqli_num_rows($result1);
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+$fetchAll1=$result1->fetchAll();
+$row1=count($fetchAll1);
+
+//$result1=mysqli_query($conn, $sql1) or die ("Invalid result 1a");
+//$row1=mysqli_num_rows($result1);
+//$resultado1=mysqli_fetch_array($result1);
 
 //entrada
 $idpcsubcat=$resultado1['idpcsubcat'];
 $sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
-$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 a");
-$resultado11=mysqli_fetch_array($result11);
+
+$result11=$conn->query($sql11);
+$resultado11=$result11->fetch();
+//$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 a");
+//$resultado11=mysqli_fetch_array($result11);
 $subcategoria=strtoupper($resultado11['subcategoria']);
 $rellr=$resultado11['rellr'];
 $rellg=$resultado11['rellg'];
@@ -541,12 +566,20 @@ $this->SetFillColor(0,0,0);
 
 //salida
 $t=$t+1;
-mysqli_data_seek($result1,$t);
-$resultado1=mysqli_fetch_array($result1);
+
+
+$result1->setFetchMode(PDO::FETCH_CLASS,"$t");
+//mysqli_data_seek($result1,$t);
+$resultado1=$result1->fetch();
+//$resultado1=mysqli_fetch_array($result1);
 $idpcsubcat=$resultado1['idpcsubcat'];
-$sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
-$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 b");
-$resultado11=mysqli_fetch_array($result11);
+$sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'";
+
+
+$result11=$conn->query($sql11);
+$resultado11=$result11->fetch();
+//$result11=mysqli_query($conn,$sql11) or die ("Invalid result 11 b");
+//$resultado11=mysqli_fetch_array($result11);
 $subcategoria=strtoupper($resultado11['subcategoria']);
 $rellr=$resultado11['rellr'];
 $rellg=$resultado11['rellg'];
@@ -588,8 +621,12 @@ $codemp=$ide;
 $codcom=$idclientes;
 
 $sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=mysqli_query($conn,$sql31) or die ("Invalid result menuservicios");
-$resultado31=mysqli_fetch_array($result31);
+
+$result31=$conn->query($sql31);
+$resultado31=$result31->fetch();
+
+//$result31=mysqli_query($conn,$sql31) or die ("Invalid result menuservicios");
+//$resultado31=mysqli_fetch_array($result31);
 $ncqr[]=$resultado31['entrada'];
 $ncqr[]=$resultado31['accdiarias'];
 $ncqr[]=$resultado31['accmantenimiento'];
@@ -599,10 +636,14 @@ $ncqr[]=$resultado31['revision'];
 $ncqr[]=$resultado31['envases'];
 
 $sql="SELECT * from hoja where idempresa='".$ide."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result hoja");
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result hoja");
 $valores=array ($ncqr[0],$ncqr[4],$ncqr[1],$ncqr[2],$ncqr[3]);
 $ipcat=array('1','2','3','4','5');
-$resultado31=mysqli_fetch_array($result);
+$resultado31=$result->fetch();
+//$resultado31=mysqli_fetch_array($result);
 $dato[]=$resultado31['entrada'];
 $dato[]=$resultado31['accdiarias'];
 $dato[]=$resultado31['accmantenimiento'];
@@ -611,8 +652,11 @@ $dato[]=$resultado31['niveles'];
 
 
 $sql2="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result clientes");
-$resultado31=mysqli_fetch_array($result2);
+
+$result2=$conn->query($sql2);
+$resultado31=$result2->fetch();
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result clientes");
+//$resultado31=mysqli_fetch_array($result2);
 $dato2[]=$resultado31['entrada'];
 $dato2[]=$resultado31['accdiarias'];
 $dato2[]=$resultado31['accmantenimiento'];
