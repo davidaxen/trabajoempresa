@@ -20,6 +20,9 @@ $sql.=" and nif='".$gente."'";
 };
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
+
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -30,7 +33,7 @@ $resultado=$result->fetch();
 <option value="todos">Todos</option>
 <?php };
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idclientes=$row['idclientes'];
 	$nombre=$row['nombre'];
 //for ($i=0;$i<$row;$i++){
@@ -47,6 +50,7 @@ foreach ($result as $row) {
 $sqla="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."'";
 
 $resulta=$conn->query($sqla);
+$resultamos=$conn->query($sqla);
 $resultado=$resulta->fetch();
 //$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
 //$rowa=mysqli_num_rows($resulta);
@@ -55,7 +59,7 @@ $resultado=$resulta->fetch();
 <option value="todos">Todos
 <?php 
 
-foreach ($result as $row => $value) {
+foreach ($resultamos as $row) {
 	$idpcsubcat=$row['idpcsubcat'];
 	$subcategoria=$row['subcategoria'];
 //for ($i=0;$i<$rowa;$i++){

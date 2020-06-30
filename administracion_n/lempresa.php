@@ -35,6 +35,8 @@ if ($datos!='datos'){;
 $sql="SELECT * from empresas where estado='".$estador."' order by idempresas asc"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
@@ -51,7 +53,7 @@ $row=count($fetchAll);
 </thead>
 <?php  
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result, $i);
