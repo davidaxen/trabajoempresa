@@ -15,10 +15,8 @@ include('../portada_n/cabecera2.php');?>
 
 <?php 
 
-if (isset($_REQUEST['datos'])) {
-	$datos = $_REQUEST['datos'];
-}else{
-	$datos = "";
+if (!isset($datos)) {
+	$datos = "da";
 }
 
 if ($datos!='datos'){;
