@@ -9,7 +9,7 @@ $sql56="select * from proyectos where idproyectos='".$idpr."'";
 $temp = $conn -> query($sql56);
 $result56 = $temp -> fetchAll();
 
-foreach ($conn-> query($sql56) as $fila) {
+foreach ($conn->query($sql56) as $fila) {
 	$rgpdt=$fila['rgpd'];
 	$avisolegalt=$fila['avisolegal'];
 }

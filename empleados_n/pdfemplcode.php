@@ -1,7 +1,7 @@
 <?php
 include('bbdd.php');
 
-
+error_reporting(0);
 $imgemp='../img/'.$img;
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempl."'";
 $result=$conn->query($sql);

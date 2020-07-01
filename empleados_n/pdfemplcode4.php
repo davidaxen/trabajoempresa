@@ -1,12 +1,17 @@
 <?php
 include('bbdd.php');
 
+error_reporting(0);
+
 
 $imgemp='../img/'.$img;
 
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempl."'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $nombre=$resultado['nombre'];
 $apellido1=$resultado['1apellido']; 
 $apellido2=$resultado['2apellido'];
