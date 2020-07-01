@@ -1,6 +1,9 @@
 <?php 
 include('bbdd.php');
 
+error_reporting(0);
+
+
 //$idclientes='7';
 $imgemp='../img/'.$img;
 //$imgpeq='24-log-peq.png';
@@ -8,8 +11,11 @@ $imgemppeq='../img/'.$imgpeq;
 
 $sql="SELECT nombre from clientes where idclientes='".$idclientes."' and idempresas='".$ide."'"; 
 //echo $sql;
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $nombre=$resultado['nombre'];
 
 
@@ -198,8 +204,12 @@ $pdf->MultiCell(30,4,strtoupper($title1),0,'J',0);
 $x=0;
 
 $sql="SELECT * from etiquetas where idempresa='".$ide."'"; 
-$result=mysqli_query($conn, $sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query($conn, $sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $valores=array ('Entrada/Salida','Niveles','Acciones Diarias','Acciones Mantenimiento','Producto','Trabajo');
 $ipcat=array('1','2','3','4','5','7');
 $dato[]=$resultado['entrada'];
@@ -210,9 +220,12 @@ $dato[]=$resultado['productos'];
 $dato[]=$resultado['trabajo'];
 $row=count($valores);
 
-$sql2="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);
+$sql2="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
+
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
+//$resultado2=mysqli_fetch_array($result2);
 $dato2[]=$resultado2['entrada'];
 $dato2[]=$resultado2['niveles'];
 $dato2[]=$resultado2['accdiarias'];
@@ -231,20 +244,31 @@ $title1=$nombre;
 $title2=$valores[$j];
 
 $sql3="SELECT * from codservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and idclientes='".$idclientes."' and activo='1'"; 
-$result3=mysqli_query($conn,$sql3) or die ("Invalid result");
 
-$row3=mysqli_num_rows($result3);
+$result3=$conn->query($sql3);
+$result3mos=$conn->query($sql3);
+$fetchAll3=$result3->fetchAll();
+$row3=count($fetchAll3);
 
-for ($h=0;$h<$row3;$h++){;
+
+//$result3=mysqli_query($conn,$sql3) or die ("Invalid result");
+
+//$row3=mysqli_num_rows($result3);
+foreach ($result3mos as $row1) {
+
+//for ($h=0;$h<$row3;$h++){;
 
 $t=$h+1;
-mysqli_data_seek($result3,$h);
-$resultado3=mysqli_fetch_array($result3);
-$idpcsubcat=$resultado3['idpcsubcat'];
+//mysqli_data_seek($result3,$h);
+//$resultado3=mysqli_fetch_array($result3);
+$idpcsubcat=$row1['idpcsubcat'];
 
-$sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
-$result11=mysqli_query($conn,$sql11) or die ("Invalid result");
-$resultado11=mysqli_fetch_array($result11);
+$sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'";
+
+$result11=$conn->query($sql11);
+$resultado11=$result11->fetch();
+//$result11=mysqli_query($conn,$sql11) or die ("Invalid result");
+//$resultado11=mysqli_fetch_array($result11);
 $subcategoria=$resultado11['subcategoria'];
 
 $title3=$subcategoria;
