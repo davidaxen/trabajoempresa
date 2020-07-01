@@ -142,7 +142,8 @@ $row=count($fetchAll);
 <div class="tab">
 <?php 
 
-foreach ($result as $row) {
+$j=0;
+foreach ($conn->query($sql) as $row) {
 
 //for ($j=0;$j<$row;$j++){;
 //mysqli_data_seek($result,$j);
@@ -156,6 +157,7 @@ $iconoport=$row['icono'];
   <img src="../img/iconos/<?php echo $iconoport;?>" width="32px" style="vertical-align:middle;"> <?php  echo $tituloport;?></button>
   
  <?php 
+ $j=$j+1;
 };
 ?> 
 </div>
@@ -164,8 +166,8 @@ $iconoport=$row['icono'];
 
 
 <?php
-
-foreach ($result as $row) {
+$j=0;
+foreach ($conn->query($sql) as $row) {
 
 //for ($j=0;$j<$row;$j++){;
 //mysqli_data_seek($result,$j);
@@ -180,7 +182,8 @@ $iconoport=$row['icono'];
 </div>
 
 
-<?php 
+<?php
+ $j=$j+1; 
 };
 ?>
 <?php include ('js/tabjs.htm');?>

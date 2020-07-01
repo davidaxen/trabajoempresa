@@ -21,23 +21,24 @@ if ($com=='comprobacion'){;
 <?php 
 $sql="select * from portadapag where idempresa='".$ide."'";
 //echo $sql;
-$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
-$row=mysqli_num_rows($result);
-
-
-
-for ($j=0;$j<$row;$j++){;
+$result=$conn->query($sql);
+/*$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
+$row=mysqli_num_rows($result);*/
+/*for ($j=0;$j<$row;$j++){;
 mysqli_data_seek($result,$j);
-$resultado=mysqli_fetch_array($result);
-$titulo=$resultado['titulo'];
-$pagport=$resultado['pag'];
+$resultado=mysqli_fetch_array($result);*/
+$j=0;
+foreach ($result as $row) {
+$titulo=$row['titulo'];
+$pagport=$row['pag'];
 ?>
 <span>
 <center class="enc2"><?php  echo $titulo;?></center>
 <iframe style="border:0" name="bloque<?php  echo $j;?>" src="portada_n/<?php  echo $pagport;?>" width="580" height="230" scrolling="auto"></iframe>
 </span>
 
-<?php 
+<?php
+$j=$j+1;
 };
 ?>
 
