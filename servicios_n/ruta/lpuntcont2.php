@@ -45,11 +45,11 @@ $row2=count($fetchAll2);
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/
 
-if ($row2>10){;
+if ($row2>10){
 $yu=1;
-}else{;
+}else{
 $yu=2;
-};
+}
 ?>
 <!--<div style="column-count:<?php echo $yu;?>">-->
 
@@ -63,7 +63,7 @@ $idruta=$row2mos['idruta'];
 $nombreruta=$row2mos['nombreruta'];
 $activo=$row2mos['estado'];
 
-if ($t==$row2-1){;
+if ($t==$row2-1){
 $ultpunto=$idruta;
 }
 	$t=$t+1;
@@ -96,7 +96,7 @@ $idempleado=$resultado3['idempleado'];
 ?>
 <table>
 <tr><td>Estado</td><td>Empleado</td></tr>
-<tr><td><?php if ($activo==1){;?>Activo<?php }else{;?>Inactivo<?php };?></td>
+<tr><td><?php if ($activo==1){?>Activo<?php }else{?>Inactivo<?php }?></td>
 <td>
 <?php 
 $sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
@@ -118,13 +118,13 @@ $segape=$resultado['2apellido'];
 <tr><td colspan="7">Dia de la Semana</td></tr>
 <tr><td>Lu.</td><td>Ma.</td><td>Mi.</td><td>Ju.</td><td>Vi.</td><td>Sa.</td><td>Do.</td></tr>
 <tr>
-<td><input type="checkbox" value="1" name="lunn" <?php if ($lun=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="marn" <?php if ($mar=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="mien" <?php if ($mie=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="juen" <?php if ($jue=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="vien" <?php if ($vie=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="sabn" <?php if ($sab=='1'){;?>checked<?php };?> disabled ></td>
-<td><input type="checkbox" value="1" name="domn" <?php if ($dom=='1'){;?>checked<?php };?> disabled ></td>
+<td><input type="checkbox" value="1" name="lunn" <?php if ($lun=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="marn" <?php if ($mar=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="mien" <?php if ($mie=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="juen" <?php if ($jue=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="vien" <?php if ($vie=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="sabn" <?php if ($sab=='1'){?>checked<?php }?> disabled ></td>
+<td><input type="checkbox" value="1" name="domn" <?php if ($dom=='1'){?>checked<?php }?> disabled ></td>
 </tr>
 </table>
 
@@ -138,11 +138,11 @@ $row21=count($fetchAll21);
 /*$result21=mysqli_query ($conn,$sql21) or die ("Invalid result");
 $row21=mysqli_num_rows($result21);*/
 
-if ($row21==0){;
+if ($row21==0){
 
 echo 'No tienes ning&uacuten cliente asignado, pincha <a href="apuntcont.php"> aqui </a> para asignar clientes';
 
-}else{;
+}else{
 echo "<table><tr><td colspan='2'>Clientes dentro de Ruta</td></tr>";
 
 /*for ($ty=0;$ty<$row21;$ty++){;
@@ -159,14 +159,14 @@ $resultado23=$result23->fetch();
 $resultado23=mysqli_fetch_array($result23);*/
 $nombre=$resultado23['nombre'];
 echo "<tr><td>".$nombre."</td></tr>";
-};
+}
 
 echo "</table>Pincha <a href='apuntcont.php'> aqui </a> para asignar m&aacutes clientes";
-};?>
+}?>
 
 </div>
 <?
-};
+}
 ?>
 
 
@@ -184,7 +184,7 @@ echo "</table>Pincha <a href='apuntcont.php'> aqui </a> para asignar m&aacutes c
 </div>
 
 <?php 
-} else {;
+} else {
 include ('../../cierre.php');
- };
+ }
  ?>
