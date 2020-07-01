@@ -41,6 +41,7 @@ $sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."' and
 };
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -52,7 +53,7 @@ $resultado=$result->fetch();
 <?php };?>
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idclientes=$row['idclientes'];
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);
@@ -65,7 +66,7 @@ $resultado1=$result1->fetch();
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
 //$resultado1=mysqli_fetch_array($result1);
-$nombre=$row['nombre'];
+$nombre=$resultado1['nombre'];
 ?>
 <option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
 <?php };?>

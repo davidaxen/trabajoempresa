@@ -2,12 +2,19 @@
 // numero de proyecto
 
 $sql23="select idproyectos from proyectos order by idproyectos desc";
-$result23=mysqli_query ($conn,$sql23) or die ("Invalid result23");
-$row=mysqli_num_rows($result23);
+
+$result23=$conn->query($sql23);
+$fetchAll23=$result23->fetchAll();
+$row=count($fetchAll);
+//$result23=mysqli_query ($conn,$sql23) or die ("Invalid result23");
+//$row=mysqli_num_rows($result23);
 if ($row==0){;
 $idproyectos="1";
 }else{;
-$resultado23=mysqli_fetch_array($result23);
+
+
+$resultado23=$result23->fetch();
+//$resultado23=mysqli_fetch_array($result23);
 $idpro=$resultado23['idproyectos'];
 $idproyectos=$idpro+1;
 };
@@ -71,7 +78,10 @@ VALUES ('$idproyectos','$nombre2','$web2',
 '$datoshn[0]','$datoshn[1]','$datoshn[2]','$datoshn[3]','$datoshn[4]','$datoshn[5]','$datoshn[6]','$datoshn[7]',
 '$datoshn[8]','$datoshn[9]','$datoshn[10]','$datoshn[11]','$datoshn[12]','$datoshn[13]')";
 //echo $sql1.'<br/>';
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result proyectos");
+
+$result1=$conn->query($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result proyectos");
 
 
 //pagina 
@@ -80,7 +90,10 @@ $sql1="where idproyectos='".$idproyectos."'";
 $sqla="pagina=\"".$pagweb."\" ";
 $sql=$sql0.$sqla.$sql1;
 //echo $sql.'<br/>';
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result pagweb ");
+
+$resultd=$conn->query($sql0);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result pagweb ");
 
 
 // seleccion opciones administrar
@@ -92,7 +105,9 @@ VALUES ('$idproyectos',
 '$datosan[0]','$datosan[1]','$datosan[2]','$datosan[3]','$datosan[4]',
 '$datosan[5]','$datosan[6]','$datosan[7]','$datosan[8]','$datosan[9]')";
 //echo $sql2.'<br/>';
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result proyectosadministrar");
+
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result proyectosadministrar");
 
 
 
@@ -109,7 +124,10 @@ VALUES ('$idproyectos',
 '$tituloan[0]','$tituloan[1]','$tituloan[2]','$tituloan[3]','$tituloan[4]',
 '$tituloan[5]','$tituloan[6]','$tituloan[7]','$tituloan[8]','$tituloan[9]')";
 //echo $sql2.'<br/>';
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
+
+
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
 
 
 //titulo opciones servicios
@@ -122,7 +140,10 @@ VALUES ('$idproyectos',
 '$titulon[0]','$titulon[1]','$titulon[2]','$titulon[3]','$titulon[4]','$titulon[5]','$titulon[6]','$titulon[7]',
 '$titulon[8]','$titulon[9]','$titulon[10]','$titulon[11]','$titulon[12]','$titulon[13]')";
 //echo $sql2.'<br/>';
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
+
+$result2=$conn->query($sql2);
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
 
 
 
@@ -174,7 +195,9 @@ VALUES ('$idproyectos',
 '$datimg2[0]','$datimg2[1]','$datimg2[2]','$datimg2[3]','$datimg2[4]','$datimg2[5]','$datimg2[6]','$datimg2[7]',
 '$datimg2[8]','$datimg2[9]')";
 //echo $sql3.'<br/>';
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result proyectosimgadm");
+
+$result3=$conn->query($sql3);
+//$result3=mysqli_query ($conn,$sql3) or die ("Invalid result proyectosimgadm");
 
 
 
@@ -225,7 +248,9 @@ VALUES ('$idproyectos',
 '$datimg2[0]','$datimg2[1]','$datimg2[2]','$datimg2[3]','$datimg2[4]','$datimg2[5]','$datimg2[6]','$datimg2[7]',
 '$datimg2[8]','$datimg2[9]','$datimg2[10]','$datimg2[11]','$datimg2[12]','$datimg2[13]')";
 //echo $sql3.'<br/>';
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result proyectosimg");
+
+$result3=$conn->query($sql3);
+//$result3=mysqli_query ($conn,$sql3) or die ("Invalid result proyectosimg");
 
 
 
@@ -247,7 +272,9 @@ VALUES ('$idproyectos',
 '$obasico[0]','$obasico[1]','$obasico[2]','$obasico[3]','$obasico[4]','$obasico[5]','$obasico[6]','$obasico[7]',
 '$obasico[8]','$obasico[9]','$obasico[10]','$obasico[11]','$obasico[12]','$obasico[13]')";
 //echo $sql3.'<br/>';
-$result31=mysqli_query ($conn,$sql31) or die ("Invalid result precioopc basico");
+
+$result31=$conn->query($sql31);
+//$result31=mysqli_query ($conn,$sql31) or die ("Invalid result precioopc basico");
 
 
 $sql32 = "INSERT INTO precioopc (idpr,nombre,precio,caracprecio,estado,
@@ -259,7 +286,10 @@ VALUES ('$idproyectos',
 '$oavanzado[0]','$oavanzado[1]','$oavanzado[2]','$oavanzado[3]','$oavanzado[4]','$oavanzado[5]','$oavanzado[6]','$oavanzado[7]',
 '$oavanzado[8]','$oavanzado[9]','$oavanzado[10]','$oavanzado[11]','$oavanzado[12]','$oavanzado[13]')";
 //echo $sql3.'<br/>';
-$result32=mysqli_query ($conn,$sql32) or die ("Invalid result precioopc avanzado");
+
+
+$result32=$conn->query($sql32);
+//$result32=mysqli_query ($conn,$sql32) or die ("Invalid result precioopc avanzado");
 
 
 };
@@ -275,7 +305,9 @@ VALUES ('$idproyectos','$psbasico',
 '$precio[0]','$precio[1]','$precio[2]','$precio[3]','$precio[4]','$precio[5]','$precio[6]','$precio[7]',
 '$precio[8]','$precio[9]','$precio[10]','$precio[11]','$precio[12]','$precio[13]')";
 //echo $sql2.'<br/>';
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
+
+$result2=$conn->query($sql2);
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result iproyecto 2");
 
 
 for($thv=0;$thv<count($vnumtrab);$thv++){;
@@ -283,7 +315,10 @@ $nomtrab="De ".$vnumtrab[$thv]." Trabajadores";
 $sql34 = "INSERT INTO precioempleados (idproyectos,estado,nombregrupo,numempleados,preciogrupo) 
 VALUES ('$idproyectos','1','$nomtrab','$vnumtrab[$thv]','$pnumtrab[$thv]')";
 //echo $sql3.'<br/>';
-$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
+
+
+$result34=$conn->query($sql34);
+//$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
 };
 
 for($thv=0;$thv<count($vnumcli);$thv++){;
@@ -291,7 +326,10 @@ $nomcli="De ".$vnumcli[$thv]." Clientes/Puesto de Trabajo";
 $sql34 = "INSERT INTO preciocliente (idproyectos,estado,nombregrupo,numcliente,preciogrupo) 
 VALUES ('$idproyectos','1','$nomcli','$vnumcli[$thv]','$pnumcli[$thv]')";
 //echo $sql3.'<br/>';
-$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
+
+
+$result34=$conn->query($sql34);
+//$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
 };
 
 for($thv=0;$thv<count($vpersonalizacion);$thv++){;
@@ -299,7 +337,8 @@ $nomvar="plantilla".$thv;
 $sql34 = "INSERT INTO preciopersonalizacion (idproyectos,estado,nombregrupo,nombrevariable,preciogrupo) 
 VALUES ('$idproyectos','1','$vpersonalizacion[$thv]','$nomvar','$ppersonalizacion[$thv]')";
 //echo $sql3.'<br/>';
-$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
+$result34=$conn->query($sql34);
+//$result34=mysqli_query ($conn,$sql34) or die ("Invalid result precioopc basico");
 };
 
 
