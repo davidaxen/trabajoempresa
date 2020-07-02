@@ -32,8 +32,8 @@ $resultado=$result->fetch();
 <?php };
 
 foreach ($resultmos as $row) {
-	$idclientes=$resultado['idclientes'];
-	$nombre=$resultado['nombre'];	
+	$idclientes=$row['idclientes'];
+	$nombre=$row['nombre'];	
 
 
 //for ($i=0;$i<$row;$i++){

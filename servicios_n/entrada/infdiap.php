@@ -11,6 +11,8 @@ $sql.=" order by idpiscina asc, idempleado asc";
 };
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
@@ -34,7 +36,7 @@ $resultado=$result->fetch();
 $idempleadop=0;
 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
        $fecha_b=$row['dia'];
        $hora=$row['hora'];
        $idempleadot=$row['idempleado'];
