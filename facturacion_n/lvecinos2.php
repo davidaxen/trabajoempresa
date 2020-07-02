@@ -62,6 +62,7 @@ if ($datos!='datos'){;
 $sql="SELECT * from vecinos where idempresa='".$ide."' and estado='".$estadoe."'"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -109,7 +110,7 @@ Carta para todos los gestores</a>
 
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idvecino=$row['idvecino'];
 	$nombre=$row['nombre'];
 	$referencia=$row['referencia'];

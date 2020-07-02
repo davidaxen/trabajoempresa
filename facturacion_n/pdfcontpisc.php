@@ -1,6 +1,8 @@
 <?php 
 include('bbdd.php');
 
+error_reporting(0);
+
 
 if ($lemp!=$pemp){;
 $title1=$demp.' '.$cpemp.' '.$lemp.' '.$pemp;

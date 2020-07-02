@@ -1,6 +1,9 @@
 <?php 
 include('bbdd.php');
 
+error_reporting(0);
+
+
 //$idclientes='7';
 $imgemp='../img/'.$img;
 //$imgpeq='24-log-peq.png';
@@ -251,13 +254,13 @@ $row3=count($fetchAll3);
 //$result3=mysqli_query($conn,$sql3) or die ("Invalid result");
 //$row3=mysqli_num_rows($result3);
 
-foreach ($result3mos as $row) {
+foreach ($result3mos as $row1) {
 
 //for ($h=0;$h<$row3;$h++){;
 $t=$h+1;
 //mysqli_data_seek($result3,$h);
 //$resultado3=mysqli_fetch_array($result3);
-$idpcsubcat=$row['idpcsubcat'];
+$idpcsubcat=$row1['idpcsubcat'];
 
 $sql11="SELECT * from puntservicios where idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."'"; 
 //echo $sql11;

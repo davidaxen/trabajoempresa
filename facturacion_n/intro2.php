@@ -136,7 +136,9 @@ VALUES ('$idc','$ide','$nombrevec','$referencia','$tele1','$tele2','$fax1','$dir
 $result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ivecinos");
 //print_r($idclientevec);
-if (count($idclientevec)>0){;
+
+
+if (!empty($idclientevec[$jt])>0){;
 for ($jt=0;$jt<count($idclientevec);$jt++){;
 $sql10 = "INSERT INTO vecinoscom (idvecino,idempresa,idcliente) 
 VALUES ('$idc','$ide','$idclientevec[$jt]')";
