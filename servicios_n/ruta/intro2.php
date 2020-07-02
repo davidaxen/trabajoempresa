@@ -20,7 +20,8 @@ for ($i=0;$i<count($punt);$i++){;
 $p=$ultpunto+1+$i;
 $sql1 = "INSERT INTO ruta (idempresas,idruta,nombreruta,lun,mar,mie,jue,vie,sab,dom) VALUES ('$ide','$p','$punt[$i]','$lun[$i]','$mar[$i]','$mie[$i]','$jue[$i]','$vie[$i]','$sab[$i]','$dom[$i]')";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };
 
@@ -33,19 +34,30 @@ if ($idclientes=='todos'){;
 
 $sql="SELECT * from clientes where idempresas='".$ide."' ";
 $sql.="and accdiarias='1'";
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-//echo $sql;
-$row=mysqli_num_rows($result);
-if ($row!=0){;
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
 
-$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//echo $sql;
+$row=mysqli_num_rows($result);*/
+if ($row!=0){;
+/*for ($i=0;$i<$row;$i++){;
+mysqli_data_seek($result, $i);
+$resultado=mysqli_fetch_array($result);*/
+foreach ($resultmos as $rowmos) {
+$idclientes=$rowmos['idclientes'];
+
+$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
 //echo $sql2;
-$row2=mysqli_num_rows($result2);
+$row2=mysqli_num_rows($result2);*/
 if ($row2==0){;
 $clientes[]=$idclientes;
 };
@@ -63,7 +75,9 @@ for ($j=0;$j<count($clientes);$j++){;
 if ($cantpuntcont=='todos'){;
 for ($i=0;$i<count($punt);$i++){;
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$clientes[$j]','$idpccat','$punt[$i]','1')";
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 //echo $sql1;
 };
 }else{;
@@ -72,7 +86,9 @@ $valores=array_unique($punt);
 for ($i=0;$i<count($punt);$i++){;
 if ($valores[$i]!=null){;
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$clientes[$j]','$idpccat','$valores[$i]','1')";
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 //echo $sql1;
 };
 };
@@ -106,7 +122,9 @@ if ($valora[$j]!=$valorn[$j]){;
 $sqla=$nombrec[$j]."='".$valorn[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>');
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
+$resultd=$conn->exec($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
 };
 
 };
@@ -131,7 +149,8 @@ if ($valora[$j]!=$valorn[$j]){;
 $sqla=$nombrec[$j]."='".$valorn[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>');
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
 };
 
 };
@@ -149,7 +168,8 @@ if ($tablas=="arpuntcont"){;
 $sql1 = "INSERT INTO clienteruta (idempresas,idruta,idclientes) 
 VALUES ('$ide','$idruta','$idclientes')";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 
 };
@@ -171,7 +191,8 @@ if ($valora[$j]!=$valorn[$j]){;
 $sqla=$nombrec[$j]."='".$valorn[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>');
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
+$resultd=$conn->exec($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
 };
 
 };
@@ -184,7 +205,9 @@ if ($tabla=="borrar"){;
 
 $sql1 = "delete from clienteruta where idempresas='".$ide."' and idruta='".$idruta."' and idclientes='".$idclientes."'";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+$result1=$conn->exec($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 
 
@@ -198,7 +221,7 @@ $result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 LOS DATOS HAN SIDO INTRODUCCIDOS<p>
 
 <?php  switch($tabla){
-case ipuntcont: 
+case 'ipuntcont': 
 echo "<table><tr>";
 echo "<td><a href='ipuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Crear más rutas</a></td>";
 echo "<td><a href='apuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Asignar Clientes a Ruta</a></td>";
@@ -206,7 +229,7 @@ echo "<td><a href='epuntcont.php'><img src='../../img/".$ic."' width='50px'><br/
 echo "</tr></table>";
 break;
 
-case arpuntcont: 
+case 'arpuntcont': 
 echo "<table><tr>";
 echo "<td><a href='ipuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Crear más rutas</a></td>";
 echo "<td><a href='apuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Asignar Clientes a Ruta</a></td>";
@@ -215,7 +238,7 @@ echo "</tr></table>";
 break;
 
 
-case erpuntcont: 
+case 'erpuntcont': 
 echo "<table><tr>";
 echo "<td><a href='ipuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Crear más rutas</a></td>";
 echo "<td><a href='apuntcont.php'><img src='../../img/".$ic."' width='50px'><br/>Asignar Clientes a Ruta</a></td>";
