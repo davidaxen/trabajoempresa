@@ -38,26 +38,35 @@ include('../../portada_n/cabecera3.php');?>
 if ($enviar==null){;
 
 $sql2="SELECT * from ruta where idempresas='".$ide."' and estado='1'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 
 if ($row2!=0){;?>
 <table><tr><td>Tienes los siguientes rutas creadas:</td></tr></table>
 <table>
 <tr class="enca"><td>Cod. Ruta</td><td>Nombre Ruta</td></tr>
 <?php  
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$idruta=$resultado2['idruta'];
-$nombreruta=$resultado2['nombreruta'];
+$resultado2=mysqli_fetch_array($result2);*/
+$t=0;
+foreach ($result2mos as $row2mos) {
+$idruta=$row2mos['idruta'];
+$nombreruta=$row2mos['nombreruta'];
 
 if ($t==$row2-1){;
 $ultpunto=$idruta;
 };
 ?>
 <tr><td><?php  echo $idruta;?></td><td><?php  echo $nombreruta;?></td></tr>
-<?php };?>
+<?php 
+$t=$t+1;
+};?>
 </table>
 <form action="ipuntcont.php" method="post">
 <input type="hidden" name="ultpunto" value="<?php  echo $ultpunto;?>">

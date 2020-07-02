@@ -25,21 +25,24 @@ Estado <select name="estado">
 
 <?php 
 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='".$estado."' order by idempleado asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from empleados where idempresa='".$ide."' and estado='".$estado."' order by idempleado asc";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 <table>
 <?php 
-for ($i=0; $i<$row; $i++){;
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempleado=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$apellido1=$resultado['1apellido'];
-$apellido2=$resultado['2apellido'];
-$nif=$resultado['nif'];
-$estado=$resultado['estado'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idempleado=$rowmos['idempleado'];
+$nombre=$rowmos['nombre'];
+$apellido1=$rowmos['1apellido'];
+$apellido2=$rowmos['2apellido'];
+$nif=$rowmos['nif'];
+$estado=$rowmos['estado'];
 ?>
 <tr class="menor1">
 <td><?php  echo $idempleado;?></td>
