@@ -76,12 +76,14 @@ $nombre=$resultado['nombre'];
 $sql12="SELECT * from jornadas where idempresas='".$ide."' and idclientes='".$idclientes."' order by finicio asc, horario asc"; 
 
 $result12=$conn->query($sql12);
+$result12mos=$conn->query($sql12);
+
 $resultado12=$result12->fetch();
 
 //$result12=mysqli_query($conn,$sql12) or die ("Invalid result");
 //$row12=mysqli_num_rows($result12);
 
-foreach ($result12 as $row) {
+foreach ($result12mos as $row) {
 	$fi=$row['finicio'];
 	$ff=$row['ffin'];
 	$hor=$row['horario'];
@@ -153,12 +155,13 @@ $sql14="SELECT * from retrasojor where idempresas='".$ide."' and idclientes='".$
 
 
 $result14=$conn->query($sql14);
+$result14mos=$conn->query($sql14);
 
 //$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
 //$row14=mysqli_num_rows($result14);
 
 
-foreach ($result14 as $row) {
+foreach ($result14mos as $row) {
 	$diaret=$row['dia'];
 	$horaret=$row['hora'];
 	$dsemanar=$row['dsemana'];	

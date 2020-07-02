@@ -67,6 +67,8 @@ a hover: {text-decoration:none}
 $sqle="SELECT * from empresas where estado='1'"; 
 
 $resulte=$conn->query($sqle);
+$resultemos=$conn->query($sqle);
+
 $fetchAlle=$resulte->fetchAll();
 $rowe=count($fetchAlle);
 
@@ -85,7 +87,7 @@ $rowe=count($fetchAlle);
 <option value="">Elige un gestor</option>
 <?php
 
-foreach ($resulte as $row) {
+foreach ($resultemos as $row) {
 
 //for($t=0;$t<$rowe;$t++){;
 //mysqli_data_seek($resulte,$t);
@@ -156,7 +158,7 @@ for ($t=0;$t<count($encab);$t++){;?>
 <div class="panel" style="column-count:2">
 
 <?php for ($t=0;$t<count($encab);$t++){;?>
-<span><table><tr><td width="100px"><?php  echo $encab[$t];?></td><td><input type="file" name="imgiconosa<?php  echo $t;?>"></td></tr></table></span>
+<span><table><tr><td width="100px"><?php  print_r($encab[$t]);?></td><td><input type="file" name="imgiconosa<?php  echo $t;?>"></td></tr></table></span>
 <?php };?>
 </div>
 
