@@ -129,6 +129,8 @@ $sql.=" and idpcsubcat='".$idpunt."'";
 //echo $sql;
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
@@ -158,8 +160,12 @@ if ($idclientes!='todos'){;?>
 Datos del Puesto de Trabajo: 
 <?php 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
+//$resultado1=mysqli_fetch_array($result1);
 $nombre=$resultado1['nombre'];
 ?>
 <?php  echo $nombre;?>
@@ -199,7 +205,7 @@ echo "
 
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idcl=$row['idpiscina'];
 	$dia=$row['dia'];
 	$hora=$row['hora'];
