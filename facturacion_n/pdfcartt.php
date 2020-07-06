@@ -2,6 +2,8 @@
 include('bbdd.php');
 include ('../yo.php');
 
+error_reporting(0);
+
 if ($lemp!=$pemp){;
 $title1=$demp.' '.$cpemp.' '.$lemp.' '.$pemp;
 }else{;

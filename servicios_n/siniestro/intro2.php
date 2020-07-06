@@ -13,7 +13,9 @@ if ($ide!=null){;
 if ($tabla=="ipuntconta"){;
 $sql="SELECT * from aseguradora where idempresa='".$ide."' order by idaseguradora desc"; 
 $result=$conn->query($sql);
-$row2=$result->fetchColumn();
+$result2mos=$conn->query($sql);
+$fetchAll2=$result2mos->fetchAll();
+$row2=count($fetchAll2);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);*/
@@ -39,7 +41,9 @@ $result1=$conn->exec($sql1);
 if ($tabla=="ipuntcont"){;
 $sql="SELECT * from siniestros where idempresa='".$ide."' order by idsiniestro desc";
 $result=$conn->query($sql);
-$row2=$result->fetchColumn();
+$result2mos=$conn->query($sql);
+$fetchAll2=$result2mos->fetchAll();
+$row2=count($fetchAll2);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);*/
