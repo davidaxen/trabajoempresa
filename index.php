@@ -78,10 +78,11 @@ if ($idprt!=null){;
 
 
   $sql="select count(*) from proyectos where idproyectos='".$idprt."'";
-  //$result=$conn->query($sql);
+  $resultrow=$conn->query($sql);
+  $fetchAll=$resultrow->fetchAll();
 
-  if($result=$conn->query($sql)){
-    if($result->fetchColumn()==0){
+  if($conn->query($sql)){
+    if(count($fetchAll)==0){
       echo ("Este dominio no tiene acceso al sistema, comprueba todas la conexiones, por favor hable con el departamento de sistemas.");
 
     }else{
