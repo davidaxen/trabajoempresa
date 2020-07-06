@@ -12,6 +12,8 @@ $sql.=" order by idempleado asc, idpiscina asc, id asc";
 //echo $sql;
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 //$row=mysqli_num_rows($result);
@@ -38,14 +40,14 @@ if (isset($_REQUEST['idclientes'])) {
 </thead>
 <?php 
 
-foreach ($result as $row) {
-      $fecha_b=$resultado['dia'];
-       $hora=$resultado['hora'];
-       $idempleadot=$resultado['idempleado'];
-       $idclientest=$resultado['idpiscina'];
-       $idpcsubcat=$resultado['idpcsubcat'];
-       $lon=$resultado['lon'];
-       $lat=$resultado['lat']; 
+foreach ($resultmos as $row) {
+      $fecha_b=$row['dia'];
+       $hora=$row['hora'];
+       $idempleadot=$row['idempleado'];
+       $idclientest=$row['idpiscina'];
+       $idpcsubcat=$row['idpcsubcat'];
+       $lon=$row['lon'];
+       $lat=$row['lat']; 
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result,$i);
 //$resultado=mysqli_fetch_array($result);
