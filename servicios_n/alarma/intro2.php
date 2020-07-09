@@ -44,9 +44,24 @@ $dia=$y.'-'.$m.'-'.$d;
 
 
 $sql1 = "INSERT INTO alarma (idempresas,idclientes,dia,d,m,y,h,min,seg,user,respondido,mensaje) 
-VALUES ('$ide','$idclientes','$dia','$d','$m','$y','$h','$min','$seg','$user','0','$texto')";
+VALUES (:ide,:idclientes,:dia,:d,:m,:y,:h,:min,:seg,:user,'0',:texto)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idclientes', $idclientes);
+	$temporal1->bindParam(':dia', $dia);
+	$temporal1->bindParam(':d', $d);
+	$temporal1->bindParam(':m', $m);
+	$temporal1->bindParam(':y', $y);
+	$temporal1->bindParam(':h', $h);
+	$temporal1->bindParam(':min', $min);
+	$temporal1->bindParam(':seg', $seg);
+	$temporal1->bindParam(':user', $user);
+	$temporal1->bindParam(':texto', $texto);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 };
 

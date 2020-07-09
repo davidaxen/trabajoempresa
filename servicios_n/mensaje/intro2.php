@@ -12,7 +12,8 @@ if ($ide!=null){;
 <div class="contenido">
 
 
-<?php  
+<?php
+
 //echo $idemplt;
 if ($idemplt=='todos'){;
 $day=date('Y-m-d H:i:s', time());
@@ -26,17 +27,39 @@ $result=$conn->query($sql);
 $idempleadost=mysqli_result($result,$i,'idempleado');*/
 foreach ($result as $rowmos) {
 	$idempleado=$rowmos['idempleado'];
-$sql1 = "INSERT INTO mensajes (idempresa,idempleado,texto,user,respondido,dia) VALUES ('$ide','$idempleadost','$texto','$user','0','$day')";
+$sql1 = "INSERT INTO mensajes (idempresa,idempleado,texto,user,respondido,dia) VALUES (:ide,:idempleadost,:texto,:user,'0',:day)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+	
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idempleadost', $idempleadost);
+	$temporal1->bindParam(':texto', $texto);
+	$temporal1->bindParam(':user', $user);
+	$temporal1->bindParam(':day', $day);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 };
 
 }else{;
 $day=date('Y-m-d H:i:s', time());
-$sql1 = "INSERT INTO mensajes (idempresa,idempleado,texto,user,respondido,dia) VALUES ('$ide','$idemplt','$texto','$user','0','$day')";
+$sql1 = "INSERT INTO mensajes (idempresa,idempleado,texto,user,respondido,dia) VALUES (:ide,:idemplt,:texto,:user,'0',:day)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+	
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idemplt', $idemplt);
+	$temporal1->bindParam(':texto', $texto);
+	if(empty($user)){
+		$user = "";
+	}
+	$temporal1->bindParam(':user', $user);
+	$temporal1->bindParam(':day', $day);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 };
 

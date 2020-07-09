@@ -31,8 +31,22 @@ $idevento=$idevento+1;
 $fcomienzo=$acomienzo.'-'.$mcomienzo.'-'.$dcomienzo;
 $ffinal=$afinal.'-'.$mfinal.'-'.$dfinal;
 
-$sql1 = "INSERT INTO evento (idempresa,idevento,evento,contacto,telefono,direccion,email,estado,fcomienzo,ffinal,programa) VALUES ('$ide','$idevento','$evento','$pcontacto','$telcontacto','$dircontacto','$mailcontacto','1','$fcomienzo','$ffinal','$programa')";
-$result1=$conn->exec($sql);
+$sql1 = "INSERT INTO evento (idempresa,idevento,evento,contacto,telefono,direccion,email,estado,fcomienzo,ffinal,programa) VALUES (:ide,:idevento,:evento,:pcontacto,:telcontacto,:dircontacto,:mailcontacto,'1',:fcomienzo,:ffinal,:programa)";
+
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idevento', $idevento);
+	$temporal1->bindParam(':evento', $evento);
+	$temporal1->bindParam(':pcontacto', $pcontacto);
+	$temporal1->bindParam(':telcontacto', $telcontacto);
+	$temporal1->bindParam(':dircontacto', $dircontacto);
+	$temporal1->bindParam(':mailcontacto', $mailcontacto);
+	$temporal1->bindParam(':fcomienzo', $fcomienzo);
+	$temporal1->bindParam(':ffinal', $ffinal);
+	$temporal1->bindParam(':programa', $programa);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntconta");
 };
 
@@ -57,9 +71,25 @@ $idasistente=$idasistente+1;
 
 
 $sql1 = "INSERT INTO asistentes (idempresa,idasistente,nombre,papellido,sapellido,dni,domicilio,cp,telefono,email,localidad,provincia,empresa) 
-VALUES ('$ide','$idasistente','$nombreasist','$papellidoasist','$sapellidoasist','$dniasist','$dirasist','$cpasist','$telasist','$mailasist','$locasist','$proasist','$empresaasist')";
+VALUES (:ide,:idasistente,:nombreasist,:papellidoasist,:sapellidoasist,:dniasist,:dirasist,:cpasist,:telasist,:mailasist,:locasist,:proasist,:empresaasist)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idasistente', $idasistente);
+	$temporal1->bindParam(':nombreasist', $nombreasist);
+	$temporal1->bindParam(':papellidoasist', $papellidoasist);
+	$temporal1->bindParam(':sapellidoasist', $sapellidoasist);
+	$temporal1->bindParam(':dniasist', $dniasist);
+	$temporal1->bindParam(':dirasist', $dirasist);
+	$temporal1->bindParam(':telasist', $telasist);
+	$temporal1->bindParam(':mailasist', $mailasist);
+	$temporal1->bindParam(':locasist', $locasist);
+	$temporal1->bindParam(':proasist', $proasist);
+	$temporal1->bindParam(':empresaasist', $empresaasist);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };
@@ -72,7 +102,7 @@ if ($tabla=="modpuntconta"){;
 
 
 $sql0="update evento set ";
-$sql1="where idevento='".$idevento."' and idempresa='".$ide."'";
+$sql1="where idevento=:idevento and idempresa=:ide";
 
 
 $nombrecampo=array('evento','contacto','telefono','direccion','email','estado','fcomienzo','ffinal','programa');
@@ -83,9 +113,16 @@ $valornuevo=array($evento,$pcontacto1,$telcontacto1,$dircontacto1,$mailcontacto1
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idevento', $idevento);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
@@ -101,7 +138,7 @@ if ($tabla=="modpuntcontc"){;
 
 
 $sql0="update siniestros set ";
-$sql1="where idsiniestro='".$idsiniestro."' and idempresa='".$ide."'";
+$sql1="where idsiniestro=:idsiniestro and idempresa=:ide";
 
 
 $nombrecampo=array('numsiniestro','idaseguradora','contacto','telefono','direccion','localidad','provincia','cp','email','descripcion','terminado');
@@ -112,9 +149,16 @@ $valornuevo=array($numsiniestro1,$idaseguradora1,$pcontacto1,$telcontacto1,$dirc
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idsiniestro', $idsiniestro);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
@@ -127,7 +171,7 @@ if ($tabla=="modpuntcont"){;
 
 
 $sql0="update siniestros set ";
-$sql1="where idsiniestro='".$idsiniestro."' and idempresa='".$ide."'";
+$sql1="where idsiniestro=:idsiniestro and idempresa=:ide";
 
 $diaapertura1=$a.'-'.$m.'-'.$d;
 $horaapertura1=$h.':'.$min.':'.$seg;
@@ -140,9 +184,16 @@ $valornuevo=array($numsiniestro1,$idaseguradora1,$pcontacto1,$telcontacto1,$dirc
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idsiniestro', $idsiniestro);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
@@ -156,7 +207,7 @@ if ($tabla=="modcpuntcont"){;
 
 
 $sql0="update siniestros set ";
-$sql1="where idsiniestro='".$idsiniestro."' and idempresa='".$ide."'";
+$sql1="where idsiniestro=:idsiniestro and idempresa=:ide";
 
 $diacierre1=$a.'-'.$m.'-'.$d;
 $horacierre1=$h.':'.$min.':'.$seg;
@@ -169,9 +220,16 @@ $valornuevo=array($estado1,$diacierre1,$horacierre1);
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idsiniestro', $idsiniestro);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
@@ -187,7 +245,7 @@ if ($tabla=="ipuntconti"){;
 //echo $tabla."-".$ide;
 
 $sql0="update siniestros set ";
-$sql1="where idsiniestro='".$idsiniestro."' and idempresa='".$ide."'";
+$sql1="where idsiniestro=:idsiniestro and idempresa=:ide";
 
 $diaasig1=$y.'-'.$m.'-'.$d;
 $horaasig1=$hora.':'.$min.':'.$seg;
@@ -200,9 +258,16 @@ $valornuevo=array($idempleado1,$diaasig1,$horaasig1);
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idsiniestro', $idsiniestro);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
