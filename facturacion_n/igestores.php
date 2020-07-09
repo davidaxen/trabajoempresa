@@ -61,9 +61,13 @@ if ($idc==null){;
 
 $sql="select idgestor from gestores where idempresa='".$ide."' order by idgestor desc"; 
 
+	$result=$conn->query($sql);
+	$resultado=$result->fetch();
+    $fetchAll=$result->fetchAll();
+    $row=count($fetchAll);
 
-$result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
-$row=mysqli_num_rows($result);
+//$result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
+//$row=mysqli_num_rows($result);
 ?>
 <form action="intro2.php" method="post">
 <table>
@@ -71,10 +75,10 @@ $row=mysqli_num_rows($result);
 
 
 <?php 
-If ($row==0){;
+if ($row==0){;
 $idc=10;
 }else{;
-$resultado=mysqli_fetch_array($result);
+//$resultado=mysqli_fetch_array($result);
 $idc=$resultado['idgestor'];
 $idc=$idc+1;
 };

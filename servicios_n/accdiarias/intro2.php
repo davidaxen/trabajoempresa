@@ -14,6 +14,7 @@ if ($tabla=="ipuntcont"){;
 
 for ($i=0;$i<count($punt);$i++){;
 $p=$ultpunto+1+$i;
+
 $sql1 = "INSERT INTO puntservicios (idempresas,idpccat,idpcsubcat,subcategoria,rellr,rellg,rellb,activo) VALUES (:ide,:idpccat,:p,:punt,:rellr,:rellg,:rellb,'1')";
 //echo $sql1;
 $temporal1 = $conn->prepare($sql1);
@@ -25,6 +26,7 @@ $temporal1->bindParam(':rellr', $rellr[$i]);
 $temporal1->bindParam(':rellg', $rellg[$i]);
 $temporal1->bindParam(':rellb', $rellb[$i]);
 $temporal1->execute();
+
 
 
 
