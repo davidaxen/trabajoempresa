@@ -184,12 +184,13 @@ foreach ($result as $row) {
 <a href="dymo.php?idclientes=<?php  echo $idclientes;?>&pis=g&nomcli=<?php  echo $nombre;?>"><img src="../img/dymo.png" border=0 width="25px" title="codigos qr etiquetas"></a>
 </td>
 <?php 
+
 for ($rt=0;$rt<count($dat);$rt++){;
 $valoref=$resultado10[$dat[$rt]];
 if ($valoref=='1'){;?>
 <td align="center">
-<?php $valortg=$resultado[$dat[$rt]];?>
-<input type="radio" name="<?php  echo $dat[$rt];?>[<?php  echo $i;?>]" value="1" <?php if ($valortg==1){;?>checked="checked"<?php };?>  disabled>
+<?php $valortg=$row[$dat[$rt]];?>
+<input type="radio" name="<?php  echo $dat[$rt];?>[<?php  print_r($row);?>]" value="1" <?php if ($valortg==1){;?>checked="checked"<?php };?>  disabled>
 </td>
 <?php };
 };

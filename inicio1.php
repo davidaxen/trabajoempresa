@@ -59,6 +59,7 @@ if (($estado==2) and ($fhoy>$flimite)){
 				setcookie("tusuario",$tusuario);
 				$pag='indexpruebasuperada.php'; 
 				//echo $pag;
+
 				include_once($pag);
 
 }else{
@@ -67,11 +68,13 @@ if (($estado==2) and ($fhoy>$flimite)){
 				if (($rgpd!=1) or ($avisolegal!=1)){;
 				$pag='indexpruebadatos.php'; 
 				//echo $pag;
+
 				include_once($pag);
-					}else{;
+					}else{
 				
 if ($tusuario==1){;
 $pag1="inicio1.php";
+
 setcookie("pag1",$pag1);
 }; 			
 				$clivpunt=$resultados[0]['idcliente'];
@@ -123,11 +126,13 @@ setcookie("pag1",$pag1);
 				$pag='indexprueba'.$modulo.'.php'; 
 				//echo $pag;
 				include_once($pag);
+
 };
 	
 	};		
 	
-		
+/*$colum=$result->getColumnMeta(1);		
+var_dump($colum['name']);*/
 }else{;
 
 include ('cierre.php');

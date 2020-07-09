@@ -127,6 +127,8 @@ $sql.=" and idpcsubcat='".$idpunt."'";
 }
 //echo $sql;
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
@@ -200,7 +202,7 @@ echo "
 
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idcl=$resultado['idpiscina'];
 	$dia=$resultado['dia'];
 	$hora=$resultado['hora'];

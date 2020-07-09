@@ -19,19 +19,27 @@ if ($idsiniestro==null){;
 <?php 
 $sql="SELECT * from siniestros where idempresa='".$ide."' ";
 $sql.="and terminado='0'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-//echo $sql;
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 if ($row!=0){;?>
 <table>
 <tr><td>Numero de Siniestro</td><td>
 <select name="idsiniestro">
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idsiniestro=$resultado['idsiniestro'];
-$numsiniestro=$resultado['numsiniestro'];
+
+foreach ($resultmos as $row) {
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+$idsiniestro=$row['idsiniestro'];
+$numsiniestro=$row['numsiniestro'];
 ?>
 <option value="<?php  echo $idsiniestro;?>"><?php  echo $numsiniestro;?>
 <?php };?>
@@ -54,8 +62,11 @@ No tiene siniestros sin terminar.
 <tr class="subenc3"><td>Datos del Siniestro</td></tr>
 <?php 
 $sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $numsiniestro=$resultado['numsiniestro'];
 $contacto=$resultado['contacto'];
 $telefono=$resultado['telefono'];
@@ -84,31 +95,43 @@ $horaasig=$resultado['horaasignacion'];
 
 <tr class="subenc3"><td>Acciones Realizadas</td></tr>
 <?php 
-$sql="SELECT * from accsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from accsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'";
+
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
+
+//$result=mysqli_query($conn,$sql) or die ("Invalid result");
+//$row=mysqli_num_rows($result);
 if ($row==0){;
 ?>
 <tr><td>Ninguna Accion Realizada.</td></tr>
 <?php 
 }else{;
 
-for ($t=0;$t<$row;$t++){;
-mysqli_data_seek($result, $t);
-$resultado=mysqli_fetch_array($result);
-$id=$resultado['id'];
-$trabajor=$resultado['trabajorealizado'];
-$trabajop=$resultado['trabajopendiente'];
-$descripcion1=$resultado['descripcion'];
-$diaent=$resultado['diaentrada'];
-$horaent=$resultado['horaentrada'];
-$diasal=$resultado['diasalida'];
-$horasal=$resultado['horasalida'];
-$idempleado=$resultado['idempleado'];
+foreach ($resultmos as $row) {
+
+//for ($t=0;$t<$row;$t++){;
+//mysqli_data_seek($result, $t);
+//$resultado=mysqli_fetch_array($result);
+$id=$row['id'];
+$trabajor=$row['trabajorealizado'];
+$trabajop=$row['trabajopendiente'];
+$descripcion1=$row['descripcion'];
+$diaent=$row['diaentrada'];
+$horaent=$row['horaentrada'];
+$diasal=$row['diasalida'];
+$horasal=$row['horasalida'];
+$idempleado=$row['idempleado'];
 
 $sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);
+
+
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
+//$resultado2=mysqli_fetch_array($result2);
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];
 $segapellido=$resultado2['2apellido'];
@@ -131,16 +154,24 @@ $segapellido=$resultado2['2apellido'];
 <td valign="top"><?php  echo $descripcion1;?>
 <?php 
 $sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='1'"; 
-$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
-$rowdes=mysqli_num_rows($resultdes);
+
+$resultdes=$conn->query($sqldes);
+$resultdesmos=$conn->query($sqldes);
+$fetchAlldes=$resultdes->fetchAll();
+$rowdes=count($fetchAlldes);
+
+//$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
+//$rowdes=mysqli_num_rows($resultdes);
 if ($rowdes!=0){;
 ?>
 <p>
 <?php 
-		for ($tdes=0;$tdes<$rowdes;$tdes++){;
-		mysqli_data_seek($resultdes, $tdes);
-$resultadodes=mysqli_fetch_array($resultdes);
-				$imgsiniestro=$resultadodes['imgsiniestro'];?>
+		
+		foreach ($resultdesmos as $row) {
+		//for ($tdes=0;$tdes<$rowdes;$tdes++){;
+		//mysqli_data_seek($resultdes, $tdes);
+//$resultadodes=mysqli_fetch_array($resultdes);
+				$imgsiniestro=$row['imgsiniestro'];?>
 <img src="../../img/<?php  echo $imgsiniestro;?>" width="150 px" onclick="window.open('../../img/<?php  echo $imgsiniestro;?>','','top=200,left=200,width=250,height=250')"><p>
 <?php 
 		};
@@ -151,17 +182,25 @@ $resultadodes=mysqli_fetch_array($resultdes);
 </td>
 <td valign="top"><?php  echo $trabajor;?>
 <?php 
-$sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='2'"; 
-$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
-$rowdes=mysqli_num_rows($resultdes);
+$sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='2'";
+
+$resultdes=$conn->query($sqldes);
+$resultdesmos=$conn->query($sqldes);
+$fetchAlldes=$resultdes->fetchAll();
+$rowdes=count($fetchAlldes);
+
+//$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
+//$rowdes=mysqli_num_rows($resultdes);
 if ($rowdes!=0){;
 ?>
 <p>
 <?php 
-		for ($tdes=0;$tdes<$rowdes;$tdes++){;
-				mysqli_data_seek($resultdes, $tdes);
-$resultadodes=mysqli_fetch_array($resultdes);
-				$imgsiniestro=$resultadodes['imgsiniestro'];?>
+
+		foreach ($resultdesmos as $row) {
+		//for ($tdes=0;$tdes<$rowdes;$tdes++){;
+		//		mysqli_data_seek($resultdes, $tdes);
+//$resultadodes=mysqli_fetch_array($resultdes);
+				$imgsiniestro=$row['imgsiniestro'];?>
 <img src="../../img/<?php  echo $imgsiniestro;?>" width="150 px" onclick="window.open('../../img/<?php  echo $imgsiniestro;?>','','top=200,left=200,width=250,height=250')"><p>
 <?php 
 		};
@@ -173,16 +212,25 @@ $resultadodes=mysqli_fetch_array($resultdes);
 <td valign="top"><?php  echo $trabajop;?>
 <?php 
 $sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='3'"; 
-$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
-$rowdes=mysqli_num_rows($resultdes);
+
+$resultdes=$conn->query($sqldes);
+$resultdesmos=$conn->query($sqldes);
+
+$fetchAlldes=$resultdes->fetchAll();
+$rowdes=count($fetchAlldes);
+//$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
+//$rowdes=mysqli_num_rows($resultdes);
 if ($rowdes!=0){;
 ?>
 <p>
 <?php 
-		for ($tdes=0;$tdes<$rowdes;$tdes++){;
-		mysqli_data_seek($resultdes, $tdes);
-$resultadodes=mysqli_fetch_array($resultdes);
-				$imgsiniestro=$resultadodes['imgsiniestro'];?>
+
+
+		foreach ($resultdesmos as $row) {
+		//for ($tdes=0;$tdes<$rowdes;$tdes++){;
+		//mysqli_data_seek($resultdes, $tdes);
+//$resultadodes=mysqli_fetch_array($resultdes);
+				$imgsiniestro=$row['imgsiniestro'];?>
 <img src="../../img/<?php  echo $imgsiniestro;?>" width="150 px" onclick="window.open('../../img/<?php  echo $imgsiniestro;?>','','top=200,left=200,width=250,height=250')"><p>
 <?php 
 		};
@@ -208,15 +256,23 @@ $sql2="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
 if ($idempleado!=0){;
 $sql2.=" and idempleado='".$idempleado."'";
 };
-$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+
+$result2=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
+
+
+//$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
+//$row2=mysqli_num_rows($result2);
 ?>
 <tr><td>
 <table>
 <tr class="subenc5"><td>Empleado</td><td>Dia</td><td>Hora</td></tr>
 <tr><td>
 <?php 
-$resultado2=mysqli_fetch_array($result2);
+
+$resultado2=$result2->fetch();
+//$resultado2=mysqli_fetch_array($result2);
 $idempleado=$resultado2['idempleado'];
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];

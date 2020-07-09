@@ -15,8 +15,17 @@ if ($tabla=="ipuntcont"){;
 for ($i=0;$i<count($punt);$i++){;
 $p=$ultpunto+1+$i;
 $sql1 = "INSERT INTO puntservicios (idempresas,idpccat,idpcsubcat,subcategoria,rellr,rellg,rellb,activo) VALUES ('$ide','$idpccat','$p','$punt[$i]','$rellr[$i]','$rellg[$i]','$rellb[$i]','1')";
+
+$temporal = $conn -> prepare($sql1);
+
+  $temporal->bindParam(':ide', $ide);
+  $temporal->bindParam(':idpccat', $idpccat);
+  $temporal->execute();
+
+
+
 //echo $sql1;
-$result1=$conn->exec($sql1);
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };

@@ -10,9 +10,12 @@ if ($ide!=null){;
 <div class="contenido">
 
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$resultado=mysqli_fetch_array($result);*/
 $nombre=$resultado['nombre'];
 $apellido1=$resultado['1apellido'];
 $apellido2=$resultado['2apellido'];
@@ -36,15 +39,18 @@ $apellido2=$resultado['2apellido'];
 <?php 
 $sqld="SELECT * from ruta where idempresas='".$ide."' and estado='1'"; 
 /*$sql.=" and estado='1'";*/
-$resultd=mysqli_query ($conn,$sqld) or die ("Invalid result");
-$rowd=mysqli_num_rows($resultd);
+$resultd=$conn->query($sqld);
+
+/*$resultd=mysqli_query ($conn,$sqld) or die ("Invalid result");
+$rowd=mysqli_num_rows($resultd);*/
 ?>
 <?php 
-for ($i=0;$i<$rowd;$i++){;
+/*for ($i=0;$i<$rowd;$i++){;
 mysqli_data_seek($resultd,$i);
-$resultadod=mysqli_fetch_array($resultd);
-$idruta=$resultadod['idruta'];
-$nombreruta=$resultadod['nombreruta'];
+$resultadod=mysqli_fetch_array($resultd);*/
+foreach ($resultd as $rowdmos) {
+$idruta=$rowdmos['idruta'];
+$nombreruta=$rowdmos['nombreruta'];
 ?>
 <option value="<?php  echo $idruta;?>" ><?php  echo $nombreruta;?>
 <?php };?>

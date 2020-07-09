@@ -40,6 +40,7 @@ if ($datos!='datos'){;
 $sql="SELECT * from ayuda where menu='".$menu."' order by seccion asc,subseccion asc";
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -62,12 +63,15 @@ case '5':$valormenu="Ayuda";break;
 <td width="100">Opciones</td>
 <td>Modulo</td><td>Seccion</td><td>Texto</td></tr>
 <?php 
-for ($i=0; $i<$row; $i++){;
-mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$seccion=$resultado['seccion'];
-$subseccion=$resultado['subseccion'];
-$titulo=$resultado['titulo'];
+
+foreach ($resultmos as $row) {
+
+//for ($i=0; $i<$row; $i++){;
+//mysqli_data_seek($result, $i);
+//$resultado=mysqli_fetch_array($result);
+$seccion=$row['seccion'];
+$subseccion=$row['subseccion'];
+$titulo=$row['titulo'];
 ?>
 <tr class="dattab">
 <td>

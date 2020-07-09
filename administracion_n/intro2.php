@@ -28,11 +28,26 @@ $mal=null;
 if ($tabla=="idproveedor"){;
 
 $sql1 = "INSERT INTO proveedores (idproveedor,nombre,nif,cp,domicilio,provincia,localidad,idempresas,estado,telefono,email) 
-VALUES ('$idp','$proveedor','$nifp','$cpp','$direccionp',
-'$provinciap','$localidadp','$ide','1','$telefonop','$emailp')";
+VALUES (:idp,:proveedor,:nifp,:cpp,:direccionp,
+:provinciap,:localidadp,:ide,'1',:telefonop,:emailp)";
 //echo $sql1;
 
-$result1=$conn->query($sql1);
+$temporal = $conn ->prepare($sql1);
+
+ $temporal->bindParam(':idp', $idp);
+ $temporal->bindParam(':proveedor', $proveedor);
+ $temporal->bindParam(':nifp', $nifp);
+ $temporal->bindParam(':cpp', $cpp);
+ $temporal->bindParam(':direccionp', $direccionp);
+ $temporal->bindParam(':provinciap', $provinciap);
+ $temporal->bindParam(':localidadp', $localidadp);
+ $temporal->bindParam(':ide', $ide);
+ $temporal->bindParam(':telefonop', $telefonop);
+ $temporal->bindParam(':emailp', $emailp);
+
+ $temporal->execute();
+
+//$result1=$conn->exec($sql1);
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iproveedores");
 

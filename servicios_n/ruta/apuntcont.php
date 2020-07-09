@@ -24,18 +24,22 @@ Estado <select name="estado">
 
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estado."' order by idclientes asc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estado."' order by idclientes asc";
+$result=$conn->query($sql);
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 <table>
-<?php  for ($i=0; $i<$row; $i++){;
+<?php  
+/*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idclientes=$resultado['idclientes'];
-$nombre=$resultado['nombre'];
-$nif=$resultado['nif'];
-$estado=$resultado['estado'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idclientes=$rowmos['idclientes'];
+$nombre=$rowmos['nombre'];
+$nif=$rowmos['nif'];
+$estado=$rowmos['estado'];
 ?>
 <tr class="menor1">
 <td><?php  echo $idclientes;?></td>

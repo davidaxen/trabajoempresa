@@ -9,8 +9,14 @@ $sql.=" and idempleado='".$idempleado."'";
 $sql.=" order by idempleado asc, idpiscina asc";
 };
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
-$row=mysqli_num_rows($result);
+
+$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll2);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
+//$row=mysqli_num_rows($result);
 ?>
 <?php include ('../../js/busqueda.php');?>
 
@@ -26,16 +32,19 @@ $row=mysqli_num_rows($result);
 <td>Dia</td><td>Hora</td><td>Empleados</td><td>Servicio</td></tr>
 </thead>
 <?php 
-for ($i=0;$i<$row;$i++){;
-mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$fecha_b=$resultado['dia'];
-$hora=$resultado['hora'];
-$idempleadot=$resultado['idempleado'];
-$idclientest=$resultado['idpiscina'];
-$idpcsubcat=$resultado['idpcsubcat'];
-$lon=$resultado['lon'];
-$lat=$resultado['lat'];
+
+foreach ($resultmos as $row1) {
+
+//for ($i=0;$i<$row;$i++){;
+//mysqli_data_seek($result,$i);
+//$resultado=mysqli_fetch_array($result);
+$fecha_b=$row1['dia'];
+$hora=$row1['hora'];
+$idempleadot=$row1['idempleado'];
+$idclientest=$row1['idpiscina'];
+$idpcsubcat=$row1['idpcsubcat'];
+$lon=$row1['lon'];
+$lat=$row1['lat'];
 $yt=fmod($i,2);
 
 

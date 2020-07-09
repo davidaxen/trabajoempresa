@@ -2,6 +2,8 @@
 include('bbdd.php');
 include ('../yo.php');
 
+error_reporting(0);
+
 if ($lemp!=$pemp){;
 $title1=$demp.' '.$cpemp.' '.$lemp.' '.$pemp;
 }else{;
@@ -247,16 +249,19 @@ $pdf->AliasNbPages();
 
 if ($dato=='todo'){;
 $sql="SELECT * from gestores where idempresa='".$ide."' and estado='1'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$result=$conn->query($sql);
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);
 for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result,$i);
-$resultado=mysqli_fetch_array($result);
-$idempl1=$resultado['idgestor'];
-$nombre=$resultado['nombregestor'];
-$apellidop=$resultado['percontacto'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $row) {
+$idempl1=$row['idgestor'];
+$nombre=$row['nombregestor'];
+$apellidop=$row['percontacto'];
 //$apellidos=$resultado['2apellido'];
-$tele1=$resultado['telefono1'];
+$tele1=$row['telefono1'];
 /*
 $entrada=$resultado['entrada'];
 $mensajes=$resultado['mensajes'];
@@ -269,11 +274,18 @@ $trabajo=$resultado['trabajo'];
 */
 
 if ($tele1!=''){;
-$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$tele1."'"; 
-$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_num_rows($result3);
+$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$tele1."'";
+$result3=$conn->query($sql3);
+$result3row=$conn->query($sql3);
+$fetchAll3=$result3row->fetchAll();
+$row3=count($fetchAll3);
+
+
+/*$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
+$row3=mysqli_num_rows($result3);*/
 if ($row3!=0){;
-$resultado3=mysqli_fetch_array($result3);
+	$resultado3=$result3->fetch();
+//$resultado3=mysqli_fetch_array($result3);
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
 
@@ -298,9 +310,12 @@ $pdf->Portada();
 
 
 $sql="SELECT * from gestores where idempresa='".$ide."' and telefono1='".$dato."'";
-$result=mysqli_query($conn,$sql) or die ("Invalid result");
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+/*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);
-$resultado=mysqli_fetch_array($result);
+$resultado=mysqli_fetch_array($result);*/
 $idempl1=$resultado['idgestor'];
 $nombre=$resultado['nombregestor'];
 $apellidop=$resultado['percontacto'];
@@ -315,12 +330,19 @@ $revision=$resultado['revision'];
 $trabajo=$resultado['trabajo'];
 */
 
-$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$dato."'"; 
-$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
-$row3=mysqli_num_rows($result3);
+$sql3="SELECT * from usuarios where idempresas='".$ide."' and user='".$dato."'";
+$result3=$conn->query($sql3);
+$result3row=$conn->query($sql3);
+$fetchAll3=$result3row->fetchAll();
+$row3=count($fetchAll3);
+
+
+/*$result3=mysqli_query($conn,$sql3) or die ("Invalid result2");
+$row3=mysqli_num_rows($result3);*/
 
 if ($row3!=0){;
-$resultado3=mysqli_fetch_array($result3);
+//$resultado3=mysqli_fetch_array($result3);
+	$resultado3=$result3->fetch();
 $user=$resultado3['user'];
 $pass=$resultado3['password'];
 
