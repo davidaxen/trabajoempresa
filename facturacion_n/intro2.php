@@ -34,10 +34,48 @@ if ($row==0){;
 
 $sql1 = "INSERT INTO clientes (idclientes,nombre,nif,cp,domicilio,provincia,localidad,idempresas,estado,tipo,
 entrada,incidencia,mensaje,alarma,accdiarias,accmantenimiento,niveles,productos,revision,trabajo,siniestro,control,mediciones,ruta,envases,incidenciasplus,seguimiento) 
-VALUES ('$idc','$cliente','$nif','$cp','$direccion','$provincia','$localidad','$ide','1','$tipo',
-'$datos[0]','$datos[1]','$datos[2]','$datos[3]','$datos[4]','$datos[5]','$datos[6]','$datos[7]','$datos[8]','$datos[9]','$datos[10]','$datos[11]','$datos[12]','$datos[15]','$datos[16]','$datos[17]','$datos[18]')";
+VALUES (:idc,:cliente,:nif,:cp,:direccion,:provincia,:localidad,:ide,'1',:tipo,
+:datos0,:datos1,:datos2,:datos3,:datos4,:datos5,:datos6,:datos7,:datos8,:datos9,:datos10,:datos11,:datos12,:datos15,:datos16,:datos17,:datos18)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+var_dump($sql1);
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':idc', $idc);
+  $temporal1->bindParam(':cliente', $cliente);
+  $temporal1->bindParam(':nif', $nif);
+  $temporal1->bindParam(':cp', $cp);
+  $temporal1->bindParam(':direccion', $direccion);
+  $temporal1->bindParam(':provincia', $provincia);
+  $temporal1->bindParam(':localidad', $localidad);
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':tipo', $tipo);
+  $temporal1->bindParam(':datos0', $datos0[0]);
+  $temporal1->bindParam(':datos1', $datos1[1]);
+  $temporal1->bindParam(':datos2', $datos2[2]);
+  $temporal1->bindParam(':datos3', $datos3[3]);
+  $temporal1->bindParam(':datos4', $datos4[4]);
+  $temporal1->bindParam(':datos5', $datos5[5]);
+  $temporal1->bindParam(':datos6', $datos6[6]);
+  $temporal1->bindParam(':datos7', $datos7[7]);
+  $temporal1->bindParam(':datos8', $datos8[8]);
+  $temporal1->bindParam(':datos9', $datos9[9]);
+  $temporal1->bindParam(':datos10', $datos10[10]);
+  $temporal1->bindParam(':datos11', $datos11[11]);
+  $temporal1->bindParam(':datos12', $datos12[12]);
+  $temporal1->bindParam(':datos13', $datos13[13]);
+  $temporal1->bindParam(':datos14', $datos14[14]);
+  $temporal1->bindParam(':datos15', $datos15[15]);
+  $temporal1->bindParam(':datos16', $datos16[16]);
+  $temporal1->bindParam(':datos17', $datos17[17]);
+  $temporal1->bindParam(':datos18', $datos18[18]);
+
+  $temporal1->execute();
+
+
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result iclientes");
 
 $passnif=substr($nemp,0,4).substr($nif,0,4);
@@ -50,16 +88,42 @@ $passnif=substr($nemp,0,4).substr($nif,0,4);
 
 
 
-$sql2 = "INSERT INTO usuarios (user,password,idempresas,idcliente,cliente) VALUES ('$nif','$passnif','$ide','$idc','1')";
-$result2=$conn->exec($sql2);
+$sql2 = "INSERT INTO usuarios (user,password,idempresas,idcliente,cliente) VALUES (:nif,:passnif,:ide,:idc,'1')";
+
+$temporal2 = $conn->prepare($sql2);
+
+  $temporal2->bindParam(':nif', $nif);
+  $temporal2->bindParam(':passnif', $passnif);
+  $temporal2->bindParam(':ide', $ide);
+  $temporal2->bindParam(':idc', $idc);
+
+  $temporal2->execute();
+
+
+//$result2=$conn->exec($sql2);
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idc','1','1','1')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idc,'1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':idc', $idc);
+
+  $temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont3");
 
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idc','1','2','1')";
-$result1=$conn->exec($sql1);
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':idc', $idc);
+
+  $temporal1->execute();
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ipuntcont2");
 
 }else{;
@@ -93,8 +157,26 @@ if ($tele1!=null){;
 $usergnue='g'.$ide.$idc;
 
 $sql1 = "INSERT INTO gestores (idgestor,idempresa,nombregestor,percontacto,telefono1,telefono2,fax,direccion,cp,email,user) 
-VALUES ('$idc','$ide','$gestor','$percontacto','$tele1','$tele2','$fax1','$direccion','$cp','$emailn','$usergnue')";
-$result1=$conn->exec($sql1);
+VALUES (:idc,:ide,:gestor,:percontacto',:tele1,:tele2,:fax1,:direccion,:cp,:emailn,:usergnue)";
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':idc', $idc);
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':gestor', $gestor);
+  $temporal1->bindParam(':percontacto', $percontacto);
+  $temporal1->bindParam(':tele1', $tele1);
+  $temporal1->bindParam(':tele2', $tele2);
+  $temporal1->bindParam(':fax1', $fax1);
+  $temporal1->bindParam(':direccion', $direccion);
+  $temporal1->bindParam(':cp', $cp);
+  $temporal1->bindParam(':emailn', $emailn);
+  $temporal1->bindParam(':usergnue', $usergnue);
+
+  $temporal1 ->execute();
+
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result igestores");
 //echo $sql1;
 
@@ -113,7 +195,18 @@ $idg='0'.$idg;
 			$output=openssl_encrypt($tele1, METHOD, $key, 0, $iv);
 			$tele1=base64_encode($output);
 
-$sql2 = "INSERT INTO usuarios (user,password,idempresas,idgestor,gestor,tusuario,modulo) VALUES ('$usergnue','$tele1','$ide','$idc','1','4','40')";
+$sql2 = "INSERT INTO usuarios (user,password,idempresas,idgestor,gestor,tusuario,modulo) VALUES (:usergnue,:tele1,:ide,:idc,'1','4','40')";
+
+$temporal2 = $conn->prepare($sql2);
+
+  $temporal2->bindParam(':usergnue', $usergnue);
+  $temporal2->bindParam(':tele1', $tele1);
+  $temporal2->bindParam(':ide', $ide);
+  $temporal2->bindParam(':idc', $idc);
+
+  $temporal2->execute();
+
+
 $result2=$conn->exec($sql2);
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
@@ -131,9 +224,27 @@ if (($emailn!=null) and ($referencia!=null)){;
 
 
 $sql1 = "INSERT INTO vecinos (idvecino,idempresa,nombre,referencia,telefono1,telefono2,fax,direccion,cp,email,incidencia,jornada) 
-VALUES ('$idc','$ide','$nombrevec','$referencia','$tele1','$tele2','$fax1','$direccion','$cp','$emailn','$incidenciat','$jornadat')";
+VALUES (:idc,:ide,:nombrevec,:referencia,:tele1,:tele2,:fax1,:direccion,:cp,:emailn,:incidenciat,:jornadat)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':idc', $idc);
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':nombrevec', $nombrevec);
+  $temporal1->bindParam(':referencia', $referencia);
+  $temporal1->bindParam(':tele1', $tele1);
+  $temporal1->bindParam(':tele2', $tele2);
+  $temporal1->bindParam(':fax1', $fax1);
+  $temporal1->bindParam(':direccion', $direccion);
+  $temporal1->bindParam(':cp', $cp);
+  $temporal1->bindParam(':emailn', $emailn);
+  $temporal1->bindParam(':incidenciat', $incidenciat);
+  $temporal1->bindParam(':jornadat', $jornadat);
+
+
+  $temporal1->execute();
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ivecinos");
 //print_r($idclientevec);
 
@@ -141,9 +252,18 @@ $result1=$conn->exec($sql1);
 if (!empty($idclientevec[$jt])>0){;
 for ($jt=0;$jt<count($idclientevec);$jt++){;
 $sql10 = "INSERT INTO vecinoscom (idvecino,idempresa,idcliente) 
-VALUES ('$idc','$ide','$idclientevec[$jt]')";
+VALUES (:idc,:ide,:idclientevec)";
 //echo $sql10;
-$result10=$conn->exec($sql10);
+
+$temporal10 = $conn->prepare($sql10);
+
+  $temporal10->bindParam(':idc', $idc);
+  $temporal10->bindParam(':ide', $ide);
+  $temporal10->bindParam(':idclientevec', $idclientevec[$jt]);
+  
+  $temporal10->execute();
+
+//$result10=$conn->exec($sql10);
 //$result10=mysqli_query($conn,$sql10) or die ("Invalid result vecinoscom");
 
 };
@@ -155,9 +275,19 @@ $result10=$conn->exec($sql10);
 			$output=openssl_encrypt($referencia, METHOD, $key, 0, $iv);
 			$pass1=base64_encode($output);
 
-$sql2 = "INSERT INTO usuarios (user,password,idempresas,idvecino,vecino,tusuario,modulo) VALUES ('$referencia','$pass1','$ide','$idc','1','5','41')";
+$sql2 = "INSERT INTO usuarios (user,password,idempresas,idvecino,vecino,tusuario,modulo) VALUES (:referencia,:pass1,:ide,:idc,'1','5','41')";
+
+$temporal2 = $conn->prepare($sql2);
+
+  $temporal2->bindParam(':referencia', $referencia);
+  $temporal2->bindParam(':pass1', $pass1);
+  $temporal2->bindParam(':ide', $ide);
+  $temporal2->bindParam(':idc', $idc);
+
+  $temporal2->execute();
+
 //echo $sql2;
-$result2=$conn->exec($sql2);
+//$result2=$conn->exec($sql2);
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
 }else{;
@@ -253,9 +383,19 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 for ($lqr=2;$lqr<6;$lqr++){
 	if ($altaqr[$lqr]==0){
 			if($datosqr1[$lqr]!=null){
-			$sqlqr = "INSERT INTO codigo (idempresas,idclientes,idpccat,activo) VALUES ('$ide','$idclientes','$lqr','$datosqr1[$lqr]')";
+			$sqlqr = "INSERT INTO codigo (idempresas,idclientes,idpccat,activo) VALUES (:ide,:idclientes,:lqr,:datosqr1)";
 			//echo $sqlqr;
-			$resultqr=$conn->exec($sqlqr);
+
+			$temporalqr = $conn->prepare($sqlqr);
+
+			$temporalqr->bindParam(':ide', $ide);
+  			$temporalqr->bindParam(':idclientes', $idclientes);
+  			$temporalqr->bindParam(':lqr', $lqr);
+  			$temporalqr->bindParam(':datosqr1', $datosqr1[$lqr]);
+
+  			$resultqr->execute();
+
+			//$resultqr=$conn->exec($sqlqr);
 			//$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datosqr");
 			}
 		}else{
@@ -310,7 +450,17 @@ if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
+VALUES (:ide,:idempleado,:turnofd:,'0','0','0','0',:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+  $temporal1->bindParam(':ide', $ide);
+  $temporal1->bindParam(':idempleado', $idempleado);
+  $temporal1->bindParam(':turnofd', $turnofd);
+  $temporal1->bindParam(':fechad', $fechad);
+  $temporal1->bindParam(':fechad', $fechad);
+
+
 $result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
@@ -320,8 +470,21 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1  = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horentdf', $horentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':fechad', $fechad);
+
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -345,8 +508,19 @@ if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,'0','0','0','0',:fechad,:fechad','1','1','1','1','1','1','1')";
+
+$temporal1  = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
@@ -355,8 +529,20 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:$idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+$temporal1 = $conn->prepare();
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horentdf', $horentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':horsaldf', $fechad);
+
+$temporal1->execute();
+
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -384,7 +570,18 @@ if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
+VALUES (:ide,:idempleado,:turnofd,'0','0','0','0',:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+
+
 $result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
@@ -394,8 +591,24 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horentdf', $horentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':horsaldf', $horsaldf[$h]);
+$temporal1->bindParam(':margensaldf', $margensaldf[$h]);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -409,8 +622,27 @@ for ($j=0;$j<21;$j++){;
 if(($fi[$j]!=null) and ($ff[$j]!=null) and ($hor[$j]!=null)){;
 $sql1 = "INSERT INTO jornadas 
 (idempresas,idclientes,horario,margen,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idclientes','$hor[$j]','$margen[$j]','$fi[$j]','$ff[$j]','$lun[$j]','$mar[$j]','$mie[$j]','$jue[$j]','$vie[$j]','$sab[$j]','$dom[$j]')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idclientes,:hor,:margen,:fi,:ff,:lun,:mar,:mie,:jue,:vie,:sab,:dom)";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idclientes', $idclientes);
+$temporal1->bindParam(':hor', $hor[$j]);
+$temporal1->bindParam(':margen', $margen);
+$temporal1->bindParam(':fi', $fi[$j]);
+$temporal1->bindParam(':ff', $ff[$j]);
+$temporal1->bindParam(':lun', $lun[$j]);
+$temporal1->bindParam(':mar', $mar[$j]);
+$temporal1->bindParam(':mie', $mie[$j]);
+$temporal1->bindParam(':jue', $jue[$j]);
+$temporal1->bindParam(':vie', $vie[$j]);
+$temporal1->bindParam(':sab', $sab[$j]);
+$temporal1->bindParam(':dom', $dom[$j]);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 //echo $sql1;
 };
@@ -484,8 +716,22 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);	
+VALUES (:ide,:idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horaentdf', $horaentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':horsaldf', $horsaldf[$h]);
+$temporal1->bindParam(':margensaldf', $margensaldf[$h]);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);	
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -510,8 +756,19 @@ if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,'0','0','0','0',:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
@@ -520,8 +777,23 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horentdf', $horentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':horsaldf', $horsaldf[$h]);
+$temporal1->bindParam(':margensaldf', $margensaldf[$h]);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -544,8 +816,19 @@ if ($turnofd=='2'){;
 
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','0','0','0','0','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,'0','0','0','0',:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 
 }else{;
@@ -554,8 +837,23 @@ for($h=0;$h<3;$h++){;
 if ($horaentdf[$h]!=null){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turnofd','$horentdf[$h]','$margenentdf[$h]','$horsaldf[$h]','$margensaldf[$h]','$fechad','$fechad','1','1','1','1','1','1','1')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turnofd,:horentdf,:margenentdf,:horsaldf,:margensaldf,:fechad,:fechad,'1','1','1','1','1','1','1')";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turnofd', $turnofd);
+$temporal1->bindParam(':horaentdf', $horaentdf[$h]);
+$temporal1->bindParam(':margenentdf', $margenentdf[$h]);
+$temporal1->bindParam(':horsaldf', $horsaldf[$h]);
+$temporal1->bindParam(':margensaldf', $margensaldf[$h]);
+$temporal1->bindParam(':fechad', $fechad);
+$temporal1->bindParam(':fechad', $fechad); 
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 };
 };
@@ -570,8 +868,30 @@ for ($j=0;$j<21;$j++){;
 if(($fi[$j]!=null) and ($ff[$j]!=null)){;
 $sql1 = "INSERT INTO jorempleados 
 (idempresas,idempleados,turno,horent,margenent,horsal,margensal,finicio,ffin,lun,mar,mie,jue,vie,sab,dom) 
-VALUES ('$ide','$idempleado','$turno[$j]','$horent[$j]','$margenent[$j]','$horsal[$j]','$margensal[$j]','$fi[$j]','$ff[$j]','$lun[$j]','$mar[$j]','$mie[$j]','$jue[$j]','$vie[$j]','$sab[$j]','$dom[$j]')";
-$result1=$conn->exec($sql1);
+VALUES (:ide,:idempleado,:turno,:horent,:margenent,:horsal,:margensal,:fi,:ff,:lun,:mar,:mie,:jue,:vie,:sab,:dom)";
+
+$temporal1 = $conn->prepare($sql1);
+
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idempleado', $idempleado);
+$temporal1->bindParam(':turno', $turno[$j]);
+$temporal1->bindParam(':horent', $horent[$j]);
+$temporal1->bindParam(':margenent', $margenent[$j]);
+$temporal1->bindParam(':horsal', $horsal[$j]);
+$temporal1->bindParam(':margensal', $margensal[$j]);
+$temporal1->bindParam(':fi', $fi[$j]);
+$temporal1->bindParam(':ff', $ff[$j]);
+$temporal1->bindParam(':lun', $lun[$j]);
+$temporal1->bindParam(':mar', $mar[$j]);
+$temporal1->bindParam(':mie', $mie[$j]);
+$temporal1->bindParam(':jue', $jue[$j]);
+$temporal1->bindParam(':vie', $vie[$j]);
+$temporal1->bindParam(':sab', $sab[$j]);
+$temporal1->bindParam(':dom', $dom[$j]);
+
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query($conn,$sql1) or die ("Invalid result ijornadas");
 //echo $sql1;
 };

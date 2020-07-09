@@ -87,6 +87,8 @@ $rowp=count($fetchAll2);
 //$resultp=mysqli_query ($conn,$sqlp) or die ("Invalid result idproyectos");
 //$rowp=mysqli_num_rows($resultp);
 
+var_dump($sqlp);
+
 $sql="SELECT * from empresas where ";
 if ($rowp>0){;
 $sql.=" idproyectos ";
@@ -117,7 +119,11 @@ $sql.=")";
 
 $sql.=" order by idempresas asc";
 //echo $sql;
+
+var_dump($sql);
+
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 
 //$resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -245,7 +251,7 @@ echo "<th class='col2' style='background-color:#6ad4f2'>$dat[$t]</th>";
 
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 $idempresas=$row['idempresas'];
 $nombre=$row['nombre'];
 $nif=$row['nif'];

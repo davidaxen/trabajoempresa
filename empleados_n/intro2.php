@@ -2,7 +2,9 @@
 include('bbdd.php');
 
 if ($ide!=null){;
-include('../portada_n/cabecera2.php');?>
+include('../portada_n/cabecera2.php')
+
+?>
 
 
 <div id="main">
@@ -29,31 +31,43 @@ if ($tabla=="idempleados"){;
 if ($nif!=null){;
 
 $sql2="select id from empleados where idempresa='".$ide."' and nif='".$nif."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
-$row2=mysqli_num_rows($result2);
 
-if ($row2==0){;
+$result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
+$fetchAll2=$result2->fetchAll();
+$row2=count($fetchAll2);
 
-if ($foto!=null){;
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
+//$row2=mysqli_num_rows($result2);
+
+if ($row2==0){
+
+if ($foto!=null){
 $file = explode(".",$foto_name);
 $rf=$ide.'-'.$idc.'-f';
 $docf=$rf.".".strtolower($file[1]);
 $path="../img/emp/";
 copy($foto,$path.$docf);
-};
+}
 
-if ($numempleado==''){;
+if ($numempleado==''){
 $sql="select idempleado from empleados where idempresa='".$ide."' order by idempleado desc"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result clientes");
-$row=mysqli_num_rows($result);
-if ($row==0){;
+
+	$result=$conn->query($sql);
+    $resultmos=$conn->query($sql);
+    $fetchAll=$result->fetchAll();
+    $row=count($fetchAll);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result clientes");
+//$row=mysqli_num_rows($result);
+if ($row==0){
 $idc=10;
 }else{;
-$resultado=mysqli_fetch_array($result);
+//$resultado=mysqli_fetch_array($result);
 $idc=$resultado['idempleado'];
 $idc=$idc+1;
 };
-}else{;
+}else{
 $idc=$numempleado;
 }
 
@@ -72,7 +86,10 @@ $sql1.="'$entrada[$vl]','$incidencia[$vl]','$mensaje[$vl]','$alarma[$vl]','$accd
 
 $sql1.="'$docf','$tele1','$tele2','$email1','$sexo','$dia4','$mes4','$ano4','$numempleadogest','$grupo')";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iempleados 1");
+
+$result1=$conn->query($sql1);
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iempleados 1");
 
 $useremp=$ide.$idc;
 $passnif=$nif;
@@ -92,7 +109,11 @@ include ('../yo.php');
 
 
 $sql2 = "INSERT INTO usuarios (user,password,idempresas,idempleados,trabajador,tusuario,modulo) VALUES ('$useremp','$passnif','$ide','$idc','1','3','41')";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
+
+
+$result2=$conn->query($sql2);
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
 }else{;
 $datos="22";
 };
@@ -109,14 +130,20 @@ for ($j=0;$j<count($tablas);$j++){;
 for ($t=0;$t<count($datcli);$t++){;
 $sql="update ".$tablas[$j]." set ".$datcli[$t]."='0' where ".$datcli[$t]."=''";
 //echo $sql.'<br/>';
-$result=mysqli_query ($conn,$sql) or die ("Invalid result 10 ".$tablas[$j]);
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result 10 ".$tablas[$j]);
 
 };
 };
 
 $sql="update servicios set cuadrante='0' where cuadrante=''";
 //echo $sql.'<br/>';
-$result=mysqli_query ($conn,$sql) or die ("Invalid result 20");
+
+$result=$conn->query($sql);
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result 20");
 
 
 };
@@ -176,18 +203,28 @@ if ($nombrecampo[$j]=="estado"){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
 if ($valornuevo[$j]=="1"){;
 $sql10="select lictra from empresas where idempresas='".$ide."'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result lic");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result lic");
+//$resultado10=mysqli_fetch_array($result10);
 $lictra=$resultado10['lictra'];
 $sql10="select count(idempleado) as tot from empleados where idempresa='".$ide."' and estado='1'"; 
-$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empleados");
-$resultado10=mysqli_fetch_array($result10);
+
+$result10=$conn->query($sql10);
+$resultado10=$result10->fetch();
+//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empleados");
+//$resultado10=mysqli_fetch_array($result10);
 $tota=$resultado10['tot'];
 if ($lictra>$tota){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 }else{;
 $datos=23;
 };
@@ -196,7 +233,10 @@ $datos=23;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 };
 };
 }else{;
@@ -205,7 +245,9 @@ if ($valoractual[$j]!=$valornuevo[$j]){;
 $sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo $sql;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+
+$resultd=$conn->query($sql);
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 $datos='';
 
 
@@ -221,7 +263,10 @@ $path="../img/emp/";
 copy($foto1,$path.$docf);
 $sqla="foto='".$docf."' ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result foto");};
+
+$resultd=$conn->query($sql);
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result foto");};
 
 
 
@@ -229,13 +274,22 @@ $resultd=mysqli_query ($conn,$sql) or die ("Invalid result foto");};
 };
 
 $sql2="select idempleados from usuarios where idempresas='".$ide."' and idempleados='".$idc."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
-$row2=mysqli_num_rows($result2);
+
+	$result2=$conn->query($sql2);
+    $fetchAll2=$result2->fetchAll();
+    $row2=count($fetchAll2);
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
+//$row2=mysqli_num_rows($result2);
 
 if ($row2==0){;
 $sql2="select * from empleados where idempresa='".$ide."' and idempleado='".$idc."'";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
-$resultado2=mysqli_fetch_array($result2);
+
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result clientes");
+//$resultado2=mysqli_fetch_array($result2);
 $passnif=$resultado2['nif'];
 if ($passnif==''){;
 $passnif='AAAAAAAA';
@@ -243,7 +297,10 @@ $passnif='AAAAAAAA';
 $useremp=$ide.$idc;
 
 $sql2 = "INSERT INTO usuarios (user,password,idempresas,idempleados,trabajador) VALUES ('$useremp','$passnif','$ide','$idc','1')";
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
+
+$result2=$conn->query($sql2);
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
 
 };
 
@@ -261,7 +318,8 @@ Tienes que poner un NIF.<br>
 
 <?php 
 }; 
-?><?php 
+?>
+<?php 
 if ($datos==22){;
 ?>
 El NIF esta repetido.<br>
@@ -279,7 +337,7 @@ El Numero de Empleado debe de ser mayor que 10.<br>
 ?>
 
 <?php 
-if ($datos==23){;
+if ($datos==23){
 ?>
 <table>
 <tr><td class="enc">Ya ha utilizado todas las licencias contratadas</td></tr>
@@ -287,20 +345,20 @@ if ($datos==23){;
 </table><br>
 EL RESTO DE DATOS HAN SIDO MODIFICADOS<p>
 <?php 
-};
+}
 
 
-if ($datos==''){;
+if ($datos==''){
 ?>
 LOS DATOS HAN SIDO INTRODUCCIDOS<p>
 <?php 
-};
-
-
+}
 ?>
 <p>
 <a href="lempleados2.php?estadoe=1">Volver a menu</a>
 </div>
-<?php }else{;
+<?php }else{
 include ('../cierre.php');
- };?>
+ } 
+
+ ?>
