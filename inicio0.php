@@ -6,14 +6,20 @@ include('bbdd.php');
 if ($com=='comprobacion'){
 
 $sql="select * from usuarios where user='".$user."' and password='".$pass."'";
-$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
-$resultados = mysqli_fetch_array ($result);
+$result=$conn->query($sql);
+$resultados=$result->fetch();
+
+/*$result=mysqli_query ($conn, $sql) or die ("Invalid result idempresas");
+$resultados = mysqli_fetch_array ($result);*/
 
 				
 $sql56="select * from proyectos where idproyectos='".$idpr."'";
 //echo $sql56;
-$result56=mysqli_query ($conn, $sql56) or die ("Invalid result idempresas");
-$resultados56 = mysqli_fetch_array ($result56);
+$result56=$conn->query($sql56);
+$resultados56=$result56->fetch();
+
+/*$result56=mysqli_query ($conn, $sql56) or die ("Invalid result idempresas");
+$resultados56 = mysqli_fetch_array ($result56);*/
 
 
 $imgpr=$resultados56['logo'];
@@ -32,8 +38,10 @@ setcookie("pag1",$pag1);
 				
 				$sql1="select * from empresas where idempresas='".$ide."'"; 
 				//echo $sql1;
-				$result1=mysqli_query ($conn,$sql1) or die ("Invalid result empresas22");
-				$resultados1 = mysqli_fetch_array ($result1);
+				$result1=$conn->query($sql1);
+				$resultados1=$result1->fetch();
+				/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result empresas22");
+				$resultados1 = mysqli_fetch_array ($result1);*/
 
 				$nemp=$resultados1['nombre'];
 				$nifemp=$resultados1['nif'];
@@ -66,9 +74,12 @@ setcookie("pag1",$pag1);
 				$modulo=$resultados1['modulo'];
 
 				$sql10="select * from proyectos where idproyectos='".$idproyectos."'";
-				 
-				$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empresas23");			
-				$resultados10 = mysqli_fetch_array ($result10);
+
+				$result10=$conn->query($sql10);
+				$resultados10=$result10->fetch();
+
+				/*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empresas23");			
+				$resultados10 = mysqli_fetch_array ($result10);*/
 
 				$nomproyectos=$resultados1['nombre'];
 				$ct=$resultados1['color'];
@@ -120,8 +131,11 @@ setcookie("pag1",$pag1);
 				
 				$sql1="select * from usuarios where user='".$user."' and password='".$pass."'"; 
 				//echo $sql1;
-				$result1=mysqli_query ($conn,$sql1) or die ("Invalid result empresas 1");
-				$resultados1 = mysqli_fetch_array ($result1);
+				$result1=$conn->query($sql1);
+				$resultados1=$result1->fetch();
+
+				/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result empresas 1");
+				$resultados1 = mysqli_fetch_array ($result1);*/
 				
 				$admi=$resultados1['administracion'];
 				$serv=$resultados1['servicios'];
@@ -143,10 +157,15 @@ setcookie("pag1",$pag1);
 
 
 
-				$sql10="select * from visitas where usuario='".$user."' order by dia desc,hora desc"; 
-				$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empresas 10");
+				$sql10="select * from visitas where usuario='".$user."' order by dia desc,hora desc";
+				$result10=$conn->query($sql10);
+				$result10row=$conn->query($sql10);
+				$fetchAll10=$result10row->fetchAll();
+				$row10=count($fetchAll10);
+
+				/*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result empresas 10");
 				$row10=mysqli_num_rows();
-				$resultados10 = mysqli_fetch_array ($result10);
+				$resultados10 = mysqli_fetch_array ($result10);*/
 				
 				if ($row10==0){;
 				$dia1="Bienvenido";

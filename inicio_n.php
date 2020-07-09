@@ -3,6 +3,7 @@ include('bbdd.php');
 
 include ('yo.php');
 
+error_reporting(0);
 
 $ip=$_SERVER['REMOTE_ADDR'];
 $dt=date("Y-m-d",time());

@@ -13,24 +13,42 @@ include('../../portada_n/cabecera3.php');?>
 if ($tabla=="ipuntcont"){;
 
 for ($i=0;$i<count($punt);$i++){;
-$j=$i-1;
-switch($i) {;
-case 0:
-$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES ('$ide','$idclientes','c','$punt[$i]')";
-//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
-$result1=$conn->exec($sql1);
-break;
-case 1:
-$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES ('$ide','$idclientes','f','$punt[$i]')";
-//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
-$result1=$conn->exec($sql1);
-break;
-default:
-$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES ('$ide','$idclientes','$j','$punt[$i]')";
-//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
-$result1=$conn->exec($sql1);
-break;
-};
+	$j=$i-1;
+	switch($i) {;
+		case 0:
+			$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES (:ide,:idclientes,'c',:punt)";
+			$temporal1 = $conn->prepare($sql1);
+			$temporal1->bindParam(':ide', $ide);
+			$temporal1->bindParam(':idclientes', $idclientes);
+			$temporal1->bindParam(':punt', $punt[$i]);
+			$temporal1->execute();
+
+			//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+			//$result1=$conn->exec($sql1);
+			break;
+		case 1:
+			$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES (:ide,:idclientes,'f',:punt)";
+			//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+			$temporal1 = $conn->prepare($sql1);
+			$temporal1->bindParam(':ide', $ide);
+			$temporal1->bindParam(':idclientes', $idclientes);
+			$temporal1->bindParam(':punt', $punt[$i]);
+			$temporal1->execute();
+
+			//$result1=$conn->exec($sql1);
+			break;
+		default:
+			$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES (:ide,:idclientes,'$j',:punt')";
+			//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
+			$temporal1 = $conn->prepare($sql1);
+			$temporal1->bindParam(':ide', $ide);
+			$temporal1->bindParam(':idclientes', $idclientes);
+			$temporal1->bindParam(':punt', $punt[$i]);
+			$temporal1->execute();
+
+			//$result1=$conn->exec($sql1);
+		break;
+	};
 };
 
 };
@@ -38,12 +56,19 @@ break;
 if ($tabla=="puntos"){;
 
 $sql0="update puntcont set ";
-$sql1="where id='".$id."' and idempresas='".$ide."'";
+$sql1="where id=:id and idempresas=:ide";
 
 if ($descripcion!=$descripcionn){;
-$sqla="descripcion='".$descripcionn."' ";
+$sqla="descripcion=:descripcionn";
 $sql=$sql0.$sqla.$sql1;
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':id', $id);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':descripcionn', $descripcionn);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql);
 };
@@ -63,8 +88,14 @@ $valor=$resultado['idpuntcont'];
 
 for ($i=0;$i<count($punt);$i++){;
 $j=$valor+$i+1;
-$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES ('$ide','$idclientes','$j','$punt[$i]')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO puntcont (idempresas,idclientes,idpuntcont,descripcion) VALUES (:ide,:idclientes,'$j',:punt)";
+	$temporal1 = $conn->prepare($sql1);
+	$temporal1->bindParam(':ide', $ide);
+	$temporal1->bindParam(':idclientes', $idclientes);
+	$temporal1->bindParam(':punt', $punt[$i]);
+	$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 //echo $sql1;
 };

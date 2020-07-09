@@ -16,11 +16,18 @@ include('combo.php');?>
 <tr><td>Numero de Trabajo</td><td><input type="text" name="numsiniestro"></td></tr>
 <tr><td>Puesto de Trabajo</td>
 <td>
-<?php if ($idclientesinc!=null){;?>
+<?php 
+
+if (!isset($idclientesinc)) {
+	$idclientesinc=null;
+}
+
+if ($idclientesinc!=null){;?>
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1' and idclientes='".$idclientesinc."'";
 $result=$conn->query($sql);
 $resultado=$result->fetch();
+
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $resultado=mysqli_fetch_array($result);*/
@@ -35,8 +42,6 @@ $idclientes=$resultado['idclientes'];
 <?php 
 $sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
 $result=$conn->query($sql);
-$result2mos=$conn->query($sql);
-$row2=$result->fetchColumn();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);*/
@@ -44,7 +49,7 @@ $row2=mysqli_num_rows($result);*/
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result, $t);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($result2mos as $row2mos) {
+foreach ($result as $row2mos) {
 $nombre=$row2mos['nombre'];
 $idclientes=$row2mos['idclientes'];
 ?><option value="<?php  echo $idclientes;?>"><?php  echo $nombre;?>
