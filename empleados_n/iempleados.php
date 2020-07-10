@@ -131,8 +131,8 @@ foreach ($result11mos as $row11mos) {
 //for ($i=0;$i<$row11;$i++){;
 //mysqli_data_seek($result11,$i);
 //$resultado11=mysqli_fetch_array($result11);
-$idproveedor=$resultado11['idproveedor'];
-$nombreprov=$resultado11['nombre'];
+$idproveedor=$row11mos['idproveedor'];
+$nombreprov=$row11mos['nombre'];
 ?>
 <option value="<?php  echo $idproveedor;?>"><?php  echo $nombreprov;?>
 <?php };?>
