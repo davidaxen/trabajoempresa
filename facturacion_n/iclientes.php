@@ -41,9 +41,7 @@ case 2: $ic=$resultado32['puestos'];break;
 
 <?php 
 
-if (isset($_REQUEST['idc'])) {
-  $idc = $_REQUEST['idc'];
-}else{
+if (!isset($idc)) {
   $idc = null;
 }
 
