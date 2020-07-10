@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 include('bbdd.php');
 include('../yo.php');
 include('../portada_n/cabecera2.php');?>
@@ -38,7 +39,7 @@ VALUES (:idc,:cliente,:nif,:cp,:direccion,:provincia,:localidad,:ide,'1',:tipo,
 :datos0,:datos1,:datos2,:datos3,:datos4,:datos5,:datos6,:datos7,:datos8,:datos9,:datos10,:datos11,:datos12,:datos15,:datos16,:datos17,:datos18)";
 //echo $sql1;
 
-var_dump($sql1);
+$datos=$_REQUEST['datos'];
 
 $temporal1 = $conn->prepare($sql1);
 
@@ -51,25 +52,23 @@ $temporal1 = $conn->prepare($sql1);
   $temporal1->bindParam(':localidad', $localidad);
   $temporal1->bindParam(':ide', $ide);
   $temporal1->bindParam(':tipo', $tipo);
-  $temporal1->bindParam(':datos0', $datos0[0]);
-  $temporal1->bindParam(':datos1', $datos1[1]);
-  $temporal1->bindParam(':datos2', $datos2[2]);
-  $temporal1->bindParam(':datos3', $datos3[3]);
-  $temporal1->bindParam(':datos4', $datos4[4]);
-  $temporal1->bindParam(':datos5', $datos5[5]);
-  $temporal1->bindParam(':datos6', $datos6[6]);
-  $temporal1->bindParam(':datos7', $datos7[7]);
-  $temporal1->bindParam(':datos8', $datos8[8]);
-  $temporal1->bindParam(':datos9', $datos9[9]);
-  $temporal1->bindParam(':datos10', $datos10[10]);
-  $temporal1->bindParam(':datos11', $datos11[11]);
-  $temporal1->bindParam(':datos12', $datos12[12]);
-  $temporal1->bindParam(':datos13', $datos13[13]);
-  $temporal1->bindParam(':datos14', $datos14[14]);
-  $temporal1->bindParam(':datos15', $datos15[15]);
-  $temporal1->bindParam(':datos16', $datos16[16]);
-  $temporal1->bindParam(':datos17', $datos17[17]);
-  $temporal1->bindParam(':datos18', $datos18[18]);
+  $temporal1->bindParam(':datos0', $datos[0]);
+  $temporal1->bindParam(':datos1', $datos[1]);
+  $temporal1->bindParam(':datos2', $datos[2]);
+  $temporal1->bindParam(':datos3', $datos[3]);
+  $temporal1->bindParam(':datos4', $datos[4]);
+  $temporal1->bindParam(':datos5', $datos[5]);
+  $temporal1->bindParam(':datos6', $datos[6]);
+  $temporal1->bindParam(':datos7', $datos[7]);
+  $temporal1->bindParam(':datos8', $datos[8]);
+  $temporal1->bindParam(':datos9', $datos[9]);
+  $temporal1->bindParam(':datos10', $datos[10]);
+  $temporal1->bindParam(':datos11', $datos[11]);
+  $temporal1->bindParam(':datos12', $datos[12]);
+  $temporal1->bindParam(':datos15', $datos[14]);
+  $temporal1->bindParam(':datos16', $datos[15]);
+  $temporal1->bindParam(':datos17', $datos[16]);
+  $temporal1->bindParam(':datos18', $datos[17]);
 
   $temporal1->execute();
 
@@ -157,7 +156,7 @@ if ($tele1!=null){;
 $usergnue='g'.$ide.$idc;
 
 $sql1 = "INSERT INTO gestores (idgestor,idempresa,nombregestor,percontacto,telefono1,telefono2,fax,direccion,cp,email,user) 
-VALUES (:idc,:ide,:gestor,:percontacto',:tele1,:tele2,:fax1,:direccion,:cp,:emailn,:usergnue)";
+VALUES (:idc,:ide,:gestor,:percontacto,:tele1,:tele2,:fax1,:direccion,:cp,:emailn,:usergnue)";
 
 $temporal1 = $conn->prepare($sql1);
 
@@ -207,7 +206,7 @@ $temporal2 = $conn->prepare($sql2);
   $temporal2->execute();
 
 
-$result2=$conn->exec($sql2);
+//$result2=$conn->exec($sql2);
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result usuarios");
 
 }else{;

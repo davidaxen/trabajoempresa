@@ -14,9 +14,20 @@ if ($tabla=="ipuntcont"){;
 
 for ($i=0;$i<count($punt);$i++){;
 $p=$ultpunto+1+$i;
-$sql1 = "INSERT INTO puntservicios (idempresas,idpccat,idpcsubcat,subcategoria,rellr,rellg,rellb,activo) VALUES ('$ide','$idpccat','$p','$punt[$i]','$rellr[$i]','$rellg[$i]','$rellb[$i]','1')";
+$sql1 = "INSERT INTO puntservicios (idempresas,idpccat,idpcsubcat,subcategoria,rellr,rellg,rellb,activo) VALUES (:ide,:idpccat,:p,:punt,:rellr,:rellg,:rellb,'1')";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+$temporal1 = $conn->prepare($sql1);
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idpccat', $idpccat);
+$temporal1->bindParam(':p', $p);
+$temporal1->bindParam(':punt', $punt[$i]);
+$temporal1->bindParam(':rellr', $rellr[$i]);
+$temporal1->bindParam(':rellg', $rellg[$i]);
+$temporal1->bindParam(':rellb', $rellb[$i]);
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };
@@ -30,7 +41,9 @@ if ($idclientes=='todos'){;
 $sql="SELECT * from clientes where idempresas='".$ide."' ";
 $sql.="and accdiarias='1'";
 $result=$conn->query($sql);
-$rows=$result->fetchColumn();
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$rows=count($fetchAll);
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //echo $sql;
@@ -40,12 +53,13 @@ if ($rows!=0){;
 mysqli_data_seek($result);
 $resultado=mysqli_fetch_array($result);*/
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 $idclientes=$row['idclientes'];
 
 $sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
 $result2=$conn->query($sql2);
-$rows2=$result->fetchColumn();
+$fetchAll2=$result->fetchAll();
+$rows2=count($fetchAll2);
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
 //echo $sql2;
@@ -68,8 +82,14 @@ for ($j=0;$j<count($clientes);$j++){;
 
 if ($cantpuntcont=='todos'){;
 for ($i=0;$i<count($punt);$i++){;
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idclientes','$idpccat','$punt[$i]','1')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,:idpccat,:punt,'1')";
+$temporal1 = $conn->prepare($sql1);
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idclientes', $idclientes);
+$temporal1->bindParam(':idpccat', $idpccat);
+$temporal1->bindParam(':punt', $punt[$i]);
+$temporal1->execute();
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 //echo $sql1;
 };
@@ -78,8 +98,14 @@ $valores=array_unique($punt);
 //var_dump($valores);
 for ($i=0;$i<count($punt);$i++){;
 if ($valores[$i]!=null){;
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idclientes','$idpccat','$valores[$i]','1')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,:idpccat,:valores','1')";
+$temporal1 = $conn->prepare($sql1);
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idclientes', $idclientes);
+$temporal1->bindParam(':idpccat', $idpccat);
+$temporal1->bindParam(':valores', $valores[$i]);
+$temporal1->execute();
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 //echo $sql1;
 };
@@ -95,7 +121,7 @@ $result1=$conn->exec($sql1);
 if ($tabla=="mpuntcont"){;
 
 $sql0="update puntservicios set ";
-$sql1="where idpcsubcat='".$idpcsubcat."' and idempresas='".$ide."' and idpccat='".$idpccat."'";
+$sql1="where idpcsubcat=:idpcsubcat and idempresas=:ide and idpccat=:idpccat";
 
 
 $nombrec=array('subcategoria','rellr','rellg','rellb','activo');
@@ -109,7 +135,14 @@ if ($valora[$j]!=$valorn[$j]){;
 $sqla=$nombrec[$j]."='".$valorn[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>');
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idpcsubcat', $idpcsubcat);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':idpccat', $idpccat);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
 };
 
@@ -121,7 +154,7 @@ $resultd=$conn->exec($sql);
 if ($tabla=="modpuntconti"){;
 
 $sql0="update codservicios set ";
-$sql1="where idclientes='".$idclientes."' and idempresas='".$ide."' and idpccat='".$idpccat."' and idpcsubcat='".$idpcsubcat."'";
+$sql1="where idclientes=:idclientes and idempresas=:ide and idpccat=:idpccat and idpcsubcat=:idpcsubcat";
 
 
 $nombrec=array('activo','idpcsubcat');
@@ -135,7 +168,15 @@ if ($valora[$j]!=$valorn[$j]){;
 $sqla=$nombrec[$j]."='".$valorn[$j]."' ";
 $sql=$sql0.$sqla.$sql1;
 //echo ($sql.'<br>');
-$resultd=$conn->exec($sql);
+
+	$temporald = $conn->prepare($sql);
+	$temporald->bindParam(':idclientes', $idclientes);
+	$temporald->bindParam(':ide', $ide);
+	$temporald->bindParam(':idpccat', $idpccat);
+	$temporald->bindParam(':idpcsubcat', $idpcsubcat);
+	$temporald->execute();
+
+//$resultd=$conn->exec($sql);
 //$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrec[$j]." ");
 };
 

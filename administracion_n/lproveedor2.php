@@ -59,6 +59,9 @@ case 1: echo  "<font color='green'>ALTA</font>";break;
 $sql="SELECT * from proveedores where idempresas='".$ide."' and estado='".$estadoe."'"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -108,12 +111,12 @@ echo  "No tiene ning&uacuten proveedor dado de ";
 
 <?php
 
-foreach ($result as $row) {
-	$idproveedor=$row['idproveedor'];
-	$nombre=$row['nombre'];
-	$nif=$row['nif'];
-	$telefonop=$row['telefono'];
-	$emailp=$row['email'];
+foreach ($resultmos as $rowmos) {
+	$idproveedor=$rowmos['idproveedor'];
+	$nombre=$rowmos['nombre'];
+	$nif=$rowmos['nif'];
+	$telefonop=$rowmos['telefono'];
+	$emailp=$rowmos['email'];
 
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result, $i);

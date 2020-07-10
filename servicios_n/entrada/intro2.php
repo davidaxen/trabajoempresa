@@ -16,12 +16,21 @@ if ($ide!=null){;
 if ($tabla=="ipuntconti"){;
 
 
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idclientes','1','1','1')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,'1','1','1')";
+$temporal1 = $conn->prepare($sql1);
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idclientes', $idclientes);
+$temporal1->execute();
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont-1");
 
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES ('$ide','$idclientes','1','2','1')";
-$result1=$conn->exec($sql1);
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,'1','2','1')";
+$temporal1 = $conn->prepare($sql1);
+$temporal1->bindParam(':ide', $ide);
+$temporal1->bindParam(':idclientes', $idclientes);
+$temporal1->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont-1");
 
 

@@ -51,16 +51,21 @@ for ($yh=$tjy;$yh<count($tablas);$yh++){;
 
 
 $sql00="update ".$tablas[$yh]." set ";
-$sql01="where id='".$idalarma."'";
+$sql01="where id=:idalarma";
 
 for ($j=0;$j<count($nombrecampo);$j++){;
 //echo ($nombrecampo[$t].'-'.$valoractual[$t].'-'.$valornuevo[$t].'<br>');
 
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql00.$sqla.$sql01;
 //echo ($sql.'<br>');
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+	$temporal1 = $conn->prepare($sql);
+	$temporal1->bindParam(':idalarma', $idalarma);
+	$temporal1->bindParam(':valornuevo', $valornuevo[$j]);
+	$temporal1->execute();
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 };
 
 };
