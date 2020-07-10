@@ -28,8 +28,6 @@ $temporal1->bindParam(':rellb', $rellb[$i]);
 $temporal1->execute();
 
 
-
-
 //$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 

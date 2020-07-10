@@ -4,27 +4,26 @@
 $idempresasa=$datosn[0];
 
 $sql0="update proveedores set ";
-$sql1="where idempresas='".$ide."' and idproveedor='".$idproveedor."'";
-
-
-
-
+$sql1="where idempresas=:ide and idproveedor=:idproveedor";
 
 $nombrecampo=array('nombre','nif','cp','domicilio','provincia','localidad','telefono','email','estado');
 $valoractual=array($nombre,$nif,$cp,$domicilio,$provincia,$localidad,$telefonop,$emailp,$estadopro);
 $valornuevo=array($nombre1,$nif1,$cp1,$domicilio1,$provincia1,$localidad1,$telefonop1,$emailp1,$estadopro1);
 
-
-
-
-
 //echo (count($nombrecampo));
 for ($j=0;$j<count($nombrecampo);$j++){;
 //for ($j=2;$j<14;$j++){;
 if ($valoractual[$j]!=$valornuevo[$j]){;
-$sqla=$nombrecampo[$j]."='".$valornuevo[$j]."' ";
+$sqla=$nombrecampo[$j]."=:valornuevo ";
 $sql=$sql0.$sqla.$sql1;
-$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
+
+	$temporald = $conn->prepare($sql);
+  	$temporald->bindParam(':ide', $ide);
+  	$temporald->bindParam(':idproveedor', $idproveedor);
+  	$temporald->bindParam(':valornuevo', $valornuevo[$j]);
+  	$temporald->execute();
+
+//$resultd=mysqli_query ($conn,$sql) or die ("Invalid result ".$nombrecampo[$j]." ");
 //echo ($sql.'<br>');
 };
 };
