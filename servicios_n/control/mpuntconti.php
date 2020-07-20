@@ -17,12 +17,18 @@ if ($idsiniestro==null){;
 
 
 <?php 
-$sql="SELECT * from siniestros where idempresa='".$ide."' ";
+$sql="SELECT * from siniestros where idempresa=:ide ";
 $sql.="and terminado='0'";
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide', $ide);
+$resultmos->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //echo $sql;
@@ -63,8 +69,11 @@ No tiene siniestros sin terminar.
 
 <tr class="subenc3"><td>Datos del Evento</td></tr>
 <?php 
-$sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
-$result=$conn->query($sql);
+$sql="SELECT * from siniestros where idempresa=:ide and idsiniestro=:idsiniestro"; 
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idsiniestro', $idsiniestro);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");

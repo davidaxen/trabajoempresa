@@ -11,8 +11,11 @@ include('../../portada_n/cabecera3.php');?>
 <div class="contenido">
 
 <?php 
-$sql="SELECT * from puntcont where idempresas='".$ide."' and idclientes='".$idclientes."' order by idpuntcont asc";
-$result=$conn->query($sql);
+$sql="SELECT * from puntcont where idempresas=:ide and idclientes=:idclientes order by idpuntcont asc";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idclientes', $idclientes);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/
@@ -20,8 +23,11 @@ $row=mysqli_num_rows($result);*/
 <table>
 <tr class="subenc"><td>Nombre</td>
 <?php 
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result1=$conn->query($sql1);
+$sql1="SELECT nombre from clientes where idempresas=:ide and idclientes=:idclientes";
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide', $ide);
+$result1->bindParam(':idclientes', $idclientes);
+$result1->execute();
 $resultado1=$result1->fetch();
 
 /*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");

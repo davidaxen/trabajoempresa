@@ -39,11 +39,19 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc"; 
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
-$num_rows=$result2->fetchAll();
-$row2=count($num_rows);
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc"; 
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->bindParam(':idpccat', $idpccat);
+	$result2mos->execute();
+
+	$num_rows=$result2->fetchAll();
+	$row2=count($num_rows);
 
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");

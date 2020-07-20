@@ -3,16 +3,20 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=$conn->query($sql31);
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 /*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 $resultado31=mysqli_fetch_array($result31);*/
 $nc=$resultado31['jornadas'];
 
-$sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=$conn->query($sql32);
+$sql32="select * from menuserviciosimg where idempresa=:ide";
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide', $ide);
+$result32->execute();
 $resultado32=$result32->fetch();
 
 /*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
@@ -29,8 +33,11 @@ include('../portada_n/cabecera2.php');?>
 
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result=$conn->query($sql);
+$sql="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idclientes', $idclientes);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");

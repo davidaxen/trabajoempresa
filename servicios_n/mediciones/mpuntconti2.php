@@ -15,9 +15,11 @@ if ($idclientes==null){;?>
 <table>
 <tr><td>Nombre del Puesto de Trabajo</td><td>
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
+$sql="SELECT * from clientes where idempresas=:ide and estado='1'";
 $sql.=" and mediciones='1'"; 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/?>
@@ -30,8 +32,11 @@ foreach ($result as $rowmos) {
 $idclientes=$rowmos['idclientes'];
 $nombre=$rowmos['nombre'];
 
-$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result2=$conn->query($sql2);
+$sql2="SELECT * from puntoslectura where idempresas=:ide and idclientes=:idclientes";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idclientes', $idclientes);
+$result2->execute();
 $fetchAll2=$result2->fetchAll();
 $row2=count($fetchAll2);
 
@@ -52,8 +57,11 @@ $row2=mysqli_num_rows($result2);*/
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>"></td></tr>
 </table>
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result=$conn->query($sql);
+$sql="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idclientes', $idclientes);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -62,8 +70,11 @@ $idclientes=$resultado['idclientes'];
 $nombre=$resultado['nombre'];?>
 <?php  echo $nombre;?></td></tr>
 <?php 
-$sql2="SELECT * from puntoslectura where idempresas='".$ide."' and idclientes='".$idclientes."' order by idpuntoslectura asc";
-$result2=$conn->query($sql2);
+$sql2="SELECT * from puntoslectura where idempresas=:ide and idclientes=:idclientes order by idpuntoslectura asc";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idclientes', $idclientes);
+$result2->execute();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/

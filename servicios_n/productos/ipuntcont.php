@@ -39,10 +39,18 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
-$row2=$result2->fetchColumn();
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->bindParam(':idpccat', $idpccat);
+	$result2mos->execute();
+
+	$row2=count($result2->fetchAll());
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_affected_rows();*/
 
@@ -52,8 +60,9 @@ if ($row2!=0){;?>
 <tr class="enca"><td>Codigo</td><td>Nombre</td></tr>
 <?php  
 //for ($t=0;$t<$row2;$t++){;
-foreach ($result2mos as $row) {
 	$t=0;
+foreach ($result2mos as $row) {
+
 	$idpcsubcat=$row['idpcsubcat'];
 	$subcategoria=$row['subcategoria'];
 

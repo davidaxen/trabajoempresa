@@ -98,6 +98,7 @@ $valores=array_unique($punt);
 for ($i=0;$i<count($punt);$i++){;
 if ($valores[$i]!=null){;
 $sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,:idpccat,:valores,'1')";
+$temporal1=$conn->prepare($sql1);
 $temporal1->bindParam(':ide', $ide);
 $temporal1->bindParam(':idclientes', $idclientes);
 $temporal1->bindParam(':idpccat', $idpccat);

@@ -16,11 +16,16 @@ include('../../portada_n/cabecera3.php');?>
 if ($idclientes==null){;?>
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' ";
-$sql.="and accdiarias='1'";
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-$rows = $result->fetchColumn();
+	$sql="SELECT * from clientes where idempresas=:ide ";
+	$sql.="and accdiarias='1'";
+	$result=$conn->prepare($sql);
+	$result->bindParam(':ide', $ide);
+	$result->execute();
+
+	$resultmos=$conn->prepare($sql);
+	$resultmos->bindParam(':ide', $ide);
+	$resultmos->execute();
+	$rows = count($result->fetchAll());
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //echo $sql;
@@ -30,11 +35,15 @@ if ($rows!=0){;
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
 foreach ($resultmos as $row) {
-$idclientes=$row['idclientes'];
+	$idclientes=$row['idclientes'];
 
-$sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
-$result2=$conn->query($sql2);
-$rows2 = $result2->fetchColumn();
+	$sql2="SELECT * from codservicios where idempresas=:ide and idclientes=:idclientes and idpccat=:idpccat";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idclientes', $idclientes);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+	$rows2 = count($result2->fetchAll());
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
 //echo $sql2;
@@ -45,9 +54,13 @@ $clientes[]=$idclientes;
 };
 };
 
-$sql4="SELECT count(id) as t from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1'";
-$result4=$conn->query($sql4);
-$resultado4=$result4->fetch();
+	$sql4="SELECT count(id) as t from puntservicios where idempresas=:ide and idpccat=:idpccat and activo='1'";
+	$result4=$conn->prepare($sql4);
+	$result4->bindParam(':ide', $ide);
+	$result4->bindParam(':idpccat', $idpccat);
+	$result4->execute();
+
+	$resultado4=$result4->fetch();
 
 /*$result4=mysqli_query ($conn,$sql4) or die ("Invalid result4");
 $resultado4=mysqli_fetch_array($result4);*/
@@ -70,9 +83,12 @@ if (count($clientes)!=0){;
 //print_r($clientes);
 
 for ($h=0;$h<count($clientes);$h++){;
-$sql3="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$clientes[$h]."'";
-$result3=$conn->query($sql3);
-$resultado3=$result3->fetch();
+	$sql3="SELECT * from clientes where idempresas=:ide and idclientes=:clientes";
+	$result3=$conn->prepare($sql3);
+	$result3->bindParam(':ide', $ide);
+	$result3->bindParam(':clientes', $clientes[$h]);
+	$result3->execute();
+	$resultado3=$result3->fetch();
 /*
 $result3=mysqli_query ($conn,$sql3) or die ("Invalid result3");
 //echo $sql3;
@@ -111,9 +127,12 @@ No tiene puestos de trabajo sin asignar puntos
 <input type="hidden" name="idclientes" value="<?php  echo $idclientes;?>">
 <?php 
 if ($idclientes!="todos"){;
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result=$conn->query($sql);
-$resultado=$result->fetch();
+	$sql="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes";
+	$result=$conn->prepare($sql);
+	$result->bindParam(':ide', $ide);
+	$result->bindParam(':idclientes', $idclientes);
+	$result->execute();
+	$resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $resultado=mysqli_fetch_array($result);*/
@@ -129,20 +148,26 @@ $nombre=$resultado['nombre'];
 
 
 <?php if ($cantpuntcont=='todos'){;
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat and activo='1' order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);
 for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);*/
+$t=0;
 foreach ($result2 as $row2) {
 $idpcsubcat=$row2['idpcsubcat'];
 $subcategoria=$row2['subcategoria'];
 ?>
 <tr><td colspan="2"><input type="hidden" name="punt[<?php  echo $t?>]" value="<?php  echo $idpcsubcat;?>"><?php  echo strtoupper($subcategoria);?></td></tr>
-<?php };?>
+<?php 
+$t=$t+1;
+};?>
 <?php }else{;?>
 
 
@@ -150,9 +175,17 @@ $subcategoria=$row2['subcategoria'];
 for ($i=0;$i<$cantpuntcont;$i++){;?>
 <tr><td>Punto</td><td>
 <?php 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' and activo='1' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
-$rows2 = $result2->fetchColumn();
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat and activo='1' order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->bindParam(':idpccat', $idpccat);
+	$result2mos->execute();
+	$rows2 = count($result2->fetchAll());
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/
@@ -162,7 +195,7 @@ if ($rows2!=0){;?>
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);*/
-foreach ($result2 as $row2) {
+foreach ($result2mos as $row2) {
 $idpcsubcat=$row2['idpcsubcat'];
 $subcategoria=$row2['subcategoria'];
 ?>

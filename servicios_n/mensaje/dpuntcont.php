@@ -16,8 +16,10 @@ include('../../portada_n/cabecera3.php');?>
 
 
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
-$result=$conn->query($sql);
+$sql="SELECT * from empleados where idempresa=:ide and estado='1'";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/

@@ -11,10 +11,13 @@ include('bbdd.php');
 
 <?php 
 $sql1="SELECT * from siniestros";
-$sql1.=" where idempresa='".$ide."' ";
-$sql1.=" and idsiniestro='".$idsiniestro."' ";
+$sql1.=" where idempresa=:ide ";
+$sql1.=" and idsiniestro=:idsiniestro ";
 //echo $sql1;
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idsiniestro', $idsiniestro);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
@@ -62,8 +65,11 @@ $seg=strtok(":");
 </td></tr>
 <tr><td>Compañia de Seguros</td><td>
 <?php 
-$sql="SELECT * from aseguradora where idempresa='".$ide."' and idaseguradora='".$idaseguradora."'";
-$result=$conn->query($sql1);
+$sql="SELECT * from aseguradora where idempresa=:ide and idaseguradora=:idaseguradora";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idaseguradora', $idaseguradora);
+$result->execute();
 $resultado=$result->fetch();
 
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");

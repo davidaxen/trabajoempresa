@@ -12,10 +12,13 @@ include('../../portada_n/cabecera3.php');?>
 
 <?php 
 $sql1="SELECT * from aseguradora";
-$sql1.=" where idempresa='".$ide."' ";
-$sql1.=" and idaseguradora='".$idaseguradora."' ";
+$sql1.=" where idempresa=:ide ";
+$sql1.=" and idaseguradora=:idaseguradora ";
 //echo $sql1;
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idaseguradora', $idaseguradora);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");

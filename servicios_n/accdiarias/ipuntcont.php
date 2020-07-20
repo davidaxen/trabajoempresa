@@ -44,10 +44,13 @@ if(!isset($enviar)){
 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
-$num_rows=$result2->fetchAll();
-$row2=count($num_rows);
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+	$num_rows=$result2->fetchAll();
+	$row2=count($num_rows);
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_affected_rows();*/
@@ -57,9 +60,8 @@ if ($row2!=0){;?>
 <table>
 <tr class="enca"><td>Codigo</td><td>Nombre</td></tr>
 <?php  //for ($t=0;$t<$row2;$t++){;
-	foreach ($result2 as $row) {
-
-	
+	$t=0;
+	foreach ($result2 as $row) {	
 	$idpcsubcat=row['idpcsubcat'];
 	$subcategoria=row['subcategoria'];
 /*$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
@@ -70,7 +72,10 @@ $ultpunto=$idpcsubcat;
 };
 ?>
 <tr><td><?php  echo $idpcsubcat;?></td><td><?php  echo $subcategoria;?></td></tr>
-<?php };?>
+<?php 
+$t=$t+1;
+}
+?>
 </table>
 <form action="ipuntcont.php" method="post">
 <input type="hidden" name="ultpunto" value="<?php  echo $ultpunto;?>">

@@ -39,9 +39,17 @@ function setBgColorById(id,sColor) {
 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
+$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idpccat', $idpccat);
+$result2->execute();
+
+$result2mos=$conn->prepare($sql2);
+$result2mos->bindParam(':ide', $ide);
+$result2mos->bindParam(':idpccat', $idpccat);
+$result2mos->execute();
+
 $num_rows=$result2->fetchAll();
 $row2=count($num_rows);
 
@@ -56,8 +64,8 @@ if ($row2!=0){;?>
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2,$t);
 $resultado2=mysqli_fetch_array($result2);*/
-foreach ($result2mos as $row) {
 	$t=0;
+foreach ($result2mos as $row) {
 	$idpcsubcat=$row['idpcsubcat'];
 	$subcategoria=$row['subcategoria'];
 	$rellr=$row['rellr'];

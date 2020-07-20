@@ -36,24 +36,38 @@ function setBgColorById(id,sColor) {
 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
+$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+	$fetchAll2=$result2->fetchAll();
+	$row2=count($fetchAll2);
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->bindParam(':idpccat', $idpccat);
+	$result2mos->execute();
+	
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 
 if ($row2!=0){;?>
 <table><tr><td>Tienes los siguientes puntos introducidos:</td></tr></table>
 <table>
 <tr class="enca"><td>Codigo</td><td>Nombre</td><td>Activo</td><td>Opcion</td></tr>
 <?php  
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$idpcsubcat=$resultado2['idpcsubcat'];
-$subcategoria=$resultado2['subcategoria'];
-$rellr=$resultado2['rellr'];
-$rellg=$resultado2['rellg'];
-$rellb=$resultado2['rellb'];
-$activo=$resultado2['activo'];
+$resultado2=mysqli_fetch_array($result2);*/
+$t=0;
+foreach ($result2mos as $row2mos) {
+$idpcsubcat=$row2mos['idpcsubcat'];
+$subcategoria=$row2mos['subcategoria'];
+$rellr=$row2mos['rellr'];
+$rellg=$row2mos['rellg'];
+$rellb=$row2mos['rellb'];
+$activo=$row2mos['activo'];
 if ($t==$row2-1){;
 $ultpunto=$idpcsubcat;
 };
@@ -63,7 +77,9 @@ $ultpunto=$idpcsubcat;
 <?php if ($activo==1){;?>Si<?php }else{;?>No<?php };?>
 </td>
 <td><a href="mpuntcont.php?enviar=enviar&subcategoria=<?php  echo $subcategoria;?>&idpcsubcat=<?php  echo $idpcsubcat;?>&activo=<?php  echo $activo;?>&rellr=<?php  echo $rellr;?>&rellg=<?php  echo $rellg;?>&rellb=<?php  echo $rellb;?>"><img src="../../img/modificar.gif"></a></td></tr>
-<?php };?>
+<?php 
+$t=$t+1;
+};?>
 </table>
 <img alt="volver" border="0" src="../../img/arrow_cycle.png" onclick="history.back()">
 
