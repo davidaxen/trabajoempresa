@@ -34,15 +34,34 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 
 $sql1="SELECT * from siniestros";
-$sql1.=" where idempresa='".$ide."' ";
-if ($estado!='todos'){;
-$sql1.=" and terminado='".$estado."' ";
-};
+$sql1.=" where idempresa=:ide ";
+if ($estado!='todos'){
+$sql1.=" and terminado=:estado ";
 $sql1.=" order by dia asc";
-$result=$conn->query($sql1);
-$resultmos=$conn->query($sql1);
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->bindParam(':estado', $estado);
+	$result->execute();
+	$fetchAll=$result->fetchAll();
+	$row=count($fetchAll);
+
+	$resultmos=$conn->prepare($sql1);
+	$resultmos->bindParam(':ide', $ide);
+	$resultmos->bindParam(':estado', $estado);
+	$resultmos->execute();
+}else{
+	$sql1.=" order by dia asc";
+
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->execute();
+	$fetchAll=$result->fetchAll();
+	$row=count($fetchAll);
+
+	$resultmos=$conn->prepare($sql1);
+	$resultmos->bindParam(':ide', $ide);
+	$resultmos->execute();
+}
 
 //echo $sql1;
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
@@ -80,8 +99,11 @@ $horaasig=$rowmos['horaasignacion'];
 ?><tr class="menor1">
 <td><?php  echo $numsiniestro;?></td>
 <?php 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
-$result2=$conn->query($sql2);
+$sql2="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idempleado', $idempleado);
+$result2->execute();
 $resultado2=$result2->fetch();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");

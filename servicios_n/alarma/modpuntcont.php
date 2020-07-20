@@ -10,9 +10,11 @@ include('../../portada_n/cabecera3.php');?>
 <form action="intro2.php" method="post">
 
 <?php 
-$sql="SELECT * from alarma where id='".$idalarma."'";
+$sql="SELECT * from alarma where id=:idalarma";
 //echo $sql;
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':idalarma', $idalarma);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
@@ -41,8 +43,11 @@ $fechaant=$ym.'-'.$mm.'-'.$dm;
 <tr><td>Datos del Puesto de Trabajo</td><td>
 <?php 
 $idclientes=$resultado['idclientes'];
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-$result1=$conn->query($sql1);
+$sql1="SELECT nombre from clientes where idempresas=:ide and idclientes=:idclientes";
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide', $ide);
+$result1->bindParam(':idclientes', $idclientes);
+$result1->execute();
 $resultado1=$result1->fetch();
 
 /*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");

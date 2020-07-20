@@ -42,13 +42,20 @@ if(!isset($enviar)){
 }
 
 if ($enviar==null){;
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
+	$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+
 //$result2mos=$conn->query($sql2);
 /*$num_rows=$result2->fetchAll();
 $row2=count($result2);*/
-
-$row2=$result2->fetchColumn();
+	$result2row=$conn->prepare($sql2);
+	$result2row->bindParam(':ide', $ide);
+	$result2row->bindParam(':idpccat', $idpccat);
+	$result2row->execute();
+	$row2=count($result2row->fetchAll());
 //echo "$row2";
 
 
@@ -59,28 +66,31 @@ if ($row2!=0){;?>
 <table><tr><td>Tienes los siguientes puntos introducidos:</td></tr></table>
 <table>
 <tr class="enca"><td>Codigo</td><td>Nombre</td><td>Activo</td><td>Opcion</td></tr>
-<?php 
+<?php
+
+$t=0;
 foreach ($result2 as $row) {
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2,$t);
 $resultado2=mysqli_fetch_array($result2);*/
-echo $row['subcategoria'];
 $idpcsubcat=$row['idpcsubcat'];
 $subcategoria=$row['subcategoria'];
 $rellr=$row['rellr'];
 $rellg=$row['rellg'];
 $rellb=$row['rellb'];
 $activo=$row['activo'];
-/*if ($t==$row2-1){;
+if ($t==$row2-1){;
 $ultpunto=$idpcsubcat;
-};*/
+};
 ?>
 <tr><td><?php  echo $idpcsubcat;?></td><td><?php  echo strtoupper($subcategoria);?></td>
 <td>
 <?php if ($activo==1){;?>Si<?php }else{;?>No<?php };?>
 </td>
 <td><a href="mpuntcont.php?enviar=enviar&subcategoria=<?php  echo $subcategoria;?>&idpcsubcat=<?php  echo $idpcsubcat;?>&activo=<?php  echo $activo;?>&rellr=<?php  echo $rellr;?>&rellg=<?php  echo $rellg;?>&rellb=<?php  echo $rellb;?>"><img src="../../img/pencil.png" width="25px"></a></td></tr>
-<?php };?>
+<?php 
+$t=$t+1;
+};?>
 </table>
 <img alt="volver" border="0" src="../../img/iconos/volver-g.png" width="30px" onclick="history.back()">
 

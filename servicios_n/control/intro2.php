@@ -82,6 +82,7 @@ VALUES (:ide,:idasistente,:nombreasist,:papellidoasist,:sapellidoasist,:dniasist
 	$temporal1->bindParam(':sapellidoasist', $sapellidoasist);
 	$temporal1->bindParam(':dniasist', $dniasist);
 	$temporal1->bindParam(':dirasist', $dirasist);
+	$temporal1->bindParam(':cpasist', $cpasist);
 	$temporal1->bindParam(':telasist', $telasist);
 	$temporal1->bindParam(':mailasist', $mailasist);
 	$temporal1->bindParam(':locasist', $locasist);

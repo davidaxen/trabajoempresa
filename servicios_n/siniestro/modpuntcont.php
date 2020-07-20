@@ -11,10 +11,13 @@ include('../../portada_n/cabecera3.php');?>
 
 <?php 
 $sql1="SELECT * from siniestros";
-$sql1.=" where idempresa='".$ide."' ";
-$sql1.=" and idsiniestro='".$idsiniestro."' ";
+$sql1.=" where idempresa=:ide ";
+$sql1.=" and idsiniestro=:idsiniestro ";
 //echo $sql1;
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idsiniestro', $idsiniestro);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
@@ -71,8 +74,10 @@ $seg=strtok(":");
 <tr><td>Numero de Siniestro</td><td><input type="text" name="numsiniestro1" value="<?php  echo $numsiniestro;?>"></td></tr>
 <tr><td>Compañia de Seguros</td><td><select name="idaseguradora1">
 <?php 
-$sql="SELECT * from aseguradora where idempresa='".$ide."' and estado='1'";
-$result=$conn->query($sql);
+$sql="SELECT * from aseguradora where idempresa=:ide and estado='1'";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);

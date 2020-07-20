@@ -31,34 +31,38 @@ function setBgColorById(id,sColor) {
 //-->
 </script>
 
-
-
-
-
-
-
 <?php 
 
+if ($enviar==null){
+
+$sql2="SELECT * from ruta where idempresas=:ide order by idruta asc"; 
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->execute();
+$row2=count($result2->fetchAll());
+
+$result2mos=$conn->prepare($sql2);
+$result2mos->bindParam(':ide', $ide);
+$result2mos->execute();
 
 
-if ($enviar==null){;
+/*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+$row2=mysqli_num_rows($result2);*/
 
-$sql2="SELECT * from ruta where idempresas='".$ide."' order by idruta asc"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$row2=mysqli_num_rows($result2);
-
-if ($row2!=0){;?>
+if ($row2!=0){ ?>
 <table><tr><td>Tienes las siguientes rutas introducidas:</td></tr></table>
 <table>
 <tr class="enca"><td>Cod. Ruta</td><td>Nombre</td><td>Activo</td><td>Opcion</td></tr>
 <?php 
-for ($t=0;$t<$row2;$t++){;
+/*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
-$resultado2=mysqli_fetch_array($result2);
-$idruta=$resultado2['idruta'];
-$nombreruta=$resultado2['nombreruta'];
-$activo=$resultado2['estado'];
-if ($t==$row2-1){;
+$resultado2=mysqli_fetch_array($result2);*/
+$t=0;
+foreach ($result2mos as $row2mos) {
+$idruta=$row2mos['idruta'];
+$nombreruta=$row2mos['nombreruta'];
+$activo=$row2mos['estado'];
+if ($t==$row2-1){
 $ultpunto=$idruta;
 };
 ?>
@@ -66,8 +70,10 @@ $ultpunto=$idruta;
 <td>
 <?php if ($activo==1){;?>Si<?php }else{;?>No<?php };?>
 </td>
-<td><a href="mpuntcont.php?enviar=enviar&idruta=<?php  echo $idruta;?>"><img src="../../img/modificar.gif"></a></td></tr>
-<?php };?>
+<td><a href="mpuntcont.php?enviar=enviar&idruta=<?php echo $idruta;?>"><img src="../../img/modificar.gif"></a></td></tr>
+<?php 
+$t=$t+1;
+};?>
 </table>
 <img alt="volver" border="0" src="../../img/arrow_cycle.png" onclick="history.back()">
 
@@ -78,9 +84,15 @@ No tienes dado de alta ningún punto
 <?php };?>
 <?php } else {;?>
 <?php 
-$sql3="SELECT * from ruta where idempresas='".$ide."' and idruta='".$idruta."'"; 
-$result3=mysqli_query ($conn,$sql3) or die ("Invalid result 3");
-$resultado3=mysqli_fetch_array($result3);
+$sql3="SELECT * from ruta where idempresas=:ide and idruta=:idruta";
+$result3=$conn->prepare($sql3);
+$result3->bindParam(':ide', $ide);
+$result3->bindParam(':idruta', $idruta);
+$result3->execute();
+$resultado3=$result3->fetch();
+
+/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result 3");
+$resultado3=mysqli_fetch_array($result3);*/
 $idruta=$resultado3['idruta'];
 $nombreruta=$resultado3['nombreruta'];
 $activo=$resultado3['estado'];
@@ -145,21 +157,26 @@ $idempleado=$resultado3['idempleado'];
 
 
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'"; 
+$sql="SELECT * from empleados where idempresa=:ide and estado='1'"; 
 /*$sql.=" and estado='1'";*/
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$row=mysqli_num_rows($result);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+$row=mysqli_num_rows($result);*/
 ?>
 <select name="idempleadon">
 <option value=""></option>
 <?php 
-for ($i=0;$i<$row;$i++){;
+/*for ($i=0;$i<$row;$i++){;
 mysqli_data_seek($result, $i);
-$resultado=mysqli_fetch_array($result);
-$idempl=$resultado['idempleado'];
-$nombre=$resultado['nombre'];
-$priape=$resultado['1apellido'];
-$segape=$resultado['2apellido'];
+$resultado=mysqli_fetch_array($result);*/
+foreach ($result as $rowmos) {
+$idempl=$rowmos['idempleado'];
+$nombre=$rowmos['nombre'];
+$priape=$rowmos['1apellido'];
+$segape=$rowmos['2apellido'];
 ?>
 <option value="<?php  echo $idempl;?>"  <?php if ($idempleado==$idempl){;?>selected<?php };?>  ><?php  echo $nombre;?>, <?php  echo $priape;?> <?php  echo $segape;?>
 <?php };?>
@@ -186,9 +203,19 @@ $segape=$resultado['2apellido'];
 </form>
 
 <?php 
-$sql21="SELECT * from clienteruta where idempresas='".$ide."' and idruta='".$idruta."'"; 
-$result21=mysqli_query ($conn,$sql21) or die ("Invalid result");
-$row21=mysqli_num_rows($result21);
+$sql21="SELECT * from clienteruta where idempresas=:ide and idruta=:idruta";
+$result21=$conn->prepare($sql21);
+$result21->bindParam(':ide', $ide);
+$result21->bindParam(':idruta', $idruta);
+$result21->execute();
+$row21=count($result21->fetchAll());
+
+$result21mos=$conn->prepare($sql21);
+$result21mos->bindParam(':ide', $ide);
+$result21mos->bindParam(':idruta', $idruta);
+$result21mos->execute();
+/*$result21=mysqli_query ($conn,$sql21) or die ("Invalid result");
+$row21=mysqli_num_rows($result21);*/
 
 if ($row21==0){;
 ?>
@@ -199,14 +226,20 @@ No tienes ning&uacuten cliente asignado, pincha <a href="apuntcont.php"> aqui </
 <table>
 <tr><td colspan="2">Clientes dentro de Ruta</td></tr>
 <?php 
-for ($ty=0;$ty<$row21;$ty++){;
+/*for ($ty=0;$ty<$row21;$ty++){
 mysqli_data_seek($result21, $ty);
-$resultado21=mysqli_fetch_array($result21);
-$idclientes=$resultado21['idclientes'];
+$resultado21=mysqli_fetch_array($result21);*/
+foreach ($result21 as $row21mos) {
+$idclientes=$row21mos['idclientes'];
 
-$sql23="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result23=mysqli_query ($conn,$sql23) or die ("Invalid result");
-$resultado23=mysqli_fetch_array($result23);
+$sql23="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes";
+$result23=$conn->prepare($sql23);
+$result23->bindParam(':ide', $ide);
+$result23->bindParam(':idclientes', $idclientes);
+$result23->execute();
+$resultado23=$result23->fetch();
+/*$result23=mysqli_query ($conn,$sql23) or die ("Invalid result");
+$resultado23=mysqli_fetch_array($result23);*/
 $nombre=$resultado23['nombre'];
 ?>
 <tr>

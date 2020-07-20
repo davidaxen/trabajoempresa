@@ -29,13 +29,23 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 
 $sql1="SELECT * from aseguradora";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide ";
 if ($estado!='todos'){;
-$sql1.=" and estado='".$estado."' ";
+$sql1.=" and estado=:estado ";
 };
 $sql1.=" order by idaseguradora asc";
 //echo $sql1;
-$result=$conn->query($sql1);
+
+if ($estado!='todos'){;
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->bindParam(':estado', $estado);
+	$result->execute();
+}else{
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->execute();
+}
 
 /*$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
 $row=mysqli_num_rows($result);*/

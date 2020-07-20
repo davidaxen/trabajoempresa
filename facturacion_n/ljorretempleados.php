@@ -175,7 +175,6 @@ foreach ($result12 as $row) {
 $sql14="SELECT * from retrasojorempl where idempresas='".$ide."' and idempleados='".$idempleado."' order by dia asc, hora asc"; 
 
 $result14=$conn->query($sql14);
-$resultado14=$result14->fetch();
 
 //$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
 //$row14=mysqli_num_rows($result14);

@@ -58,7 +58,7 @@ $idclientes=$row['idclientes'];
 
 $sql2="SELECT * from codservicios where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$idpccat."'";
 $result2=$conn->query($sql2);
-$fetchAll2=$result->fetchAll();
+$fetchAll2=$result2->fetchAll();
 $rows2=count($fetchAll2);
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result2");
@@ -98,7 +98,7 @@ $valores=array_unique($punt);
 //var_dump($valores);
 for ($i=0;$i<count($punt);$i++){;
 if ($valores[$i]!=null){;
-$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,:idpccat,:valores','1')";
+$sql1 = "INSERT INTO codservicios (idempresas,idclientes,idpccat,idpcsubcat,activo) VALUES (:ide,:idclientes,:idpccat,:valores,'1')";
 $temporal1 = $conn->prepare($sql1);
 $temporal1->bindParam(':ide', $ide);
 $temporal1->bindParam(':idclientes', $idclientes);

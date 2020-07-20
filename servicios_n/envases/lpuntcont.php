@@ -27,20 +27,73 @@ if ($enviar==null){;
 
 
 <?php 
-$sql2="SELECT * from envases where idempresas='".$ide."'"; 
-if ($estado!=""){;
-$sql2.=" and estado='".$estado."'";
-};
-if (($valor1!="") and ($valor2!="")){;
-$sql2.=" and idenvases between '".$valor1."' and '".$valor2."'";
-}else{;
-if ($valor1!=""){;
-$sql2.=" and idenvases='".$valor1."'";
-};
-};
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
-$row2=$result2->fetchColumn();
+	$sql2="SELECT * from envases where idempresas=:ide"; 
+	if ($estado!=""){
+		$sql2.=" and estado=:estado";
+	}
+
+	if (($valor1!="") and ($valor2!="")){
+		$sql2.=" and idenvases between :valor1 and :valor2";
+
+		if ($estado!=""){
+			$result2=$conn->prepare($sql2);
+			$result2->bindParam(':ide', $ide);
+			$result2->bindParam(':estado', $estado);
+			$result2->bindParam(':valor1', $valor1);
+			$result2->bindParam(':valor2', $valor2);
+			$result2->execute();
+
+			$result2mos=$conn->prepare($sql2);
+			$result2mos->bindParam(':ide', $ide);
+			$result2mos->bindParam(':estado', $estado);
+			$result2mos->bindParam(':valor1', $valor1);
+			$result2mos->bindParam(':valor2', $valor2);
+			$result2mos->execute();
+		}else{
+			$result2=$conn->prepare($sql2);
+			$result2->bindParam(':ide', $ide);
+			$result2->bindParam(':valor1', $valor1);
+			$result2->bindParam(':valor2', $valor2);
+			$result2->execute();
+
+			$result2mos=$conn->prepare($sql2);
+			$result2mos->bindParam(':ide', $ide);
+			$result2mos->bindParam(':valor1', $valor1);
+			$result2mos->bindParam(':valor2', $valor2);
+			$result2mos->execute();
+		}
+
+		}else{
+			if ($valor1!=""){;
+				$sql2.=" and idenvases=:valor1";
+
+				if ($estado!=""){
+					$result2=$conn->prepare($sql2);
+					$result2->bindParam(':ide', $ide);
+					$result2->bindParam(':estado', $estado);
+					$result2->bindParam(':valor1', $valor1);
+					$result2->execute();
+
+					$result2mos=$conn->prepare($sql2);
+					$result2mos->bindParam(':ide', $ide);
+					$result2mos->bindParam(':estado', $estado);
+					$result2mos->bindParam(':valor1', $valor1);
+					$result2mos->execute();
+				}else{
+					$result2=$conn->prepare($sql2);
+					$result2->bindParam(':ide', $ide);
+					$result2->bindParam(':valor1', $valor1);
+					$result2->execute();
+
+					$result2mos=$conn->prepare($sql2);
+					$result2mos->bindParam(':ide', $ide);
+					$result2mos->bindParam(':valor1', $valor1);
+					$result2mos->execute();
+			}
+		}
+	}
+
+$row2=count($result2->fetchAll());
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/
@@ -76,8 +129,11 @@ $idenvases=$row2mos['idenvases'];
 $vutil=$row2mos['rellenados'];
 $activo=$row2mos['estado'];
 
-$sql22="SELECT count(id) as numre from almenvases where idempresas='".$ide."' and idenvases='".$idenvases."' and tipocliente='1'";
-$result22=$conn->query($sql22);
+$sql22="SELECT count(id) as numre from almenvases where idempresas=:ide and idenvases=:idenvases and tipocliente='1'";
+$result22=$conn->prepare($sql22);
+$result22->bindParam(':ide', $ide);
+$result22->bindParam(':idenvases', $idenvases);
+$result22->execute();
 $resultado22=$result22->fetch();
 /*$result22=mysqli_query ($conn,$sql22) or die ("Invalid result");
 $resultado22=mysqli_fetch_array($result22);*/
