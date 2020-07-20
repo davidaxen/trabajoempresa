@@ -122,7 +122,7 @@ $temporal1->execute();
 if ($tabla=="mpuntcont"){;
 
 $sql0="update puntservicios set ";
-$sql1="where idpcsubcat=':idpcsubcat and idempresas=:ide and idpccat=:idpccat";
+$sql1="where idpcsubcat=:idpcsubcat and idempresas=:ide and idpccat=:idpccat";
 
 
 $nombrec=array('subcategoria','rellr','rellg','rellb','activo');

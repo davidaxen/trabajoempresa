@@ -37,11 +37,18 @@ if ($ide!=null){
 	Tienes las siguientes rutas introducidas:
 
 	<?php 
-	$sql2="SELECT * from ruta where idempresas='".$ide."' order by idruta asc"; 
-	$result2=$conn->query($sql2);
-	$result2mos=$conn->query($sql2);
+	$sql2="SELECT * from ruta where idempresas=:ide order by idruta asc"; 
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->execute();
 	$fetchAll2=$result2->fetchAll();
 	$row2=count($fetchAll2);
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->execute();
+
+	
 
 	if ($row2>10){
 		$yu=1;
@@ -70,9 +77,13 @@ if ($ide!=null){
 		<a href="mpuntcont.php?enviar=enviar&idruta=<? echo $idruta;?>"><img src="../../img/pencil.png" width="25px"></a>
 
 	<?php  
-		$sql3="SELECT * from ruta where idempresas='".$ide."' and idruta='".$idruta."'";
-		$result3=$conn->query($sql3);
+		$sql3="SELECT * from ruta where idempresas=:ide and idruta=:idruta";
+		$result3=$conn->prepare($sql3);
+		$result3->bindParam(':ide', $ide);
+		$result3->bindParam(':idruta', $idruta);
+		$result3->execute();
 		$resultado3=$result3->fetch();
+
 
 		/*$result3=mysqli_query ($conn,$sql3) or die ("Invalid result 3");
 		$resultado3=mysqli_fetch_array($result3);*/
@@ -94,9 +105,12 @@ if ($ide!=null){
 		<tr><td><?php if ($activo==1){?>Activo<?php }else{?>Inactivo<?php }?></td>
 		<td>
 		<?php 
-		$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
+		$sql="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado"; 
 		/*$sql.=" and estado='1'";*/
-		$result=$conn->query($sql);
+		$result=$conn->prepare($sql);
+		$result->bindParam(':ide', $ide);
+		$result->bindParam(':idempleado', $idempleado);
+		$result->execute();
 		$resultado=$result->fetch();
 
 		/*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -124,11 +138,20 @@ if ($ide!=null){
 		</table>
 
 	<?php 
-		$sql21="SELECT * from clienteruta where idempresas='".$ide."' and idruta='".$idruta."'";
-		$result21=$conn->query($sql21);
-		$result21mos=$conn->query($sql2);
+		$sql21="SELECT * from clienteruta where idempresas=:ide and idruta=:idruta";
+		$result21=$conn->prepare($sql21);
+		$result21->bindParam(':ide', $ide);
+		$result21->bindParam(':idruta', $idruta);
+		$result21->execute();
 		$fetchAll21=$result21->fetchAll();
 		$row21=count($fetchAll21);
+
+		$result21mos=$conn->prepare($sql21);
+		$result21mos->bindParam(':ide', $ide);
+		$result21mos->bindParam(':idruta', $idruta);
+		$result21mos->execute();
+
+		
 
 	/*$result21=mysqli_query ($conn,$sql21) or die ("Invalid result");
 	$row21=mysqli_num_rows($result21);*/
@@ -146,8 +169,11 @@ if ($ide!=null){
 			foreach ($result21mos as $row21mos) {
 				$idclientes=$row21mos['idclientes'];
 
-				$sql23="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'";
-				$result23=$conn->query($sql23);
+				$sql23="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes";
+				$result23=$conn->prepare($sql23);
+				$result23->bindParam(':ide', $ide);
+				$result23->bindParam(':idclientes', $idclientes);
+				$result23->execute();
 				$resultado23=$result23->fetch();
 
 				/*$result23=mysqli_query ($conn,$sql23) or die ("Invalid result");

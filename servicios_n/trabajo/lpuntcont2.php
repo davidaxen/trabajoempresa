@@ -28,8 +28,10 @@ $idaseguradora='todos';
 <select name="idaseguradora" id="combobox">
 <option value="todos">Todos
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
-$result=$conn->query($sql);
+$sql="SELECT * from clientes where idempresas=:ide and estado='1'";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row2=mysqli_num_rows($result);*/
@@ -131,16 +133,22 @@ $idempleado=$rowmow['idempleado'];
 $descripcion=$rowmow['descripcion'];
 $est=$rowmow['terminado'];
 
-$sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'";
-$result10=$conn->query($sql10);
+$sql10="SELECT * from clientes where idempresas=:ide and idclientes=:idaseguradora";
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide', $ide);
+$result10->bindParam(':idaseguradora', $idaseguradora);
+$result10->execute();
 $resultado10=$result10->fetch();
 
 /*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
 $resultado10=mysqli_fetch_array($result10);*/
 $nombrecontacto=$resultado10['nombre'];
 
-$sql10="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
-$result10=$conn->query($sql10);
+$sql10="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide', $ide);
+$result10->bindParam(':idempleado', $idempleado);
+$result10->execute();
 $resultado10=$result10->fetch();
 
 /*$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");

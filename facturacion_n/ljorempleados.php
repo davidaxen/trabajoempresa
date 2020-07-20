@@ -30,8 +30,11 @@ include('../portada_n/cabecera2.php');?>
 
 <?php 
 
-$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
-$result=$conn->query($sql);
+$sql="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idempleado', $idempleado);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");
@@ -71,8 +74,11 @@ $nempl=$nombre.", ".$apellido1." ".$apellido2;
 
 <?php 
 
-$sql12="SELECT * from jorempleados where idempresas='".$ide."' and idempleados='".$idempleado."' order by finicio asc, id asc";
-$result12=$conn->query($sql12);
+$sql12="SELECT * from jorempleados where idempresas=:ide and idempleados=:idempleado order by finicio asc, id asc";
+$result12=$conn->prepare($sql12);
+$result12->bindParam(':ide', $ide);
+$result12->bindParam(':idempleado', $idempleado);
+$result12->execute();
 
 /*$result12=mysqli_query($conn,$sql12) or die ("Invalid result");
 $row12=mysqli_num_rows($result12);

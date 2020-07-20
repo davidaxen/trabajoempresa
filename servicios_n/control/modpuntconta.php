@@ -11,10 +11,13 @@ if ($ide!=null){;
 <?php 
 
 $sql1="SELECT * from evento";
-$sql1.=" where idempresa='".$ide."' ";
-$sql1.=" and idevento='".$idevento."' ";
+$sql1.=" where idempresa=:ide ";
+$sql1.=" and idevento=:idevento ";
 //echo $sql1;
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idevento', $idevento);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");

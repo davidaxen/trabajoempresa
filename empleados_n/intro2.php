@@ -82,12 +82,11 @@ $sql1.=":cp,:direccion,:provincia,:localidad,:pais,'1',";
 if ($grupo==null){;
 //$sql1.="'$entrada','$incidencia','$mensaje','$alarma','$accdiarias','$accmantenimiento','$niveles','$productos','$revision','$trabajo','$siniestro','$control','$mediciones','$jornadas','$informes','$ruta','$envases','$incidenciasplus','$seguimiento','$teletrabajo',";
 
-$sql2 =":entrada,:incidencia,:mensaje,:alarma,:accdiarias,:accmantenimiento,:niveles,:productos,:revision,:trabajo,:siniestro,:control,:mediciones,:jornadas,:informes,:ruta,:envases,:incidenciasplus,:seguimiento,:teletrabajo',";
+$sql2 =":entrada,:incidencia,:mensaje,:alarma,:accdiarias,:accmantenimiento,:niveles,:productos,:revision,:trabajo,:siniestro,:control,:mediciones,:jornadas,:informes,:ruta,:envases,:incidenciasplus,:seguimiento,:teletrabajo,";
 
 $sql3 =":docf,:tele1,:tele2,:email1,:sexo,:dia4,:mes4,:ano4,:numempleadogest,:grupo)";
 
 $sqlt= $sql1.$sql2.$sql3;
-
 
 $temporal1 = $conn->prepare($sqlt);
 
@@ -122,10 +121,20 @@ $temporal1->bindParam(':informes', $informes);
 $temporal1->bindParam(':ruta', $ruta);
 $temporal1->bindParam(':envases', $envases);
 $temporal1->bindParam(':incidenciasplus', $incidenciasplus);
+
+if (empty($seguimiento)) {
+	$seguimiento = 0;
+}
 $temporal1->bindParam(':seguimiento', $seguimiento);
+
+if (empty($teletrabajo)) {
+	$teletrabajo = 0;
+}
 $temporal1->bindParam(':teletrabajo', $teletrabajo);
 
-
+if (empty($docf)) {
+	$docf = 0;
+}
 $temporal1->bindParam(':docf', $docf);
 $temporal1->bindParam(':tele1', $tele1);
 $temporal1->bindParam(':tele2', $tele2);
@@ -134,7 +143,15 @@ $temporal1->bindParam(':sexo', $sexo);
 $temporal1->bindParam(':dia4', $dia4);
 $temporal1->bindParam(':mes4', $mes4);
 $temporal1->bindParam(':ano4', $ano4);
+
+if (empty($numempleadogest)) {
+	$numempleadogest = 0;
+}
 $temporal1->bindParam(':numempleadogest', $numempleadogest);
+
+if (empty($grupo)) {
+	$grupo = 0;
+}
 $temporal1->bindParam(':grupo', $grupo);
 
 $temporal1->execute();
@@ -203,7 +220,7 @@ $temporal1->execute();
 
 //echo $sql1;
 
-$result1=$conn->query($sql1);
+//$result1=$conn->query($sql1);
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result iempleados 1");
 
@@ -230,13 +247,13 @@ $temporal2 = $conn->prepare($sql2);
 
 $temporal2->bindParam(':useremp', $useremp);
 $temporal2->bindParam(':passnif', $passnif);
-$temporal2->bindParam(':$ide', $ide);
-$temporal2->bindParam(':$idc', $idc);
+$temporal2->bindParam(':ide', $ide);
+$temporal2->bindParam(':idc', $idc);
 
 $temporal2->execute();
 
 
-$result2=$conn->query($sql2);
+//$result2=$conn->query($sql2);
 
 //$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
 }else{
@@ -256,7 +273,7 @@ for ($t=0;$t<count($datcli);$t++){;
 $sql="update ".$tablas[$j]." set ".$datcli[$t]."='0' where ".$datcli[$t]."=''";
 //echo $sql.'<br/>';
 
-$result=$conn->query($sql);
+$result=$conn->exec($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result 10 ".$tablas[$j]);
 
@@ -266,7 +283,7 @@ $result=$conn->query($sql);
 $sql="update servicios set cuadrante='0' where cuadrante=''";
 //echo $sql.'<br/>';
 
-$result=$conn->query($sql);
+$result=$conn->exec($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result 20");
 
@@ -430,7 +447,8 @@ $temporal1->bindParam(':passnif', $passnif);
 $temporal1->bindParam(':ide', $ide);
 $temporal1->bindParam(':idc', $idc);
 
-$result2=$conn->query($sql2);
+$temporal2->execute();
+//$result2=$conn->query($sql2);
 
 //$result2=mysqli_query ($conn,$sql2) or die ("Invalid result usuarios");
 

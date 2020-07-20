@@ -14,10 +14,12 @@ if ($ide!=null){;
 
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."'"; 
+$sql="SELECT * from clientes where idempresas=:ide"; 
 $sql.=" and alarma='1'";
 //echo $sql;
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/

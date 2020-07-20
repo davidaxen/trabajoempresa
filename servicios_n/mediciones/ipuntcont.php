@@ -35,11 +35,19 @@ if ($ide!=null){; include('../../portada_n/cabecera3.php');?>
 <?php 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
-$fetchAll2=$result2->fetchAll();
-$row2=count($fetchAll2);
+$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide', $ide);
+	$result2->bindParam(':idpccat', $idpccat);
+	$result2->execute();
+	$fetchAll2=$result2->fetchAll();
+	$row2=count($fetchAll2);
+
+	$result2mos=$conn->prepare($sql2);
+	$result2mos->bindParam(':ide', $ide);
+	$result2mos->bindParam(':idpccat', $idpccat);
+	$result2mos->execute();
+	
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);*/
@@ -52,8 +60,8 @@ if ($row2!=0){;?>
 /*for ($t=0;$t<$row2;$t++){;
 mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);*/
+$t=0;
 foreach ($result2mos as $row2mos) {
-	$t=0;
 $idpcsubcat=$row2mos['idpcsubcat'];
 $subcategoria=$row2mos['subcategoria'];
 $rellr=$row2mos['rellr'];

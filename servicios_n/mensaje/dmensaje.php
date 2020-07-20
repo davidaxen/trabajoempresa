@@ -41,9 +41,11 @@ Listado de <?php echo ucfirst($nc);?>
 <table class="table-bordered table pull-right" id="mytable">
 <tr class="enctab"><td>Nombre del Empleado</td><td>Dia</td><td>Texto</td></tr>
 <?php 
-$sql="SELECT * from mensajes where idempresa='".$ide."' and respondido='0' order by dia desc";
+$sql="SELECT * from mensajes where idempresa=:ide and respondido='0' order by dia desc";
 //echo $sql;
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 $row=mysqli_num_rows($result);
@@ -58,12 +60,20 @@ $texto=$rowmos['texto'];
 
 
 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
-$result2=$conn->query($sql2);
-$result2mos=$conn->query($sql2);
-$resultado2=$result2mos->fetch();
+$sql2="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idempleado', $idempleado);
+$result2->execute();
 $fetchAll2=$result2->fetchAll();
 $row2=count($fetchAll2);
+
+$result2mos=$conn->prepare($sql2);
+$result2mos->bindParam(':ide', $ide);
+$result2mos->bindParam(':idempleado', $idempleado);
+$result2mos->execute();
+$resultado2=$result2mos->fetch();
+
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $row2=mysqli_num_rows($result2);

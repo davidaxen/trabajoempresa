@@ -39,8 +39,16 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 if ($enviar==null){;
 
-$sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc";
-$result2=$conn->query($sql2);
+$sql2="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat order by idpcsubcat asc";
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide', $ide);
+$result2->bindParam(':idpccat', $idpccat);
+$result2->execute();
+
+$result2mos=$conn->prepare($sql2);
+$result2mos->bindParam(':ide', $ide);
+$result2mos->bindParam(':idpccat', $idpccat);
+$result2mos->execute();
 $num_rows=$result2->fetchAll();
 $row2=count($num_rows);
 
@@ -57,10 +65,10 @@ mysqli_data_seek($result2, $t);
 $resultado2=mysqli_fetch_array($result2);
 $idpcsubcat=$resultado2['idpcsubcat'];
 $subcategoria=$resultado2['subcategoria'];*/
-foreach ($result2 as $row) {
-		$t=0;
-		$idpcsubcat=row['idpcsubcat'];
-		$subcategoria=row['subcategoria'];
+$t=0;
+foreach ($result2mos as $row) {
+		$idpcsubcat=$row['idpcsubcat'];
+		$subcategoria=$row['subcategoria'];
 
 if ($t==$row2-1){;
 $ultpunto=$idpcsubcat;

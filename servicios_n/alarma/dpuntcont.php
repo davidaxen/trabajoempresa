@@ -52,11 +52,17 @@ include('../../portada_n/cabecera3.php');?>
 <br/>
 Listado de <?php  echo ucfirst($nc);?>
 <?php
-$sql="SELECT * from alarma where idempresas='".$ide."' and diaresp='0000-00-00'";
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$sql="SELECT * from alarma where idempresas=:ide and diaresp='0000-00-00'";
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->execute();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide', $ide);
+$resultmos->execute();
+
 /*
 if ($idclientes!='todos'){;
 $sql.=" and idclientes='".$idclientes."'";
@@ -93,8 +99,11 @@ $mensaje=$rowmos['mensaje'];
 $respuesta=$rowmos['respuesta'];
 $idempleado=$rowmos['idempleados'];
 $idclientes=$rowmos['idclientes'];
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
-$result1=$conn->query($sql1);
+$sql1="SELECT nombre from clientes where idempresas=:ide and idclientes=:idclientes"; 
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide', $ide);
+$result1->bindParam(':idclientes', $idclientes);
+$result1->execute();
 $resultado1=$result1->fetch();
 
 /*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");

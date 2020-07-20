@@ -29,8 +29,11 @@ include('../portada_n/cabecera2.php');?>
 
 <?php 
 
-$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result=$conn->query($sql);
+$sql="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado"; 
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idempleado', $idempleado);
+$result->execute();
 $resultado=$result->fetch();
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");

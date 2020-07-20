@@ -30,13 +30,24 @@ if ($ide!=null){;
 <?php 
 
 $sql1="SELECT * from evento";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide ";
 if ($estado!='todos'){;
-$sql1.=" and estado='".$estado."' ";
-};
+$sql1.=" and estado=:estado ";
 $sql1.=" order by idevento asc";
+
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->bindParam(':estado', $estado);
+	$result->execute();
+}else{
+	$result=$conn->prepare($sql1);
+	$result->bindParam(':ide', $ide);
+	$result->bindParam(':estado', $estado);
+	$result->execute();
+}
+
 //echo $sql1;
-$result=$conn->query($sql1);
+
 
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 $row=mysqli_num_rows($result);*/

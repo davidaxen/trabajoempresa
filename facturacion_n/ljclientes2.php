@@ -4,16 +4,20 @@ include('bbdd.php');
 if ($ide!=null){;
 var_dump($tipo);
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
-$result31=$conn->query($sql31);
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 /*$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 $resultado31=mysqli_fetch_array($result31);*/
 $nc=$resultado31['jornadas'];
 
-$sql32="select * from menuserviciosimg where idempresa='".$ide."'";
-$result32=$conn->query($sql32);
+$sql32="select * from menuserviciosimg where idempresa=:ide";
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide', $ide);
+$result32->execute();
 $resultado32=$result32->fetch();
 
 /*$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
@@ -56,8 +60,11 @@ Estado <select name="estado">
 
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estadoe."' order by idclientes asc"; 
-$result=$conn->query($sql);
+$sql="SELECT * from clientes where idempresas=:ide and estado=:estadoe order by idclientes asc"; 
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':estadoe', $estadoe);
+$result->execute();
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/
@@ -93,10 +100,10 @@ $row=mysqli_num_rows($result);*/
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
 foreach ($result as $rowmos) {
-$idclientes=$rowmos['idclientes'];
-$nombre=$rowmos['nombre'];
-$nif=$rowmos['nif'];
-$estado=$rowmos['estado'];
+	$idclientes=$rowmos['idclientes'];
+	$nombre=$rowmos['nombre'];
+	$nif=$rowmos['nif'];
+	$estado=$rowmos['estado'];
 ?>
 <tr class="menor1">
 <td><?php  echo $idclientes;?></td>

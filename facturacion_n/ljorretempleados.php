@@ -200,8 +200,7 @@ $result14->bindParam(':ide',$ide);
 $result14->bindParam(':idempleado',$idempleado);
 $result14->execute(); 
 
-//$result14=$conn->query($sql14);
-//$resultado14=$result14->fetch();
+$result14=$conn->query($sql14);
 
 //$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
 //$row14=mysqli_num_rows($result14);
