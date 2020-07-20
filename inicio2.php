@@ -6,11 +6,20 @@ if ($com=='comprobacion'){
 	
 $sql56="select * from proyectos where idproyectos='".$idpr."'";
 //echo $sql56;
-$result56=mysql_query ($sql56) or die ("Invalid result idempresas");
-$imgpr=mysql_result($result56,0,'logo');
+$result56=$conn->query($sql56);
+$resultados56=$result56->fetchAll();
+
+//$result56=mysql_query ($sql56) or die ("Invalid result idempresas");
+$imgpr=$resultados56[0]['logo']
+$imgprpaypal=$resultados56[0]['logopaypal'];
+$dprueba=$resultados56[0]['diasprueba'];
+$tprecios=$resultados56[0]['tipoprecios'];
+
+
+/*$imgpr=mysql_result($result56,0,'logo');
 $imgprpaypal=mysql_result($result56,0,'logopaypal');
 $dprueba=mysql_result($result56,0,'diasprueba');
-$tprecios=mysql_result($result56,0,'tipoprecios');
+$tprecios=mysql_result($result56,0,'tipoprecios');*/
 			setcookie("imgpr",$imgpr);
 			setcookie("imgprpaypal",$imgprpaypal);
 			setcookie("tprecios",$tprecios);
@@ -19,9 +28,13 @@ $tprecios=mysql_result($result56,0,'tipoprecios');
 		}else{;
 $diasprueba=$dprueba*24*60*60;
 
-				$sql10="select * from validar where email='".$user."'"; 
-				$result10=mysql_query ($sql10) or die ("Invalid result validar");		
-				$diaentrada=mysql_result($result10,0,'diaentrada');
+				$sql10="select * from validar where email='".$user."'";
+				$result10=$conn->query($sql10);
+				$resultados10=$result10->fetchAll();
+
+				/*$result10=mysql_query ($sql10) or die ("Invalid result validar");		
+				$diaentrada=mysql_result($result10,0,'diaentrada');*/
+				$diaentrada=$resultados10[0]['diaentrada'];
 				$diaentrada2=strtotime($diaentrada);
 				$diaentrada1=strtotime(strtok($diaentrada," "));
 				$dt=time();

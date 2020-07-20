@@ -41,6 +41,7 @@ if ($enviar==null){;
 
 $sql2="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."' order by idpcsubcat asc"; 
 $result2=$conn->query($sql2);
+$result2mos=$conn->query($sql2);
 $num_rows=$result2->fetchAll();
 $row2=count($num_rows);
 
@@ -54,20 +55,20 @@ if ($row2!=0){;?>
 <tr class="enca"><td>Codigo</td><td>Nombre</td></tr>
 <?php  
 //for ($t=0;$t<$row2;$t++){;
-	foreach ($result2 as $row) {
-		$t=0;
-		$idpcsubcat=row['idpcsubcat'];
-		$subcategoria=row['subcategoria'];
+	$t=0;
+	foreach ($result2mos as $row2mos) {
+		$idpcsubcat=$row2mos['idpcsubcat'];
+		$subcategoria=$row2mos['subcategoria'];
 /*$idpcsubcat=mysqli_result($result2,$t,'idpcsubcat');
 $subcategoria=mysqli_result($result2,$t,'subcategoria');*/
 
-if ($t==$rows2-1){;
+if ($t==$row2-1){
 $ultpunto=$idpcsubcat;
 }
 $t=$t+1;
 ?>
 <tr><td><?php  echo $idpcsubcat;?></td><td><?php  echo strtoupper($subcategoria);?></td></tr>
-<?php};?>
+<?php }?>
 </table>
 <form action="ipuntcont.php" method="post">
 <input type="hidden" name="ultpunto" value="<?php  echo $ultpunto;?>">
@@ -78,7 +79,7 @@ $t=$t+1;
 </form>
 <img alt="volver" border="0" src="../../img/arrow_cycle.png" onclick="history.back()">
 
-<?php }else{;?>
+<?php }else{?>
 
 <form action="ipuntcont.php" method="post">
 <input type="hidden" name="ultpunto" value="0">
