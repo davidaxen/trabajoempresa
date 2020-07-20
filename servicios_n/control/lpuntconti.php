@@ -34,13 +34,23 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 
 $sql1="SELECT * from siniestros";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide";
 if ($estado!='todos'){;
-$sql1.=" and terminado='".$estado."' ";
+$sql1.=" and terminado=:estado";
 };
 $sql1.=" order by dia asc";
-$result=$conn->query($sql1);
-$resultmos=$conn->query($sql1);
+
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estado',$estado);
+$result->execute();
+$resultmos=$conn->prepare($sql1);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':estado',$estado);
+$resultmos->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql1);
+//$resultmos=$conn->query($sql1);
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
