@@ -57,7 +57,7 @@ $controldiasalida=0;
 $controlhorasalida=0;
 };
 
-if ($idpcsubcat==1){;
+if ($idpcsubcat==1){
 
 
 if ($controldiaentrada!=$fecha_b){
@@ -67,8 +67,6 @@ $controlhoraentrada=0;
 if ($controlhoraentrada==0){;
 $controldiaentrada=$fecha_b;
 $controlhoraentrada=$hora;
-
-
 
 };
 
@@ -133,8 +131,10 @@ $controldiaentrada=0;
 $controldiasalida=0;
 $controlhoraentrada=0;
 $controlhorasalida=0;
-};
-};
+}
+}
+
+}
 
 ?>
 

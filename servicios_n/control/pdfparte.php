@@ -160,12 +160,22 @@ global $conn;
 
 //Datos
 
+<<<<<<< HEAD
+$sql1="SELECT * from accsiniestros where id='".$id."'"; 
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+//$resultado1=mysqli_fetch_array($result1);
+=======
 $sql1="SELECT * from accsiniestros where id='".$id."'";
 $result1=$conn->query($sql1);
 $resultado1=$result1->fetch();
 
 /*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
 $resultado1=mysqli_fetch_array($result1);*/
+>>>>>>> f82f27af3f7e9cf522ecb3260923a3d51e0a9379
 $idsiniestro=$resultado1['idsiniestro'];
 $trabajor=$resultado1['trabajorealizado'];
 $trabajop=$resultado1['trabajopendiente'];
@@ -177,23 +187,43 @@ $horasal=$resultado1['horasalida'];
 $idempleado=$resultado1['idempleado'];
 $firmaaseg=$resultado1['firma'];
 
+<<<<<<< HEAD
+$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
+
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$resultado2=mysqli_fetch_array($result2);
+=======
 $sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
 $result2=$conn->query($sql2);
 $resultado2=$result2->fetch();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $resultado2=mysqli_fetch_array($result2);*/
+>>>>>>> f82f27af3f7e9cf522ecb3260923a3d51e0a9379
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];
 $segapellido=$resultado2['2apellido'];
 $trab=$nombre.', '.$priapellido.' '.$segapellido;
 
+<<<<<<< HEAD
+$sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
+=======
 $sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'";
 $result=$conn->query($sql);
 $resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $resultado=mysqli_fetch_array($result);*/
+>>>>>>> f82f27af3f7e9cf522ecb3260923a3d51e0a9379
 $numsiniestro=$resultado['numsiniestro'];
 $contacto=$resultado['contacto'];
 $telefono=$resultado['telefono'];

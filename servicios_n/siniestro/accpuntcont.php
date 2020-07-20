@@ -20,8 +20,15 @@ if ($idsiniestro==null){;
 $sql="SELECT * from siniestros where idempresa='".$ide."' ";
 $sql.="and terminado='0'";
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$result=$conn->prepare($sql);
+$resultmos=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultmos->bindParam(':ide',$ide);
+$resultmos->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
@@ -61,10 +68,16 @@ No tiene siniestros sin terminar.
 
 <tr class="subenc3"><td>Datos del Siniestro</td></tr>
 <?php 
-$sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
+$sql="SELECT * from siniestros where idempresa=:ide and idsiniestro=:idsiniestro"; 
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idsiniestro',$idsiniestro);
+$result->execute();
 $resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+//$resultado=$result->fetch();
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");
 //$resultado=mysqli_fetch_array($result);
 $numsiniestro=$resultado['numsiniestro'];
@@ -95,10 +108,19 @@ $horaasig=$resultado['horaasignacion'];
 
 <tr class="subenc3"><td>Acciones Realizadas</td></tr>
 <?php 
-$sql="SELECT * from accsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'";
+$sql="SELECT * from accsiniestros where idempresa=:ide and idsiniestro=:idsiniestro";
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idsiniestro',$idsiniestro);
+$result->execute();
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':idsiniestro',$idsiniestro);
+$resultmos->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
@@ -125,11 +147,16 @@ $diasal=$row['diasalida'];
 $horasal=$row['horasalida'];
 $idempleado=$row['idempleado'];
 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
+$sql2="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado"; 
 
-
-$result2=$conn->query($sql2);
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide',$ide);
+$result2->bindParam(':idempleado',$idempleado);
+$result2->execute();
 $resultado2=$result2->fetch();
+
+//$result2=$conn->query($sql2);
+//$resultado2=$result2->fetch();
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result");
 //$resultado2=mysqli_fetch_array($result2);
 $nombre=$resultado2['nombre'];
@@ -153,10 +180,21 @@ $segapellido=$resultado2['2apellido'];
 <td valign="top"><?php  echo $diasal;?><br/><?php  echo $horasal;?></td>
 <td valign="top"><?php  echo $descripcion1;?>
 <?php 
-$sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='1'"; 
+$sqldes="SELECT * from imgsiniestros where idempresa=:ide and idsiniestro=:idsiniestro and dia=:diaent and taccion='1'"; 
 
-$resultdes=$conn->query($sqldes);
-$resultdesmos=$conn->query($sqldes);
+$resultdes=$conn->prepare($sqldes);
+$resultdes->bindParam(':ide',$ide);
+$resultdes->bindParam(':idsiniestro',$idsiniestro);
+$resultdes->bindParam(':diaent',$diaent);
+$resultdes->execute();
+$resultdesmos=$conn->prepare($sqldes);
+$resultdesmos->bindParam(':ide',$ide);
+$resultdesmos->bindParam(':idsiniestro',$idsiniestro);
+$resultdesmos->bindParam(':diaent',$diaent);
+$resultdesmos->execute();
+$resultado=$resultdes->fetch();
+//$resultdes=$conn->query($sqldes);
+//$resultdesmos=$conn->query($sqldes);
 $fetchAlldes=$resultdes->fetchAll();
 $rowdes=count($fetchAlldes);
 
@@ -182,10 +220,20 @@ if ($rowdes!=0){;
 </td>
 <td valign="top"><?php  echo $trabajor;?>
 <?php 
-$sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='2'";
+$sqldes="SELECT * from imgsiniestros where idempresa=:ide and idsiniestro=:idsiniestro and dia=:diaent and taccion='2'";
 
-$resultdes=$conn->query($sqldes);
-$resultdesmos=$conn->query($sqldes);
+$result=$conn->prepare($sqldes);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idsiniestro',$idsiniestro);
+$result->bindParam('diaent',$diaent);
+$result->execute();
+$resultdesmos=$conn->prepare($sqldes);
+$resultdesmos->bindParam(':ide',$ide);
+$resultdesmos->bindParam(':idsiniestro',$idsiniestro);
+$resultdesmos->bindParam('diaent',$diaent);
+$resultado=$result->fetch();
+//$resultdes=$conn->query($sqldes);
+//$resultdesmos=$conn->query($sqldes);
 $fetchAlldes=$resultdes->fetchAll();
 $rowdes=count($fetchAlldes);
 
@@ -211,11 +259,21 @@ if ($rowdes!=0){;
 </td>
 <td valign="top"><?php  echo $trabajop;?>
 <?php 
-$sqldes="SELECT * from imgsiniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."' and dia='".$diaent."' and taccion='3'"; 
+$sqldes="SELECT * from imgsiniestros where idempresa=:ide and idsiniestro=:idsiniestro and dia=:diaent and taccion='3'"; 
 
-$resultdes=$conn->query($sqldes);
-$resultdesmos=$conn->query($sqldes);
-
+$resultdes=$conn->prepare($sqldes);
+$resultdes->bindParam(':ide',$ide);
+$resultdes->bindParam(':idsiniestro',$idsiniestro);
+$resultdes->bindParam('diaent',$diaent);
+$resultdes->execute();
+$resultdesmos=$conn->prepare($sqldes);
+$resultdesmos->bindParam(':ide',$ide);
+$resultdesmos->bindParam('idsiniestro',$idsiniestro);
+$resultdesmos->bindParam(':diaent',$diaent);
+$resultdesmos->execute();
+$resultado=$result->fetch();
+//$resultdes=$conn->query($sqldes);
+//$resultdesmos=$conn->query($sqldes);
 $fetchAlldes=$resultdes->fetchAll();
 $rowdes=count($fetchAlldes);
 //$resultdes=mysqli_query($conn,$sqldes) or die ("Invalid result");
@@ -252,12 +310,16 @@ if ($rowdes!=0){;
 
 
 <?php 
-$sql2="SELECT * from empleados where idempresa='".$ide."' and estado='1'"; 
+$sql2="SELECT * from empleados where idempresa=:ide and estado='1'"; 
 if ($idempleado!=0){;
-$sql2.=" and idempleado='".$idempleado."'";
+$sql2.=" and idempleado=:idempleado";
 };
 
-$result2=$conn->query($sql2);
+$result2=$conn->prepare($sql2);
+$result2->bindParam(':ide',$ide);
+$result2->execute();
+$resultado=$result2->fetch();
+//$result2=$conn->query($sql2);
 $fetchAll2=$result2->fetchAll();
 $row2=count($fetchAll2);
 

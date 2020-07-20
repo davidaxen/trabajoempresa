@@ -118,20 +118,29 @@ break;
 
 
 
-$sql="SELECT * from almpc where idempresas='".$ide."' and idpccat='".$idpccat."' ";
+$sql="SELECT * from almpc where idempresas=:ide and idpccat=:idpccat";
 $sql.=$sqla; 
 if ($idclientes!='todos'){
-$sql.=" and idpiscina='".$idclientes."'";
+$sqlx=" and idpiscina=:idclientes";
 }
 if ($idpunt!='todos'){
-$sql.=" and idpcsubcat='".$idpunt."'";
+$sqly=" and idpcsubcat=:idpunt";
 }
 //echo $sql;
+$sqlt=$sql.$sqlx.$sqly;
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-
+$result=$conn->prepare($sqlt);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idpccat',$idpccat);
+$result->bindParam(':idclientes',$idclientes);
+$result->bindParam(':idpunt',$idpunt);
+$result->execute();
 $resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
+
+//$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 //$row=mysqli_num_rows($result);
@@ -161,7 +170,11 @@ Datos del Puesto de Trabajo:
 <?php 
 $sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
 
-$result1=$conn->query($sql1);
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide',$ide);
+$result1->bindParam(':idclientes',$idclientes);
+$result1->execute();
+//$result1=$conn->query($sql1);
 $resultado1=$result1->fetch();
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result1");
@@ -228,9 +241,13 @@ $yt=fmod($i,2);
 
 <td>
 <?php 
-$sql1c="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idcl."'";
+$sql1c="SELECT nombre from clientes where idempresas=:ide and idclientes=:idcl";
 
-$result1c=$conn->query($sql1c);
+$result1c=$conn->prepare($sql1c);
+$result1c->bindParam(':ide',$ide);
+$result1c->bindParam(':idcl',$idcl);
+$result1c->execute();
+//$result1c=$conn->query($sql1c);
 $resultado1c=$result1c->fetch();
 //$result1c=mysqli_query ($conn,$sql1c) or die ("Invalid result1c");
 //$resultado1c=mysqli_fetch_array($result1c);
@@ -241,9 +258,14 @@ $nombrecliente=$resultado1c['nombre'];
 <td><?php  echo $hora;?></td>
 <td>
 <?php 
-$sqlempl="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'";
+$sqlempl="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
 
-$resultempl=$conn->query($sqlempl);
+$resultempl=$conn->prepare($sql1c);
+$resultempl->bindParam(':ide',$ide);
+$resultempl->bindParam(':idempleado',$idempleado);
+$resultempl->execute();
+
+//$resultempl=$conn->query($sqlempl);
 $resultadoempl=$resultempl->fetch();
 //$resultempl=mysqli_query ($conn,$sqlempl) or die ("Invalid result0");
 //$resultadoempl=mysqli_fetch_array($resultempl);
@@ -258,7 +280,12 @@ $nempleado=$nombre.' '.$apellidop.' '.$apellidos;
 <?php 
 $sqlsub="SELECT * from puntservicios where idempresas='".$ide."' and idpcsubcat='".$idpcsubcat."' and idpccat='".$idpccat."' ";
 
-$resultsub=$conn->query($sqlsub);
+$resultsub=$conn->prepare($sqlsub);
+$resultsub->bindParam(':ide',$ide);
+$resultsub->bindParam(':idpcsubcat',$idpcsubcat);
+$resultsub->bindParam(':idpccat',$idpccat);
+$resultsub->execute();
+//$resultsub=$conn->query($sqlsub);
 $resultadosub=$resultsub->fetch();
 //$resultsub=mysqli_query ($conn,$sqlsub) or die ("Invalid result0");
 //$resultadosub=mysqli_fetch_array($resultsub);

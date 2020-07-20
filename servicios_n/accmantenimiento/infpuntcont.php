@@ -13,15 +13,23 @@ include('combo.php');?>
 <tr><td>Datos del Puesto de Trabajo</td><td>
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."'"; 
-$sql.=" and accdiarias='1'";
+$sql="SELECT * from clientes where idempresas=:ide"; 
+$sqlx=" and accdiarias='1'";
 if ($idcli!=0){;
-$sql.=" and nif='".$gente."'";
+$sqly=" and nif='".$gente."'";
 };
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$sqlt = $sql.$sqlx.$sqly;
+
+$result=$conn->prepare($sqlt);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':gente',$gente);
+$result->execute();
 $resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+//$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -49,9 +57,15 @@ foreach ($resultmos as $row) {
 <?php 
 $sqla="SELECT * from puntservicios where idempresas='".$ide."' and idpccat='".$idpccat."'"; 
 
-$resulta=$conn->query($sqla);
-$resultamos=$conn->query($sqla);
+$resulta=$conn->prepare($sqla);
+$resulta->bindParam(':ide',$ide);
+$resulta->bindParam(':idpccat',$idpccat);
+$resulta->execute();
 $resultadoa=$resulta->fetch();
+
+//$resulta=$conn->query($sqla);
+//$resultamos=$conn->query($sqla);
+//$resultadoa=$resulta->fetch();
 
 //$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
 //$rowa=mysqli_num_rows($resulta);
