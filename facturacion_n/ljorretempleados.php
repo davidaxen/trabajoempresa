@@ -3,18 +3,28 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['jornadas'];
 
-$sql32="select * from menuserviciosimg where idempresa='".$ide."'";
+$sql32="select * from menuserviciosimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
+
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
@@ -33,10 +43,15 @@ include('../estilo/acordeon.php');
 
 <?php 
 
-$sql="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
+$sql="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
 
-$result=$conn->query($sql);
-$resultado=$result->fetch();
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idempleado',$idempleado);
+$result->execute();
+$resultado=$result->fetch(); 
+//$result=$conn->query($sql);
+//$resultado=$result->fetch();
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");
 //$resultado=mysqli_fetch_array($result);
 $idempleado=$resultado['idempleado'];
@@ -78,30 +93,36 @@ $nempl=$nombre.", ".$apellido1." ".$apellido2;
 
 <?php 
 
-$sql12="SELECT * from jorempleados where idempresas='".$ide."' and idempleados='".$idempleado."' order by finicio asc, id asc"; 
+$sql12="SELECT * from jorempleados where idempresas=:ide and idempleados=:idempleado order by finicio asc, id asc"; 
 
 
-$result12=$conn->query($sql12);
+$result12=$conn->prepare($sql12);
+$result12->bindParam(':ide',$ide);
+$result12->bindParam(':idempleado',$idempleado);
+$result12->execute();
+//$resultado=$result12->fetch();
+
+//$result12=$conn->query($sql12);
 
 //$result12=mysqli_query($conn,$sql12) or die ("Invalid result");
 //$row12=mysqli_num_rows($result12);
 
-foreach ($result12 as $row) {
-	$idjor=$row['id'];
-	$fi=$row['finicio'];
-	$ff=$row['ffin'];
-	$turno=$row['turno'];
-	$horent=$row['horent'];
-	$margenent=$row['margenent'];
-	$horsal=$row['horsal'];
-	$margensal=$row['margensal'];
-	$lun=$row['lun'];
-	$mar=$row['mar'];
-	$mie=$row['mie'];
-	$jue=$row['jue'];
-	$vie=$row['vie'];
-	$sab=$row['sab'];
-	$dom=$row['dom'];	
+foreach ($result12 as $row12mos) {
+	$idjor=$row12mos['id'];
+	$fi=$row12mos['finicio'];
+	$ff=$row12mos['ffin'];
+	$turno=$row12mos['turno'];
+	$horent=$row12mos['horent'];
+	$margenent=$row12mos['margenent'];
+	$horsal=$row12mos['horsal'];
+	$margensal=$row12mos['margensal'];
+	$lun=$row12mos['lun'];
+	$mar=$row12mos['mar'];
+	$mie=$row12mos['mie'];
+	$jue=$row12mos['jue'];
+	$vie=$row12mos['vie'];
+	$sab=$row12mos['sab'];
+	$dom=$row12mos['dom'];	
 
 //for ($j=0;$j<$row12;$j++){;
 //mysqli_data_seek($result12, $j);
@@ -172,19 +193,24 @@ foreach ($result12 as $row) {
 <td>Dia de la Semana</td>
 </tr>
 <?php 
-$sql14="SELECT * from retrasojorempl where idempresas='".$ide."' and idempleados='".$idempleado."' order by dia asc, hora asc"; 
+$sql14="SELECT * from retrasojorempl where idempresas=:ide and idempleados=:idempleado order by dia asc, hora asc"; 
 
-$result14=$conn->query($sql14);
-$resultado14=$result14->fetch();
+$result14=$conn->prepare($sql14);
+$result14->bindParam(':ide',$ide);
+$result14->bindParam(':idempleado',$idempleado);
+$result14->execute(); 
+
+//$result14=$conn->query($sql14);
+//$resultado14=$result14->fetch();
 
 //$result14=mysqli_query($conn,$sql14) or die ("Invalid result");
 //$row14=mysqli_num_rows($result14);
 
-foreach ($result14 as $row) {
-	$diaret=$row['dia'];
-	$horaret=$row['hora'];
-	$dsemanar=$row['dsemana'];
-	$ingresor=$row['ingreso'];	
+foreach ($result14 as $row14mos) {
+	$diaret=$row14mos['dia'];
+	$horaret=$row14mos['hora'];
+	$dsemanar=$row14mos['dsemana'];
+	$ingresor=$row14mos['ingreso'];	
 
 //for ($j=0;$j<$row14;$j++){;
 //mysqli_data_seek($result14, $j);

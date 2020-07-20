@@ -13,10 +13,17 @@ include('combo.php');?>
 <tr><td>Datos del Cliente</td><td>
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."'"; 
+$sql="SELECT * from clientes where idempresas=:ide"; 
 $sql.=" and mediciones='1'";
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);

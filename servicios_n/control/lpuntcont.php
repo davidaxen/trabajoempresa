@@ -30,15 +30,24 @@ include('../../portada_n/cabecera3.php');?>
 <?php 
 
 $sql1="SELECT * from asistentes";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide";
 if ($cpasist!='todos'){;
-$sql1.=" and cp='".$cpasist."' ";
+$sql1.=" and cp=:cpasist";
 };
 $sql1.=" order by idasistente asc";
 //echo $sql1;
 
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':cpasist',$cpasist);
+$result->execute();
+$resultmos=$conn->prepare($sql1);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':cpasist',$cpasist);
+$resultmos->execute();
+$resultado=$result->fetch();
 
-$result=$conn->query($sql1);
+//$result=$conn->query($sql1);
 
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 $row=mysqli_num_rows($result);*/
@@ -50,7 +59,7 @@ $row=mysqli_num_rows($result);*/
 <?php /*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($result as $rowmos) {
+foreach ($resultmos as $rowmos) {
 $idasistente=$rowmos['idasistente'];
 $nombreasist=$rowmos['nombre'];
 $papellidoasist=$rowmos['papellido'];

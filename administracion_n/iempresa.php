@@ -62,6 +62,7 @@ if ($idprt==null){;
 $sql="select * from proyectos order by idproyectos asc"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result idproyectos");
 ///$row=mysqli_num_rows($result);
@@ -69,7 +70,7 @@ $result=$conn->query($sql);
 <select name="idprt">
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idproyectos=$row['idproyectos'];
 	$nombrep=$row['nombre'];
 
@@ -153,6 +154,7 @@ foreach ($result as $row) {
 $sql="select * from pais order by nombrepais asc"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result empleados");
 //$row=mysqli_num_rows($result);
@@ -160,12 +162,12 @@ $result=$conn->query($sql);
 <select name="pais2">
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idpais=$row['idpais'];
 	$nombrepais=$row['nombrepais'];
 
-//for ($i;$i<$row;$i++){;
-//mysqli_data_seek($result,$i);
+//for ($i;$i<$row;$i++){
+//mysqli_data_seek($result,$i)
 //$resultado=mysqli_fetch_array($result);
 //$idpais=$resultado['idpais'];
 //$nombrepais=$resultado['nombrepais'];
@@ -316,39 +318,40 @@ $camposa=array('cuadrante','jornadas');
 $sqlopc="select * from precioproyectos where idproyectos='".$idprt."' and estado='1'";
 
 $resultopc=$conn->query($sqlopc);
+$resultopcmos=$conn->query($sqlopc);
 
 //$resultopc=mysqli_query ($conn,$sqlopc) or die ("Invalid resultopc");
 
-foreach ($resultopc as $row) {
+foreach ($resultopcmos as $row) {
 	$pqr[]=$row[$camposqr[$numqr]];
 //for($numqr=0;$numqr<count($camposqr);$numqr++){;
 //mysqli_data_seek($resultopc,$numqr);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-//$pqr[]=$resultadoopc[$camposqr[$numqr]];
+$pqr[]=$row[$camposqr[$numqr]];
 }
 
-foreach ($resultopc as $row) {
-	$pp[]=$resultadoopc[$camposp[$nump]];
+foreach ($resultopcmos as $row) {
+	$pp[]=$row[$camposp[$nump]];
 //for($nump=0;$nump<count($camposp);$nump++){;
 //mysqli_data_seek($resultopc,$nump);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-//$pp[]=$resultadoopc[$camposp[$nump]];
+$pp[]=$row[$camposp[$nump]];
 };
 
-foreach ($resultopc as $row) {
+foreach ($resultopcmos as $row) {
 	$pc[]=$row[$camposc[$numc]];
 //for($numc=0;$numc<count($camposc);$numc++){;
 //mysqli_data_seek($resultopc,$numc);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-//$pc[]=$resultadoopc[$camposc[$numc]];
+$pc[]=$row[$camposc[$numc]];
 };
 
-foreach ($resultopc as $row) {
+foreach ($resultopcmos as $row) {
 	$pa[]=$row[$camposa[$numa]];
 //for($numa=0;$numa<count($camposa);$numa++){;
 //mysqli_data_seek($resultopc,$numa);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-//$pa[]=$resultadoopc[$camposa[$numa]];
+$pa[]=$row[$camposa[$numa]];
 };
 
 
@@ -503,7 +506,7 @@ if ($tipoprecios==1){;
 <br/>
 <?php  echo $ncc[$j];?><br/>
 <?php  echo $pc[$j];?> &euro;/a&ntilde;o sin iva
-</td><?php };?
+</td><?php };?>
 <?php };?>
 </tr></table>
 <?php };?>
@@ -521,98 +524,7 @@ if ($tipoprecios==1){;
 <?php };?>
 </ul>
 
-<!--
 
-		<li><b>Paquetes adicionales de trabajadores</b></li>
-<ul>
-<?php 		
-$sqlemp="select * from precioempleados where idproyectos='".$idprt."' and estado='1'";
-$resultemp=mysqli_query ($conn,$sqlemp) or die ("Invalid result precioempleados");
-$rowemp=mysqli_num_rows($resultemp);
-for ($j=0;$j<$rowemp;$j++){;
-mysqli_data_seek($resultemp,$j);
-$resultadoemp=mysqli_fetch_array($resultemp);
-$nombregrupo=$resultadoemp['nombregrupo'];
-$numempleados=$resultadoemp['numempleados'];
-$preciogrupo=$resultadoemp['preciogrupo'];
-?>
-<input type="radio" name="paqtrabajadores" value="<?php  echo $numempleados;?>" onclick="myFuncion22()"><?php  echo $nombregrupo;?> - <?php  echo $preciogrupo;?>  &euro;/a&ntilde;o
-<?php 
-};
-?>
-<br/>
-<input type="radio" name="paqtrabajadores" value="otros" onclick="myFuncion22()">Otros
-<input type="number" name="numempleados" disabled> 
-</ul>
-
-<script>
-function myFuncion22(){
-	var valor=formulario.paqtrabajadores.value;
-	//alert (valor+" trabajadores");
-	if (valor=='otros'){
-	formulario.numempleados.disabled=false;
-		}else{;
-	formulario.numempleados.disabled=true;
-	};
-	
-	};
-
-function myFuncion23(){
-	var valor=formulario.paqclientes.value;
-	//alert(valor+" clientes");
-	if (valor=='otros'){
-	formulario.numclientes.disabled=false;
-		}else{;
-	formulario.numclientes.disabled=true;
-	};
-	
-	};
-
-</script>		
-		
-		
-		<li><b>Paquetes adicionales de clientes/puestos de trabajo</b></li>
-<ul>
-<?php 		
-$sqlcli="select * from preciocliente where idproyectos='".$idprt."' and estado='1'";
-$resultcli=mysqli_query ($conn,$sqlcli) or die ("Invalid result preciocliente");
-$rowcli=mysqli_num_rows($resultcli);
-for ($j=0;$j<$rowcli;$j++){;
-mysqli_data_seek($resultcli,$j);
-$resultadocli=mysqli_fetch_array($resultcli);
-$nombregrupo=$resultadocli['nombregrupo'];
-$numclientes=$resultadocli['numcliente'];
-$preciogrupo=$resultadocli['preciogrupo'];
-?>
-<input type="radio" name="paqclientes" value="<?php  echo $numclientes;?>" onclick="myFuncion23()"><?php  echo $nombregrupo;?> - <?php  echo $preciogrupo;?>  &euro;/a&ntilde;o
-<?php 
-};
-?>
-<br/>
-<input type="radio" name="paqclientes" value="otros" onclick="myFuncion23()">Otros
-<input type="number" name="numclientes" disabled> 		
-</ul>
-
-		<li><b>Paquetes de Personalizaci&oacute;n</b></li>
-<ul>
-<?php 		
-$sqlperso="select * from preciopersonalizacion where idproyectos='".$idprt."' and estado='1'";
-$resultperso=mysqli_query ($conn,$sqlperso) or die ("Invalid result precioperso");
-$rowperso=mysqli_num_rows($resultperso);
-for ($j=0;$j<$rowperso;$j++){;
-mysqli_data_seek($resultperso,$j);
-$resultadoperso=mysqli_fetch_array($resultperso);
-$nombregrupo=$resultadoperso['nombregrupo'];
-$nomvar=$resultadoperso['nombrevariable'];
-$preciogrupo=$resultadoperso['preciogrupo'];
-?>
-<input type="checkbox" name="nomvar[<?php  echo $j;?>]" value="1"><?php  echo $nombregrupo;?> - <?php  echo $preciogrupo;?>  &euro;/a&ntilde;o
-<?php 
-};
-?>
-</ul>		
-<br/>
--->		
 	
 		</ul>
 
@@ -626,6 +538,7 @@ $sqlopc="select * from precioopc where idpr='".$idprt."'";
 //echo  $sqlopc;
 
 $resultopc=$conn->query($sqlopc);
+$resultopcmos=$conn->query($sqlopc);
 
 //$resultopc=mysqli_query ($conn,$sqlopc) or die ("Invalid resultopc");
 //$rowopc=mysqli_num_rows($resultopc);
@@ -636,7 +549,7 @@ $resultopc=$conn->query($sqlopc);
 <option value=""></option>
 <?php 
 
-foreach ($resultopc as $row) {
+foreach ($resultopcmos as $row) {
 	$nombreopc=$row['nombre'];
 	$idopc=$row['idopcion'];
 //for ($jopc=0;$jopc<$rowopc;$jopc++){;
@@ -686,7 +599,7 @@ var valor=formulario.opcion.value;
 switch(valor){
 <?php 
 
-foreach ($resultopc as $row) {
+foreach ($resultopcmos as $row) {
 	$idopc2=$row['idopcion'];
 	$caracopc=$row['caracteristicas'];
 	$precioopc=$row['precio'];

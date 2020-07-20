@@ -1,6 +1,8 @@
 <?php 
 include('bbdd.php');
 
+error_reporting(0);
+
 if ($lemp!=$pemp){;
 $title1=$demp.' '.$cpemp.' '.$lemp.' '.$pemp;
 }else{;
@@ -159,8 +161,12 @@ global $conn;
 //Datos
 
 $sql1="SELECT * from accsiniestros where id='".$id."'"; 
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
-$resultado1=mysqli_fetch_array($result1);
+
+$result1=$conn->query($sql1);
+$resultado1=$result1->fetch();
+
+//$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
+//$resultado1=mysqli_fetch_array($result1);
 $idsiniestro=$resultado1['idsiniestro'];
 $trabajor=$resultado1['trabajorealizado'];
 $trabajop=$resultado1['trabajopendiente'];
@@ -173,16 +179,24 @@ $idempleado=$resultado1['idempleado'];
 $firmaaseg=$resultado1['firma'];
 
 $sql2="SELECT * from empleados where idempresa='".$ide."' and idempleado='".$idempleado."'"; 
-$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
-$resultado2=mysqli_fetch_array($result2);
+
+$result2=$conn->query($sql2);
+$resultado2=$result2->fetch();
+
+//$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
+//$resultado2=mysqli_fetch_array($result2);
 $nombre=$resultado2['nombre'];
 $priapellido=$resultado2['1apellido'];
 $segapellido=$resultado2['2apellido'];
 $trab=$nombre.', '.$priapellido.' '.$segapellido;
 
 $sql="SELECT * from siniestros where idempresa='".$ide."' and idsiniestro='".$idsiniestro."'"; 
-$result=mysqli_query ($conn,$sql) or die ("Invalid result");
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->query($sql);
+$resultado=$result->fetch();
+
+//$result=mysqli_query ($conn,$sql) or die ("Invalid result");
+//$resultado=mysqli_fetch_array($result);
 $numsiniestro=$resultado['numsiniestro'];
 $contacto=$resultado['contacto'];
 $telefono=$resultado['telefono'];

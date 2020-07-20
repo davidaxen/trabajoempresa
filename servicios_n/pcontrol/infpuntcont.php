@@ -23,26 +23,34 @@ if (isset($_COOKIE['clivp'])) {
 <?php 
 if ($idgestor!=0){;
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='1' and idgestor='".$idgestor."'"; 
+$sql="SELECT * from clientes where idempresas=:ide and estado='1' and idgestor=:idgestor"; 
 
 }else{
 	if ($idcli!=0){;
-	$sql="SELECT * from clientes where idempresas='".$ide."' and nif='".$gente."'"; 
+	$sql="SELECT * from clientes where idempresas=:ide and nif=:gente"; 
 
 	}else{;
 
 if ($clivp==null){;
-$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."'"; 
+$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide"; 
 }else{;
-$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."' and idclientes='".$clivp."'";
+$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide and idclientes=:clivp";
 };
 
 };
 };
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idgestor',$idgestor);
+$result->bindParam(':gente',$gente);
+$result->bindParam(':clivp',$clivp);
+$result->execute();
 $resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+$resultmos=$conn->query($sql);
+//$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -59,9 +67,14 @@ foreach ($resultmos as $row) {
 //mysqli_data_seek($result, $i);
 //$resultado=mysqli_fetch_array($result);
 //$idclientes=$resultado['idclientes'];
-$sql1="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
+$sql1="SELECT nombre from clientes where idempresas=:ide and idclientes=:idclientes"; 
 
-$result1=$conn->query($sql1);
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide',$ide);
+$result1->bindParam(':idclientes',$idclientes);
+$result1->execute();
+$resultado1=$result1->fetch();
+//$result1=$conn->query($sql1);
 $resultado1=$result1->fetch();
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");

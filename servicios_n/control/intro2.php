@@ -12,9 +12,17 @@ if ($ide!=null){;
 
 <?php  
 if ($tabla=="ipuntconta"){;
-$sql="SELECT * from evento where idempresa='".$ide."' order by idevento desc";
-$result=$conn->query($sql);
-$resultt=$conn->query($sql);
+$sql="SELECT * from evento where idempresa=:ide order by idevento desc";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultt=$conn->prepare($sql);
+$resultt->bindParam(':ide',$ide);
+$resultt->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultt=$conn->query($sql);
 $fetchAll2=$result->fetchAll();
 $row2=count($fetchAll2);
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -31,15 +39,39 @@ $idevento=$idevento+1;
 $fcomienzo=$acomienzo.'-'.$mcomienzo.'-'.$dcomienzo;
 $ffinal=$afinal.'-'.$mfinal.'-'.$dfinal;
 
-$sql1 = "INSERT INTO evento (idempresa,idevento,evento,contacto,telefono,direccion,email,estado,fcomienzo,ffinal,programa) VALUES ('$ide','$idevento','$evento','$pcontacto','$telcontacto','$dircontacto','$mailcontacto','1','$fcomienzo','$ffinal','$programa')";
-$result1=$conn->exec($sql);
+$sql1 = "INSERT INTO evento (idempresa,idevento,evento,contacto,telefono,direccion,email,estado,fcomienzo,ffinal,programa) VALUES (:ide,:idevento,:evento,:pcontacto,:telcontacto,:dircontacto,:mailcontacto,'1',:fcomienzo,:ffinal,:programa)";
+
+$temporal1 = $conn ->prepare($sql1);
+
+ $temporal1->bindParam(':ide', $ide);
+ $temporal1->bindParam(':idevento', $idevento);
+ $temporal1->bindParam(':evento', $evento);
+ $temporal1->bindParam(':pcontacto', $pcontacto);
+ $temporal1->bindParam(':telcontacto', $telcontacto);
+ $temporal1->bindParam(':dircontacto', $dircontacto);
+ $temporal1->bindParam(':mailcontacto', $mailcontacto);
+ $temporal1->bindParam(':fcomienzo', $fcomienzo);
+ $temporal1->bindParam(':ffinal', $ffinal);
+ $temporal1->bindParam(':programa', $programa);
+
+ $temporal1->execute();
+
+//$result1=$conn->exec($sql);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntconta");
 };
 
 if ($tabla=="ipuntcont"){;
-$sql="SELECT * from asistentes where idempresa='".$ide."' order by idasistente desc";
-$result=$conn->query($sql);
-$resultt=$conn->query($sql);
+$sql="SELECT * from asistentes where idempresa=:ide order by idasistente desc";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultt=$conn->prepare($sql);
+$resultt->bindParam(':ide',$ide);
+$resultt->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultt=$conn->query($sql);
 $fetchAll2=$result->fetchAll();
 $row2=count($fetchAll2);
 
@@ -57,9 +89,28 @@ $idasistente=$idasistente+1;
 
 
 $sql1 = "INSERT INTO asistentes (idempresa,idasistente,nombre,papellido,sapellido,dni,domicilio,cp,telefono,email,localidad,provincia,empresa) 
-VALUES ('$ide','$idasistente','$nombreasist','$papellidoasist','$sapellidoasist','$dniasist','$dirasist','$cpasist','$telasist','$mailasist','$locasist','$proasist','$empresaasist')";
+VALUES (:ide,:idasistente,:nombreasist,:papellidoasist,:sapellidoasist,:dniasist,:dirasist,:cpasist,:telasist,:mailasist,:locasist,:proasist,:empresaasist)";
 //echo $sql1;
-$result1=$conn->exec($sql1);
+
+$temporal = $conn ->prepare($sql1);
+
+ $temporal->bindParam(':idp', $idp);
+ $temporal->bindParam(':idasistente', $idasistente);
+ $temporal->bindParam(':nombreasist', $nombreasist);
+ $temporal->bindParam(':papellidoasist', $papellidoasist);
+ $temporal->bindParam(':sapellidoasist', $sapellidoasist);
+ $temporal->bindParam(':dniasist', $dniasist);
+ $temporal->bindParam(':dirasist', $dirasist);
+ $temporal->bindParam(':cpasist', $cpasist);
+ $temporal->bindParam(':telasist', $telasist);
+ $temporal->bindParam(':mailasist', $mailasist);
+ $temporal->bindParam(':locasist', $locasist);
+ $temporal->bindParam(':proasist', $proasist);
+ $temporal->bindParam(':empresaasist', $empresaasist);
+
+ $temporal->execute();
+
+//$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");
 
 };

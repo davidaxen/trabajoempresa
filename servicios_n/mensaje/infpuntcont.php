@@ -32,12 +32,23 @@ include('combo.php');?>
 
 
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='".$estado."'"; 
+$sql="SELECT * from empleados where idempresa=:ide and estado=:estado"; 
 if ($idtrab!=0){;
-$sql.=" and idempleado='".$idtrab."'";
+$sql.=" and idempleado=:idtrab";
 };
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estado',$estado);
+$result->execute();
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':estado',$estado);
+$resultmos->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -48,7 +59,7 @@ $result=$conn->query($sql);
 <option value=""></option>
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idempleado=$row['idempleado'];
 	$nombre=$row['nombre'];
 	$apellidop=$row['1apellido'];
