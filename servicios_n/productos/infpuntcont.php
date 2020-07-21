@@ -16,19 +16,27 @@ include('combo.php');?>
 $sql="SELECT * from clientes where idempresas=:ide"; 
 $sqlx=" and accdiarias='1'";
 if ($idcli!=0){;
-$sqly=" and nif=:gente";
-};
+	$sqly=" and nif=:gente";
 
-$sqlt = $sql.$sqlx.$sqly;
+	$sqlt = $sql.$sqlx.$sqly;
 
-$result=$conn->prepare($sqlt);
-$result->bindParam(':ide',$ide);
-$result->bindParam(':gente',$gente);
+	$result=$conn->prepare($sqlt);
+	$result->bindParam(':ide',$ide);
+	$result->bindParam(':gente',$gente);
+
+}else{
+	$sqlt = $sql.$sqlx.$sqly;
+
+	$result=$conn->prepare($sqlt);
+	$result->bindParam(':ide',$ide);
+}
+
 $result->execute();
-$resultado=$result->fetch();
+
+//$resultado=$result->fetch();
 
 //$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+//$resultmos=$conn->query($sql);
 //$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -56,15 +64,9 @@ foreach ($resultmos as $row) {
 $sqla="SELECT * from puntservicios where idempresas=:ide and idpccat=:idpccat";
 
 $resulta=$conn->prepare($sqla);
-$result->bindParam(':ide',$ide);
-$result->bindParam(':idpccat',$idpccat);
-$result->execute();
-$resultadoa=$result->fetch();
-
-//$resulta=$conn->query($sqla);
-$resultamos=$conn->query($sqla);
-
-$resultadoa=$resulta->fetch();
+$resulta->bindParam(':ide',$ide);
+$resulta->bindParam(':idpccat',$idpccat);
+$resulta->execute();
 
 //$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
 //$rowa=mysqli_num_rows($resulta);
@@ -73,7 +75,7 @@ $resultadoa=$resulta->fetch();
 <option value="todos">Todos
 <?php 
 
-foreach ($resultamos as $row) {
+foreach ($resulta as $row) {
 	$idpcsubcat=$row['idpcsubcat'];
 	$subcategoria=$row['subcategoria'];	
 //for ($i=0;$i<$rowa;$i++){;
