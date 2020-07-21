@@ -3,18 +3,27 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['jornadas'];
 
-$sql32="select * from menuserviciosimg where idempresa='".$ide."'";
+$sql32="select * from menuserviciosimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
+
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['jornadas'];
@@ -47,9 +56,19 @@ Estado <select name="estado">
 
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='".$estado."' order by idclientes asc";
+$sql="SELECT * from clientes where idempresas=:ide and estado=:estado order by idclientes asc";
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estado',$estado);
+$result->execute();
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam('ide',$ide);
+$resultmos->bindParam(':estado',$estado);
+$resultmos->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -60,7 +79,7 @@ $result=$conn->query($sql);
 <table class="table-bordered table pull-right" id="mytable">
 <?php
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 $idclientes=$row['idclientes'];
 $nombre=$row['nombre'];
 $nif=$row['nif'];

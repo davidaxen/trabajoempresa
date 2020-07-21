@@ -69,7 +69,7 @@ $row=mysqli_num_rows($result);*/
 ?>
 
 <table>
-<tr class="subenc"><td>Nº Siniestro</td><td>Empleado Asignado</td>
+<tr class="subenc"><td>NÂº Siniestro</td><td>Empleado Asignado</td>
 <td>Dia y Hora Asignacion</td>
 <td>Persona de contacto</td><td>Telefono</td><td>Direccion</td><td>Email</td><td>Descripcion</td>
 <?php  if ($estado=="todos"){;?><td>Estado</td><?php };?>

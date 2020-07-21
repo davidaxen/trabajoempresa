@@ -17,10 +17,18 @@ include('combo.php');?>
 
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."'"; 
+$sql="SELECT * from clientes where idempresas=:ide"; 
 $sql.=" and alarma='1'";
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -29,7 +37,7 @@ $result=$conn->query($sql);
 <select name="idclientes" id="combobox">
 <option value="todos">Todos</option>
 <?php 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 	$idclientes=$row['idclientes'];
 	$nombre=$row['nombre'];	
 //for ($i=0;$i<$row;$i++){;

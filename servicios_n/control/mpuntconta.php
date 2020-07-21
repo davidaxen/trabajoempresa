@@ -56,7 +56,7 @@ $row=mysqli_num_rows($result);*/
 /*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($result as $rowmos) {
+foreach ($resultmos as $rowmos) {
 $idevento=$rowmos['idevento'];
 $evento=$rowmos['evento'];
 $contacto=$rowmos['contacto'];

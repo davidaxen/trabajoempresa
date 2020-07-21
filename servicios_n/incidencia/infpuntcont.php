@@ -13,13 +13,25 @@ include('combo.php');?>
 <tr><td>Datos del Puesto de Trabajo</td><td>
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."'"; 
+$sql="SELECT * from clientes where idempresas=:ide"; 
 $sql.=" and incidencia='1'";
 if ($idcli!=0){;
-$sql.=" and nif='".$gente."'";
+$sql.=" and nif=:gente";
 };
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':gente',$gente);
+$result->execute();
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':gente',$gente);
+$resultmos->execute();
+
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -31,9 +43,9 @@ $result=$conn->query($sql);
 <option value="0">Fuera de Trabajo</option>
 <?php };
 
-foreach ($result as $row) {
-	$idclientes=$resultado['idclientes'];
-	$nombre=$resultado['nombre'];	
+foreach ($resultmos as $row) {
+	$idclientes=$row['idclientes'];
+	$nombre=$row['nombre'];	
 
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);

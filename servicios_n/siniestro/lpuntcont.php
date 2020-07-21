@@ -31,14 +31,20 @@ if ($ide!=null){;
 <?php 
 
 $sql1="SELECT * from siniestros";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide";
 if ($estado!='todos'){;
-$sql1.=" and terminado='".$estado."' ";
+$sql1.=" and terminado=:estado";
 };
 $sql1.=" order by dia asc";
 //echo $sql1;
 
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estado',$estado);
+$result->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql1);
 
 //$result=mysqli_query($conn,$sql1) or die ("Invalid result1");
 //$row=mysqli_num_rows($result);

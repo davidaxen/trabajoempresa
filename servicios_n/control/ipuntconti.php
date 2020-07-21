@@ -18,6 +18,7 @@ if ($idsiniestro==null){;
 
 
 <?php 
+
 $sql="SELECT * from siniestros where idempresa=:ide ";
 $sql.="and terminado='0'";
 $result=$conn->prepare($sql);
@@ -70,11 +71,15 @@ No tiene siniestros sin terminar.
 <tr class="subenc3"><td>Datos del Siniestro</td></tr>
 <?php 
 $sql="SELECT * from siniestros where idempresa=:ide and idsiniestro=:idsiniestro";
+
 $result=$conn->prepare($sql);
 $result->bindParam(':ide', $ide);
 $result->bindParam(':idsiniestro', $idsiniestro);
 $result->execute();
 $resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+//$resultado=$result->fetch();
 
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $resultado=mysqli_fetch_array($result);*/
@@ -129,11 +134,16 @@ $trabajop=$rowmos['trabajopendiente'];
 $idempleado=$rowmos['idempleado'];
 
 $sql2="SELECT * from empleados where idempresa=:ide and idempleado=:idempleado";
+
 $result2=$conn->prepare($sql2);
 $result2->bindParam(':ide', $ide);
 $result2->bindParam(':idempleado', $idempleado);
+
 $result2->execute();
 $resultado2=$result2->fetch();
+
+//$result2=$conn->query($sql2);
+//$resultado2=$result2->fetch();
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
 $resultado2=mysqli_fetch_array($result2);*/
@@ -157,6 +167,7 @@ $segapellido=$resultado2['2apellido'];
 <?php 
 $sql2="SELECT * from empleados where idempresa=:ide and estado='1'"; 
 if ($idempleado!=0){;
+
 	$sql2.=" and idempleado=:idempleado";
 	$result2=$conn->prepare($sql2);
 	$result2->bindParam(':ide', $ide);
@@ -167,6 +178,7 @@ if ($idempleado!=0){;
 	$result2->bindParam(':ide', $ide);
 	$result2->execute();
 }
+
 
 
 /*$result2=mysqli_query ($conn,$sql2) or die ("Invalid result");
@@ -186,11 +198,19 @@ $row2=mysqli_num_rows($result2);*/
 /*for ($h=0;$h<$row2;$h++){;
 mysqli_data_seek($result2, $h);
 $resultado2=mysqli_fetch_array($result2);*/
+<<<<<<< HEAD
 foreach ($result2 as $row2mos) {
 	$idempleado=$row2mos['idempleado'];
 	$nombre=$row2mos['nombre'];
 	$priapellido=$row2mos['1apellido'];
 	$segapellido=$row2mos['2apellido'];
+=======
+foreach ($result2mos as $row2mos) {
+$idempleado=$row2mos['idempleado'];
+$nombre=$row2mos['nombre'];
+$priapellido=$row2mos['1apellido'];
+$segapellido=$row2mos['2apellido'];
+>>>>>>> c2f166211b9f9513cc841081b9fcb64ff3709db0
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombre;?>, <?php  echo $priapellido;?> <?php  echo $segapellido;?>
 <?php };?>
