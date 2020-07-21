@@ -117,8 +117,6 @@ $resultmos->bindParam(':ide', $ide);
 $resultmos->bindParam(':idsiniestro', $idsiniestro);
 $resultmos->execute();
 
-
-
 /*$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 $row=mysqli_num_rows($result);*/
 if ($row==0){;
@@ -200,11 +198,13 @@ $row2=mysqli_num_rows($result2);*/
 /*for ($h=0;$h<$row2;$h++){;
 mysqli_data_seek($result2, $h);
 $resultado2=mysqli_fetch_array($result2);*/
-foreach ($result2mos as $row2mos) {
-$idempleado=$row2mos['idempleado'];
-$nombre=$row2mos['nombre'];
-$priapellido=$row2mos['1apellido'];
-$segapellido=$row2mos['2apellido'];
+
+foreach ($result2 as $row2mos) {
+	$idempleado=$row2mos['idempleado'];
+	$nombre=$row2mos['nombre'];
+	$priapellido=$row2mos['1apellido'];
+	$segapellido=$row2mos['2apellido'];
+
 ?>
 <option value="<?php  echo $idempleado;?>"><?php  echo $nombre;?>, <?php  echo $priapellido;?> <?php  echo $segapellido;?>
 <?php };?>
