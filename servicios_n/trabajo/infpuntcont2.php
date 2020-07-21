@@ -19,11 +19,10 @@ $sql32="select * from menuadministracionimg where idempresa=:ide";
 
 $result32=$conn->prepare($sql32);
 $result32->bindParam(':ide',$ide);
-$result312->execute();
+$result32->execute();
 $resultado32=$result32->fetch();
-
-$result32=$conn->query($sql32);
-$resultado32=$result32->fetch();
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 $ic1=$resultado32['clientes'];
@@ -115,16 +114,21 @@ if (isset($_REQUEST['estadotr'])) {
 <select name="idaseguradora" id="combobox">
 <option value="todos">Todos
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
+$sql="SELECT * from clientes where idempresas=:ide and estado='1'";
 
-$result=$conn->query($sql);
-$resultado=$result->fetch();
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+//$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
+//$resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row2=mysqli_num_rows($result);
 
-foreach ($result as $row) {
-    $nombre=$row['nombre'];
-    $idclientes=$row['idclientes'];
+foreach ($result as $rowy) {
+    $nombre=$rowy['nombre'];
+    $idclientes=$rowy['idclientes'];
 //for ($t=0;$t<$row2;$t++){;
 //mysqli_data_seek($result, $t);
 //$resultado=mysqli_fetch_array($result);
@@ -305,19 +309,23 @@ elem1.style.visibility="collapse"
 <select name="idempleado" id="combobox">
 <option value="todos">Todos
 <?php 
-$sql="SELECT * from empleados where idempresa='".$ide."' and estado='1'";
+$sql="SELECT * from empleados where idempresa=:ide and estado='1'";
 
-$result=$conn->query($sql);
-$resultado=$result->fetch();
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+
+//$result=$conn->query($sql);
+//$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row2=mysqli_num_rows($result);
 
-foreach ($result as $row) {
-  $nombree=$row['nombre'];
-  $apellido1e=$row['1apellido'];
-  $apellido2e=$row['2apellido'];
-  $idempleado=$row['idempleado'];
+foreach ($result as $rowx) {
+  $nombree=$rowx['nombre'];
+  $apellido1e=$rowx['1apellido'];
+  $apellido2e=$rowx['2apellido'];
+  $idempleado=$rowx['idempleado'];
 //for ($t=0;$t<$row2;$t++){;
 //mysqli_data_seek($result, $t);
 //$resultado=mysqli_fetch_array($result);
@@ -516,26 +524,35 @@ function openCity(evt, cityName) {
 <?php 
 
 $sql1="SELECT * from trabajos";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide";
 if ($idaseguradora!='todos'){;
-$sql1.=" and idaseguradora='".$idaseguradora."' ";
+$sql1.=" and idaseguradora=:idaseguradora";
 };
 if ($estadotr!='todos'){;
-$sql1.=" and terminado='".$estadotr."' ";
+$sql1.=" and terminado=:estadotr";
 };
 if ($diatr!=''){;
-$sql1.=" and diaapertura='".$diatr."' ";
+$sql1.=" and diaapertura=:diatr";
 };		
 if ($diatc!=''){;
-$sql1.=" and diacierre='".$diatc."' ";
+$sql1.=" and diacierre=:diatc";
 };	
 
 		
 $sql1.=" order by dia desc";
 //echo $sql1;
 
-$result=$conn->query($sql1);
-$resultado=$result->fetch();
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idaseguradora',$idaseguradora);
+$result->bindParam(':estadotr',$estadotr);
+$result->bindParam(':diatr',$diatr);
+$result->bindParam(':diatc',$diatc);
+$result->execute();
+//$resultado=$result->fetch();
+
+//$result=$conn->query($sql1);
+//$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 //$row=mysqli_num_rows($result);
@@ -579,10 +596,16 @@ foreach ($result as $row) {
 //$descripcion=$resultado['descripcion'];
 //$est=$resultado['terminado'];
 
-$sql10="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idaseguradora."'"; 
+$sql10="SELECT * from clientes where idempresas=:ide and idclientes=:idaseguradora"; 
 
-$result10=$conn->query($sql10);
-$resultado10=$result->fetch();
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide',$ide);
+$result10->bindParam(':idaseguradora',$idaseguradora);
+$result10->execute();
+$resultado10=$result10->fetch();
+
+//$result10=$conn->query($sql10);
+//$resultado10=$result->fetch();
 //$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
 //$resultado10=mysqli_fetch_array($result10);
 $nombrecontacto=$resultado10['nombre'];
