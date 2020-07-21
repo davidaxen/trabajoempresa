@@ -4,11 +4,6 @@ if ($ide!=null){;
 include('../../portada_n/cabecera3.php');
 include('combo.php');
 
-if (isset($_COOKIE['clivp'])) {
-	$clivp = $_REQUEST['clivp'];
-}else{
-	$clivp = 'hola';
-}
 
 ?>
 
@@ -31,7 +26,6 @@ $sql="SELECT DISTINCT (idclientes) from puntcont where idempresas='".$ide."' and
 //echo $sql;
 
 $result=$conn->query($sql);
-$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);

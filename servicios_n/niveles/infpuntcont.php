@@ -17,17 +17,18 @@ $sql="SELECT * from clientes where idempresas=:ide";
 $sqlx=" and accdiarias='1'";
 if ($idcli!=0){;
 $sqly=" and nif=:gente";
+	$sqlt = $sql.$sqlx.$sqly;
+	$result=$conn->prepare($sqlt);
+	$result->bindParam(':ide',$ide);
+	$result->bindParam(':gente',$gente);
+}else{
+	$sqlt = $sql.$sqlx.$sqly;
+	$result=$conn->prepare($sqlt);
+	$result->bindParam(':ide',$ide);
 }
 
-$sqlt = $sql.$sqlx.$sqly;
 
-$result=$conn->prepare($sqlt);
-$result->bindParam(':ide',$ide);
-$result->bindParam(':gente',$gente);
 $result->execute();
-$resultado=$result->fetch();
-//$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
 //$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -38,10 +39,9 @@ $resultmos=$conn->query($sql);
 <option value="todos">Todos</option>
 <?php }
 
-foreach ($resultmos as $row) {
-	$idclientes=$row['idclientes'];
-	$nombre=$row
-	['nombre'];	
+foreach ($result as $rowmos) {
+	$idclientes=$rowmos['idclientes'];
+	$nombre=$rowmos['nombre'];	
 
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);
@@ -61,10 +61,8 @@ $resulta=$conn->prepare($sqla);
 $resulta->bindParam(':ide',$ide);
 $resulta->bindParam(':idpccat',$idpccat);
 $resulta->execute();
-$resultadoa=$resulta->fetch();
 
 //$resulta=$conn->query($sqla);
-$resultamos=$conn->query($sqla);
 //$resultadoa=$resulta->fetch();
 //$resulta=mysqli_query ($conn,$sqla) or die ("Invalid result");
 //$rowa=mysqli_num_rows($resulta);
@@ -73,9 +71,9 @@ $resultamos=$conn->query($sqla);
 <option value="todos">Todos
 <?php 
 
-foreach ($resultamos as $row) {
-	$idpcsubcat=$row['idpcsubcat'];
-	$subcategoria=$row['subcategoria'];
+foreach ($resulta as $rowa) {
+	$idpcsubcat=$rowa['idpcsubcat'];
+	$subcategoria=$rowa['subcategoria'];
 //for ($i=0;$i<$rowa;$i++){;
 //mysqli_data_seek($resulta,$i);
 //$resultadoa=mysqli_fetch_array($resulta);
