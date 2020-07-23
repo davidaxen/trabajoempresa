@@ -12,20 +12,25 @@ include('bbdd.php');
 
 <?php 
 
-if (isset($_REQUEST['enviar'])) {
-	$enviar = $_REQUEST['enviar'];
-}else{
-	$enviar = 'enviar';
+if (!isset($enviar)) {
+	$enviar="a";
 }
 
 if ($ide!=null){;
 
-if ($enviar==""){;
+if ($enviar=="enviar"){;
 
 $sql13 = "INSERT INTO ayuda(menu,seccion,subseccion,titulo) 
-VALUES ('$menu','$seccion','$subseccion','$texto')";
+VALUES (:menu,:seccion,:subseccion,:texto)";
 //echo $sql13;
-$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
+$result13=$conn->prepare($sql13);
+$result13->bindParam(':menu', $menu);
+$result13->bindParam(':seccion', $seccion);
+$result13->bindParam(':subseccion', $subseccion);
+$result13->bindParam(':texto', $texto);
+$result13->execute();
+
+//$result13=mysqli_query ($conn,$sql13) or die ("Invalid result iclientes");
 echo ("introduccida ayuda");
 ?>
 <?php }else{;?>
