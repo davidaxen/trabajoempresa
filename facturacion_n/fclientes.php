@@ -3,9 +3,11 @@ include('bbdd.php');
 
 include('../portada_n/cabecera2.php');
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
@@ -14,10 +16,12 @@ switch($tipo){
 case 1: $nc=$resultado31['clientes'];break;
 case 2: $nc=$resultado31['puestos'];break;
 }
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide', $ide);
+$result32->execute();
 $resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
@@ -60,18 +64,22 @@ Estructura del fichero csv que debes de crear:
 $dat2=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 $dat=array('mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
-$sql10="select * from servicios where idempresa='".$ide."'"; 
+$sql10="select * from servicios where idempresa=:ide"; 
 
 
-$result10=$conn->query($sql10);
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide', $ide);
+$result10->execute();
 $resultado10=$result10->fetch();
 
 //$result10=mysqli_query($conn,$sql10) or die ("Invalid result clientes");
 //$resultado10=mysqli_fetch_array($result10);
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
@@ -144,7 +152,9 @@ Los campos en negrita deben de ser rellenados con valores 0 (si no quieres) y 1 
              {
                //Insertamos los datos con los valores...
                 $sql = "INSERT into prueba (texto) values('$data[0]')";
-                mysqli_query($sql) or die('Error: '.mysqli_error());
+                $result=$conn->prepare($sql10);
+                $result->execute();
+                //mysqli_query($sql) or die('Error: '.mysqli_error());
              }
              //cerramos la lectura del archivo "abrir archivo" con un "cerrar archivo"
              fclose($handle);

@@ -1,6 +1,7 @@
 <?php  
 include('bbdd.php');
 
+
 if (($ide!=null) or ($validar==0)){;
 
  include('../portada_n/cabecera2.php');
@@ -62,7 +63,6 @@ if ($idprt==null){;
 $sql="select * from proyectos order by idproyectos asc"; 
 
 $result=$conn->query($sql);
-$resultmos=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result idproyectos");
 ///$row=mysqli_num_rows($result);
@@ -70,9 +70,9 @@ $resultmos=$conn->query($sql);
 <select name="idprt">
 <?php 
 
-foreach ($resultmos as $row) {
-	$idproyectos=$row['idproyectos'];
-	$nombrep=$row['nombre'];
+foreach ($result as $rowmos) {
+	$idproyectos=$rowmos['idproyectos'];
+	$nombrep=$rowmos['nombre'];
 
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result,$i);
@@ -162,9 +162,9 @@ $resultmos=$conn->query($sql);
 <select name="pais2">
 <?php 
 
-foreach ($resultmos as $row) {
-	$idpais=$row['idpais'];
-	$nombrepais=$row['nombrepais'];
+foreach ($resultmos as $rowmos1) {
+	$idpais=$rowmos1['idpais'];
+	$nombrepais=$rowmos1['nombrepais'];
 
 //for ($i;$i<$row;$i++){
 //mysqli_data_seek($result,$i)
@@ -315,49 +315,56 @@ $camposp=array('trabajo','siniestro','mediciones','control','alarma','ruta');
 $camposc=array('mensaje','incidenciasplus');
 $camposa=array('cuadrante','jornadas');
 
-$sqlopc="select * from precioproyectos where idproyectos='".$idprt."' and estado='1'";
+$sqlopc="select * from precioproyectos where idproyectos=:idprt and estado='1'";
 
-$resultopc=$conn->query($sqlopc);
-$resultopcmos=$conn->query($sqlopc);
+$resultopc=$conn->prepare($sqlopc);
+$resultopc->bindParam(':idprt', $idprt);
+$resultopc->execute();
+
+$resultopcmos=$conn->prepare($sqlopc);
+$resultopcmos->bindParam(':idprt', $idprt);
+$resultopcmos->execute();
 
 //$resultopc=mysqli_query ($conn,$sqlopc) or die ("Invalid resultopc");
 
-foreach ($resultopcmos as $row) {
-	$pqr[]=$row[$camposqr[$numqr]];
+foreach ($resultopcmos as $rowpcmos) {
+	$pqr[]=$rowpcmos[$camposqr[$numqr]];
 //for($numqr=0;$numqr<count($camposqr);$numqr++){;
 //mysqli_data_seek($resultopc,$numqr);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-$pqr[]=$row[$camposqr[$numqr]];
+$pqr[]=$rowpcmos[$camposqr[$numqr]];
 }
 
-foreach ($resultopcmos as $row) {
-	$pp[]=$row[$camposp[$nump]];
+foreach ($resultopcmos as $rowpcmos) {
+	$pp[]=$rowpcmos[$camposp[$nump]];
 //for($nump=0;$nump<count($camposp);$nump++){;
 //mysqli_data_seek($resultopc,$nump);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-$pp[]=$row[$camposp[$nump]];
+$pp[]=$rowpcmos[$camposp[$nump]];
 };
 
-foreach ($resultopcmos as $row) {
-	$pc[]=$row[$camposc[$numc]];
+foreach ($resultopcmos as $rowpcmos) {
+	$pc[]=$rowpcmos[$camposc[$numc]];
 //for($numc=0;$numc<count($camposc);$numc++){;
 //mysqli_data_seek($resultopc,$numc);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-$pc[]=$row[$camposc[$numc]];
+$pc[]=$rowpcmos[$camposc[$numc]];
 };
 
-foreach ($resultopcmos as $row) {
-	$pa[]=$row[$camposa[$numa]];
+foreach ($resultopcmos as $rowpcmos) {
+	$pa[]=$rowpcmos[$camposa[$numa]];
 //for($numa=0;$numa<count($camposa);$numa++){;
 //mysqli_data_seek($resultopc,$numa);
 //$resultadoopc=mysqli_fetch_array($resultopc);
-$pa[]=$row[$camposa[$numa]];
+$pa[]=$rowpcmos[$camposa[$numa]];
 };
 
 
-$sql="select * from proyectos where idproyectos='".$idprt."'";
+$sql="select * from proyectos where idproyectos=:idprt";
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':idprt', $idprt);
+$result->execute();
 $resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result menuproyectos");
 //$resultado=mysqli_fetch_array($result);
@@ -379,9 +386,11 @@ $ca[]=$resultado[$camposa[$numa]];
 
 
 
-$sql31="select * from proyectosnombre where idproyectos='".$idprt."'";
+$sql31="select * from proyectosnombre where idproyectos=:idprt";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':idprt', $idprt);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 //$result31=mysqli_query ($conn,$sql31) or die ("Invalid result menucontabilidad");
@@ -402,9 +411,11 @@ $nca[]=$resultado31[$camposa[$numa]];
 };
 
 
-$sql32="select * from proyectosimg where idproyectos='".$idprt."'";
+$sql32="select * from proyectosimg where idproyectos=:idprt";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':idprt', $idprt);
+$result32->execute();
 $resultado32=$result32->fetch();
 
 //$result32=mysqli_query ($conn,$sql32) or die ("Invalid result menucontabilidad");
@@ -534,11 +545,16 @@ if ($tipoprecios==1){;
 <?php }else{;?>
 
 <?php 
-$sqlopc="select * from precioopc where idpr='".$idprt."'";
+$sqlopc="select * from precioopc where idpr=:idprt";
 //echo  $sqlopc;
 
-$resultopc=$conn->query($sqlopc);
-$resultopcmos=$conn->query($sqlopc);
+$resultopc=$conn->prepare($sqlopc);
+$resultopc->bindParam(':idprt', $idprt);
+$resultopc->execute();
+
+$resultopcmos=$conn->prepare($sqlopc);
+$resultopcmos->bindParam(':idprt', $idprt);
+$resultopcmos->execute();
 
 //$resultopc=mysqli_query ($conn,$sqlopc) or die ("Invalid resultopc");
 //$rowopc=mysqli_num_rows($resultopc);
@@ -549,9 +565,9 @@ $resultopcmos=$conn->query($sqlopc);
 <option value=""></option>
 <?php 
 
-foreach ($resultopcmos as $row) {
-	$nombreopc=$row['nombre'];
-	$idopc=$row['idopcion'];
+foreach ($resultopcmos as $rowpcmos) {
+	$nombreopc=$rowpcmos['nombre'];
+	$idopc=$rowpcmos['idopcion'];
 //for ($jopc=0;$jopc<$rowopc;$jopc++){;
 //mysqli_data_seek($resultopc,$jopc);
 //$resultadoopc=mysqli_fetch_array($resultopc);
@@ -573,10 +589,12 @@ $dat=array('cuadrante','entrada','incidencia','mensaje','alarma','accdiarias','a
 
 
 
-$sqlpn="select * from proyectosnombre where idproyectos='".$idprt."'";
+$sqlpn="select * from proyectosnombre where idproyectos=:idprt";
 //echo  $sqlpn;
 
-$resultpn=$conn->query($sqlpn);
+$resultpn=$conn->prepare($sqlpn);
+$resultpn->bindParam(':idprt', $idprt);
+$resultpn->execute();
 $resultadopn=$resultpn->fetch();
 
 //$resultpn=mysqli_query ($conn,$sqlpn) or die ("Invalid resultpn");
@@ -599,11 +617,11 @@ var valor=formulario.opcion.value;
 switch(valor){
 <?php 
 
-foreach ($resultopcmos as $row) {
-	$idopc2=$row['idopcion'];
-	$caracopc=$row['caracteristicas'];
-	$precioopc=$row['precio'];
-	$caracprecioopc=$row['caracprecio'];
+foreach ($resultopcmos as $rowopcmos) {
+	$idopc2=$rowopcmos['idopcion'];
+	$caracopc=$rowopcmos['caracteristicas'];
+	$precioopc=$rowopcmos['precio'];
+	$caracprecioopc=$rowopcmos['caracprecio'];
 
 //for ($jopc=0;$jopc<$rowopc;$jopc++){;
 //mysqli_data_seek($resultopc,$jopc);
