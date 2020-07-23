@@ -313,15 +313,18 @@ if ($rowdes!=0){;
 $sql2="SELECT * from empleados where idempresa=:ide and estado='1'"; 
 if ($idempleado!=0){;
 $sql2.=" and idempleado=:idempleado";
+	
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide',$ide);
+	$result2->bindParam(':idempleado',$idempleado);
+
 };
 
-$result2=$conn->prepare($sql2);
-$result2->bindParam(':ide',$ide);
-$result2->execute();
-$resultado=$result2->fetch();
+	$result2->execute();
+//$resultado=$result2->fetch();
 //$result2=$conn->query($sql2);
-$fetchAll2=$result2->fetchAll();
-$row2=count($fetchAll2);
+//$fetchAll2=$result2->fetchAll();
+//$row2=count($fetchAll2);
 
 
 //$result2=mysqli_query($conn,$sql2) or die ("Invalid result");

@@ -40,8 +40,6 @@ $fcomienzo=$acomienzo.'-'.$mcomienzo.'-'.$dcomienzo;
 $ffinal=$afinal.'-'.$mfinal.'-'.$dfinal;
 
 $sql1 = "INSERT INTO evento (idempresa,idevento,evento,contacto,telefono,direccion,email,estado,fcomienzo,ffinal,programa) VALUES (:ide,:idevento,:evento,:pcontacto,:telcontacto,:dircontacto,:mailcontacto,'1',:fcomienzo,:ffinal,:programa)";
-
-<<<<<<< HEAD
 $temporal1 = $conn ->prepare($sql1);
 
  $temporal1->bindParam(':ide', $ide);
@@ -56,20 +54,6 @@ $temporal1 = $conn ->prepare($sql1);
  $temporal1->bindParam(':programa', $programa);
 
  $temporal1->execute();
-=======
-	$temporal1 = $conn->prepare($sql1);
-	$temporal1->bindParam(':ide', $ide);
-	$temporal1->bindParam(':idevento', $idevento);
-	$temporal1->bindParam(':evento', $evento);
-	$temporal1->bindParam(':pcontacto', $pcontacto);
-	$temporal1->bindParam(':telcontacto', $telcontacto);
-	$temporal1->bindParam(':dircontacto', $dircontacto);
-	$temporal1->bindParam(':mailcontacto', $mailcontacto);
-	$temporal1->bindParam(':fcomienzo', $fcomienzo);
-	$temporal1->bindParam(':ffinal', $ffinal);
-	$temporal1->bindParam(':programa', $programa);
-	$temporal1->execute();
->>>>>>> f82f27af3f7e9cf522ecb3260923a3d51e0a9379
 
 //$result1=$conn->exec($sql);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntconta");
@@ -107,10 +91,9 @@ $sql1 = "INSERT INTO asistentes (idempresa,idasistente,nombre,papellido,sapellid
 VALUES (:ide,:idasistente,:nombreasist,:papellidoasist,:sapellidoasist,:dniasist,:dirasist,:cpasist,:telasist,:mailasist,:locasist,:proasist,:empresaasist)";
 //echo $sql1;
 
-<<<<<<< HEAD
 $temporal = $conn ->prepare($sql1);
 
- $temporal->bindParam(':idp', $idp);
+ $temporal->bindParam(':ide', $ide);
  $temporal->bindParam(':idasistente', $idasistente);
  $temporal->bindParam(':nombreasist', $nombreasist);
  $temporal->bindParam(':papellidoasist', $papellidoasist);
@@ -125,23 +108,7 @@ $temporal = $conn ->prepare($sql1);
  $temporal->bindParam(':empresaasist', $empresaasist);
 
  $temporal->execute();
-=======
-	$temporal1 = $conn->prepare($sql1);
-	$temporal1->bindParam(':ide', $ide);
-	$temporal1->bindParam(':idasistente', $idasistente);
-	$temporal1->bindParam(':nombreasist', $nombreasist);
-	$temporal1->bindParam(':papellidoasist', $papellidoasist);
-	$temporal1->bindParam(':sapellidoasist', $sapellidoasist);
-	$temporal1->bindParam(':dniasist', $dniasist);
-	$temporal1->bindParam(':dirasist', $dirasist);
-	$temporal1->bindParam(':cpasist', $cpasist);
-	$temporal1->bindParam(':telasist', $telasist);
-	$temporal1->bindParam(':mailasist', $mailasist);
-	$temporal1->bindParam(':locasist', $locasist);
-	$temporal1->bindParam(':proasist', $proasist);
-	$temporal1->bindParam(':empresaasist', $empresaasist);
-	$temporal1->execute();
->>>>>>> f82f27af3f7e9cf522ecb3260923a3d51e0a9379
+
 
 //$result1=$conn->exec($sql1);
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result ipuntcont");

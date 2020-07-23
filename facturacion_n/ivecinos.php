@@ -3,19 +3,27 @@
 include('bbdd.php');
 
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['vecinos'];
 
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
-
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['vecinos'];
@@ -32,13 +40,18 @@ $ic=$resultado32['vecinos'];
 if ($idc==null){
 
 
-$sql33="select * from clientes where idempresas='".$ide."' and estado='1'";
+$sql33="select * from clientes where idempresas=:ide and estado='1'";
 
-$result33=$conn->query($sql33);
-$result33mos=$conn->query($sql33);
+$result33=$conn->prepare($sql33);
+$result33->bindParam(':ide',$ide);
+$result33->execute();
+$resultado33=$result33->fetch();
 
-$fetchAll33=$result33->fetchAll();
-$row33=count($fetchAll33);
+//$result33=$conn->query($sql33);
+//$result33mos=$conn->query($sql33);
+
+//$fetchAll33=$result33->fetchAll();
+//$row33=count($fetchAll33);
 
 //$result33=mysqli_query($conn,$sql33) or die ("Invalid result clientes");
 //$row33=mysqli_num_rows($result33);
@@ -71,7 +84,7 @@ $row33=count($fetchAll33);
 <option value="">Elige una o varias Comunidad
 <?php 
 
-foreach ($result33mos  as $row) {
+foreach ($result33  as $row) {
 
 //for($t=0;$t<$row33;$t++){;
 //mysqli_data_seek($result33,$t);
@@ -93,11 +106,15 @@ $nombrevec=$row['nombre'];
 <?php }else{?>
 <?php 
 
-$sql="select idvecino from vecinos where idempresa='".$ide."' order by idvecino desc";
+$sql="select idvecino from vecinos where idempresa=:ide order by idvecino desc";
 
-$result=$conn->query($sql);
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+$resultado31=$result->fetch();
+//$result=$conn->query($sql);
+//$fetchAll=$result->fetchAll();
+//$row=count($fetchAll);
 
 //$result=mysqli_query($conn,$sql) or die ("Invalid result clientes");
 //$row=mysqli_num_rows($result);

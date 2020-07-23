@@ -24,12 +24,17 @@ if (($ide!=null) or ($validar==0)){;
 <?php 
 //}else{;
 
-$sql="SELECT * from usuarios where idempresas='".$ide."'"; 
+$sql="SELECT * from usuarios where idempresas=:ide"; 
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-$fetchAll=$result->fetchAll();
-$row=count($fetchAll);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->execute();
+//$resultado31=$result31->fetch();
+
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
+//$fetchAll=$result->fetchAll();
+//$row=count($fetchAll);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -41,7 +46,7 @@ $row=count($fetchAll);
 <table width="800" class="table-bordered table pull-right" id="mytable">
 <tr class="enctab"><td>Cod Usuario</td><td>Nombre</td><td>N&ordm; visitas</td><td>Ultima Visita</td><td>Mas info</td></tr>
 <?php 
-foreach ($resultmos as $row) {
+foreach ($result as $row) {
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result,$i);
 //$resultado=mysqli_fetch_array($result);
@@ -56,11 +61,18 @@ $idempleados=$row['idempleados'];
 
 
 if ($idempleados!=0){
-$sql10="SELECT nombre,1apellido,2apellido from empleados where idempresa='".$ide."' and idempleado='".$idempleados."'"; 
-$result10=$conn->query($sql10);
+$sql10="SELECT nombre,1apellido,2apellido from empleados where idempresa=:ide and idempleado=:idempleados"; 
+
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide',$ide);
+$result10->bindParam(':idempleados',$idempleados);
+$result10->execute();
 $resultado10=$result10->fetch();
-$fetchAll10=$result10->fetchAll();
-$row10=count($fetchAll10);
+
+//$result10=$conn->query($sql10);
+//$resultado10=$result10->fetch();
+//$fetchAll10=$result10->fetchAll();
+//$row10=count($fetchAll10);
 //$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
 //$row10=mysqli_num_rows($result10);
 //$resultado10=mysqli_fetch_array($result10);
@@ -74,12 +86,18 @@ $nombret=$nombre.",".$apellido1." ".$apellido2;
 }
 }else{
 		if ($idcliente!=0){
-		$sql10="SELECT nombre from clientes where idempresas='".$ide."' and idclientes='".$idcliente."'";
+		$sql10="SELECT nombre from clientes where idempresas=:ide and idclientes=:idcliente";
 
-		$result10=$conn->query($sql10);
+		$result10=$conn->prepare($sql10);
+		$result10->bindParam(':ide',$ide);
+		$result10->bindParam('idcliente',$idcliente);
+		$result10->execute();
 		$resultado10=$result10->fetch();
-		$fetchAll10=$result10->fetchAll();
-		$row10=count($fetchAll10);
+
+		//$result10=$conn->query($sql10);
+		//$resultado10=$result10->fetch();
+		//$fetchAll10=$result10->fetchAll();
+		//$row10=count($fetchAll10);
 		//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
 		//$row10=mysqli_num_rows($result10);
 		//$resultado10=mysqli_fetch_array($result10);
@@ -87,10 +105,15 @@ $nombret=$nombre.",".$apellido1." ".$apellido2;
 		$nombret=$nombre;
 		}else{
 				if ($idgestor!=0){
-				$sql10="SELECT nombregestor from gestores where idempresa='".$ide."' and idgestor='".$idgestor."'"; 
+				$sql10="SELECT nombregestor from gestores where idempresa=:ide and idgestor=:idgestor"; 
 
-				$result10=$conn->query($sql10);
+				$result10=$conn->prepare($sql10);
+				$result10->bindParam(':ide',$ide);
+				$result10->bindParam(':idgestor',$idgestor);
+				$result10->execute();
 				$resultado10=$result10->fetch();
+				//$result10=$conn->query($sql10);
+				//$resultado10=$result10->fetch();
 				$fetchAll10=$result10->fetchAll();
 				$row10=count($fetchAll10);
 
@@ -99,10 +122,15 @@ $nombret=$nombre.",".$apellido1." ".$apellido2;
 				//$nombre=$resultado10['nombregestor'];
 				//$nombret=$nombre;
 				}else{
-						$sql10="SELECT nombre from usuariost where idempresa='".$ide."' and nif='".$user1."'"; 
+						$sql10="SELECT nombre from usuariost where idempresa=:ide and nif=:user1"; 
 
-						$result10=$conn->query($sql10);
+						$result10=$conn->prepare($sql10);
+						$result10->bindParam(':ide',$ide);
+						$result10->bindParam(':user1',$user1);
+						$result10->execute();
 						$resultado10=$result10->fetch();
+						//$result10=$conn->query($sql10);
+						//$resultado10=$result10->fetch();
 						$fetchAll10=$result10->fetchAll();
 						$row10=count($fetchAll10);
 						//$result10=mysqli_query ($conn,$sql10) or die ("Invalid result");
@@ -125,10 +153,15 @@ $nombret=$nombre.",".$apellido1." ".$apellido2;
 
 
 <?php 
-$sql1="SELECT count(usuario) as num from visitas where usuario='".$user1."'"; 
+$sql1="SELECT count(usuario) as num from visitas where usuario=:user1"; 
 
-$result1=$conn->query($sql1);
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':user1',$user1);
+$result1->execute();
 $resultado1=$result1->fetch();
+
+//$result1=$conn->query($sql1);
+//$resultado1=$result1->fetch();
 
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
 //$resultado1=mysqli_fetch_array($result1);
@@ -138,8 +171,12 @@ $resultado1=$result1->fetch();
 <?php if ($num!=0){;
 $sql1="SELECT dia,hora from visitas where usuario='".$user1."' order by dia desc,hora desc";
 
-$result1=$conn->query($sql1);
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':user1',$user1);
+$result1->execute();
 $resultado1=$result1->fetch();
+//$result1=$conn->query($sql1);
+//$resultado1=$result1->fetch();
 //$result1=mysqli_query ($conn,$sql1) or die ("Invalid result");
 //$resultado1=mysqli_fetch_array($result1);
 ?>

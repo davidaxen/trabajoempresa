@@ -21,11 +21,18 @@ if ($nif!=null){;
 
 if ($idc>10){;
 
-$sql0="select idclientes from clientes where idempresas='".$ide."' and idclientes='".$idc."'";
-$result0=$conn->query($sql0);
-$result0mos=$conn->query($sql0);
-$num_rows=$result0->fetchAll();
-$row=count($num_rows);
+$sql0="select idclientes from clientes where idempresas=:ide and idclientes=:idc";
+
+$result0=$conn->prepare($sql0);
+$result0->bindParam(':ide',$ide);
+$result0->bindParam(':idc',$idc);
+$result0->execute();
+$resultado0=$result0->fetch();
+
+//$result0=$conn->query($sql0);
+//$result0mos=$conn->query($sql0);
+//$num_rows=$result0->fetchAll();
+//$row=count($num_rows);
 
 
 /*$result0=mysqli_query($conn,$sql0) or die ("Invalid result clientes");
@@ -335,16 +342,26 @@ for ($j=0;$j<count($nombrecampo);$j++){;
 	//echo "estado";
 	  if ($valoractual[$j]!=$valornuevo[$j]){;
 		if ($valornuevo[$j]=="1"){;
-			$sql10="select liccli from empresas where idempresas='".$ide."'"; 
-			$result10=$conn->query($sql10);
-			$resultado10=$result10->fetch();
+			$sql10="select liccli from empresas where idempresas=:ide"; 
+
+      $result10=$conn->prepare($sql10);
+      $result10->bindParam(':ide',$ide);
+      $result10->execute();
+      $resultado10=$result10->fetch();
+			//$result10=$conn->query($sql10);
+			//$resultado10=$result10->fetch();
 			$liccli=$resultado10['liccli'];
 
 			/*$result10=mysqli_query($conn,$sql10) or die ("Invalid result lic");
 			$liccli=mysqli_result($result10,0,'liccli');*/
-			$sql10="select count(idclientes) as tot from clientes where idempresas='".$ide."' and estado='1'"; 
-			$result10=$conn->query($sql10);
-			$resultado10=$result10->fetch();
+			$sql10="select count(idclientes) as tot from clientes where idempresas=:ide and estado='1'";
+
+      $result10=$conn->prepare($sql10);
+      $result10->bindParam(':ide',$ide);
+      $result10->execute();
+      $resultado10=$result10->fetch();
+			//$result10=$conn->query($sql10);
+			//$resultado10=$result10->fetch();
 			$liccli=$resultado10['tot'];
 
 			/*$result10=mysqli_query($conn,$sql10) or die ("Invalid result empleados");
@@ -400,11 +417,19 @@ for ($lqr=2;$lqr<6;$lqr++){
 		}else{
 				if ($datosqr[$lqr]!=$datosqr1[$lqr]){
 					$sql0qr="update codigo set ";
-					$sql1qr="where idclientes='".$idclientes."' and idempresas='".$ide."' and idpccat='".$lqr."'";
-					$sqlaqr="activo='".$datosqr1[$lqr]."' ";
+					$sql1qr="where idclientes=:idclientes and idempresas=:ide and idpccat=:lqr";
+					$sqlaqr="activo=:datosqr1";
 					$sqlqr=$sql0qr.$sqlaqr.$sql1qr;
 					//echo $sqlqr;
-					$resultqr=$conn->exec($sqlqr);
+
+          $resultqr=$conn->prepare($sqlqr);
+          $resultqr->bindParam(':ide',$ide);
+          $resultqr->bindParam(':lqr',$lqr);
+          $resultqr->bindParam('datosqr1',$datosqr1[$lqr]);
+          $resultqr->execute();
+          //$resultado31=$result31->fetch();
+
+					//$resultqr=$conn->exec($sqlqr);
 					//$resultqr=mysqli_query($conn,$sqlqr) or die ("Invalid result datos qr mod");
 					};
 		
@@ -433,8 +458,15 @@ $turnofd='1';
 };
 $year=date("Y");
 
-$sql="select * from festivospais where pais='".$idpais."' and year='".$year."'";
-$result=$conn->query($sql);
+$sql="select * from festivospais where pais=:idpais and year=:year";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':year',$year);
+$result->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
@@ -493,13 +525,21 @@ $temporal1->execute();
 
 };
 
-$sql="select * from festivoscomunidad where pais='".$idpais."' and comunidad='".$idcomunidad."' and year='".$year."'";
+$sql="select * from festivoscomunidad where pais=:idpais and comunidad=:idcomunidad and year=:year";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpais',$idpais);
+$result->bindParam(':idcomunidad',$idcomunidad);
+$result->bindParam(':year',$year);
+$result->execute();
+$resultado=$result->fetch();
+
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
 for ($jl=0;$jl<$row;$jl++){;
 mysqli_data_seek($result, $jl);
 $resultado=mysqli_fetch_array($result);*/
-$result=$conn->query($sql);
+//$result=$conn->query($sql);
 foreach ($result as $rowmos) {
 $fechad=$rowmos['fecha'];
 
@@ -554,8 +594,17 @@ $temporal1->execute();
 
 
 
-$sql="select * from festivosmunicipios where idpais='".$idpais."' and idprovincia='".$idprovincia."' and idmunicipio='".$idlocalidad."' and year='".$year."'";
-$result=$conn->query($sql);
+$sql="select * from festivosmunicipios where idpais=:idpais and idprovincia=:idprovincia and idmunicipio=:idlocalidad and year=:year";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpais',$idpais);
+$result->bindParam(':idprovincia',$idprovincia);
+$result->bindParam('idmunicipio',$idmunicipio);
+$result->bindParam(':year',$year);
+$result->execute();
+$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
@@ -657,20 +706,31 @@ $temporal1->execute();
 if ($tabla=="modjorclientes"){;
 
 $sql00="update jornadas set ";
-$sql01="where idclientes='".$idclientes."' and idempresas='".$ide."'";
+$sql01="where idclientes=:idclientes and idempresas=:ide";
 $nombrecampo=array('horario','margen','finicio','ffin','lun','mar','mie','jue','vie','sab','dom'); 
 
 for ($j=0;$j<$valor;$j++){;
 $valoractual=array($hor[$j],$margen[$j],$fi[$j],$ff[$j],$lun[$j],$mar[$j],$mie[$j],$jue[$j],$vie[$j],$sab[$j],$dom[$j]);
 $valornuevo=array($hor1[$j],$margen1[$j],$fi1[$j],$ff1[$j],$lun1[$j],$mar1[$j],$mie1[$j],$jue1[$j],$vie1[$j],$sab1[$j],$dom1[$j]);
 
-$sql02=" and id='".$idjor[$j]."'";
+$sql02=" and id=:idjor";
 for ($t=0;$t<count($nombrecampo);$t++){;
 	if ($valoractual[$t]!=$valornuevo[$t]){;
-		$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
+    $sqla= ":nombrecampo = :valornuevo";
+		//$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
 		$sql25=$sql00.$sqla.$sql01.$sql02;
+
+    $resultd=$conn->prepare($sql25);
+    $resultd->bindParam(':idclientes',$idclientes);
+    $resultd->bindParam(':ide',$ide);
+    $resultd->bindParam(':idjor',$idjor[$j]);
+    $resultd->bindParam(':nombrecampo',$nombrecampo[$t]);
+    $resultd->bindParam(':valornuevo',$valornuevo[$t]);
+    $resultd->execute();
+    //$resultado31=$result31->fetch();
+
 //echo ($sql25);
-		$resultd=$conn->exec($sql25);	
+		//$resultd=$conn->exec($sql25);	
 		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$j]." ");
 };
 };
@@ -689,9 +749,16 @@ $turnofd='1';
 };
 $year=date("Y");
 
-$sql="select * from festivospais where pais='".$idpais."' and year='".$year."'";
+$sql="select * from festivospais where pais=:idpais and year=:year";
 //echo $sql;
-$result=$conn->query($sql);
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpais',$idpais);
+$result->bindParam(':year',$year);
+$result->execute();
+//$resultado=$result->fetch();
+
+//$result=$conn->query($sql);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
@@ -800,9 +867,17 @@ $temporal1->execute();
 };
 };
 
-$sql="select * from festivosmunicipios where idpais='".$idpais."' and idprovincia='".$idprovincia."' and idmunicipio='".$idlocalidad."' and year='".$year."'";
+$sql="select * from festivosmunicipios where idpais=:idpais and idprovincia=:idprovincia and idmunicipio=:idlocalidad and year=:year";
 //echo $sql;
-$result=$conn->query($sql);
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpais',$idpais);
+$result->bindParam(':idprovincia',$idprovincia);
+$result->bindParam(':idlocalidad',$idlocalidad);
+$result->bindParam(':year',$year);
+$result->execute();
+//$resultado=$result->fetch();
+//$result=$conn->query($sql);
 
 /*$result=mysqli_query($conn,$sql) or die ("Invalid result dfclientes sele");
 $row=mysqli_num_rows($result);
@@ -903,20 +978,31 @@ $temporal1->execute();
 if ($tabla=="modjorempleados"){;
 
 $sql00="update jorempleados set ";
-$sql01="where idempleados='".$idempleado."' and idempresas='".$ide."'";
+$sql01="where idempleados=:idempleado and idempresas=:ide";
 $nombrecampo=array('turno','horent','margenent','horsal','margensal','finicio','ffin','lun','mar','mie','jue','vie','sab','dom'); 
 $j=$valor;
 //for ($j=0;$j<$valor;$j++){;
 $valoractual=array($turno[$j],$horent[$j],$margenent[$j],$horsal[$j],$margensal[$j],$fi[$j],$ff[$j],$lun[$j],$mar[$j],$mie[$j],$jue[$j],$vie[$j],$sab[$j],$dom[$j]);
 $valornuevo=array($turno1[$j],$horent1[$j],$margenent1[$j],$horsal1[$j],$margensal1[$j],$fi1[$j],$ff1[$j],$lun1[$j],$mar1[$j],$mie1[$j],$jue1[$j],$vie1[$j],$sab1[$j],$dom1[$j]);
 
-$sql02=" and id='".$idjor[$j]."'";
+$sql02=" and id=:idjor";
 for ($t=0;$t<count($nombrecampo);$t++){;
 	if ($valoractual[$t]!=$valornuevo[$t]){;
-		$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
+    $sqla = ":nombrecampo = :valornuevo";
+		//$sqla=$nombrecampo[$t]."='".$valornuevo[$t]."' ";
 		$sql25=$sql00.$sqla.$sql01.$sql02;
 		//echo ($sql25);
-		$result1=$conn->exec($sql1);		
+
+    $result1=$conn->prepare($sql25);
+    $result1->bindParam(':idempleado',$idempleado);
+    $result1->bindParam(':ide',$ide);
+    $result1->bindParam('idjor',$idjor[$j]);
+    $result1->bindParam(':nombrecampo',$nombrecampo);
+    $result1->bindParam(':valornuevo',$valornuevo);
+    $result1->execute();
+    //$resultado1=$result1->fetch();
+
+		//$result1=$conn->exec($sql1);		
 		//$resultd=mysqli_query($conn,$sql25) or die ("Invalid result ".$nombrecampo[$t]." ");
 };
 };
@@ -928,14 +1014,25 @@ for ($t=0;$t<count($nombrecampo);$t++){;
 
 
 if ($tabla=="borrar"){;
-$sql02="DELETE FROM jornadas WHERE id = '".$id."'";
-$resultd=$conn->exec($sql02);
+$sql02="DELETE FROM jornadas WHERE id = :id";
+
+$resultd=$conn->prepare($sql02);
+$resultd->bindParam(':id',$id);
+$resultd->execute();
+//$resultado31=$result31->fetch();
+//$resultd=$conn->exec($sql02);
 //$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
 };
 
 if ($tabla=="borrarempl"){;
-$sql02="DELETE FROM jorempleados WHERE id = '".$id."'";
-$resultd=$conn->exec($sql02);
+$sql02="DELETE FROM jorempleados WHERE id = :id";
+
+$resultd=$conn->prepare($sql02);
+$resultd->bindParam(':id',$id);
+$resultd->execute();
+//$resultado31=$result31->fetch();
+
+//$resultd=$conn->exec($sql02);
 //$resultd=mysqli_query($conn,$sql02) or die ("Invalid result jornadas ");
 };
 

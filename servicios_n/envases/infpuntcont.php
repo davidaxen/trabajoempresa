@@ -67,24 +67,60 @@ if (isset($_REQUEST['valor2'])) {
 
 $sql2="SELECT * from envases where idempresas=:ide"; 
 if ($estado!=""){;
-$sql2.=" and estado=:estado";
+	$sql2.=" and estado=:estado";
+
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide',$ide);
+	$result2->bindParam(':estado',$estado);
+
 };
 if (($valor1!="") and ($valor2!="")){;
-$sql2.=" and idenvases between :valor and :valor2";
+	$sql2.=" and idenvases between :valor and :valor2";
+
+
+
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide',$ide);
+
+	if ($estado!="") {
+	
+	$result2->bindParam(':estado',$estado);
+	
+	}
+
+	$result2->bindParam(':valor1',$valor1);
+	$result2->bindParam(':valor2',$valor2);
+
 }else{;
 if ($valor1!=""){;
-$sql2.=" and idenvases=:valor1";
-};
+	$sql2.=" and idenvases=:valor1";
+
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide',$ide);
+
+		if ($estado!="") {
+	
+			$result2->bindParam(':estado',$estado);
+	
+		}
+
+
+	$result2->bindParam(':valor1',$valor1);
+}else{
+
+	$result2=$conn->prepare($sql2);
+	$result2->bindParam(':ide',$ide);
+
+		if ($estado!="") {
+	
+			$result2->bindParam(':estado',$estado);
+	
+		}
+}
 };
 
-$result2=$conn->prepare($sql2);
-$result2->bindParam(':ide',$ide);
-$result2->bindParam(':estado',$estado);
-$result2->bindParam(':valor1',$valor1);
-$result2->bindParam(':valor2',$valor2);
-$result2->bindParam(':valor1',$valor1);
 $result2->execute();
-$resultado2=$result->fetch();
+//$resultado2=$result->fetch();
 
 //$resultado2s=$conn->query($sql2);
 
