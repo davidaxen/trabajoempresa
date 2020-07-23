@@ -5,10 +5,15 @@ include('bbdd.php');?>
 if ($ide!=null){;
 
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
@@ -16,10 +21,15 @@ switch($tipo){
 case 1: $nc=$resultado31['clientes'];break;
 case 2: $nc=$resultado31['puestos'];break;
 }
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
+
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 switch($tipo){
@@ -37,17 +47,31 @@ include('../portada_n/cabecera2.php');?>
 
 <?php 
 
-$sql="SELECT * from clientes where idempresas='".$ide."' and estado='1'";
+$sql="SELECT * from clientes where idempresas=:ide and estado='1'";
 if ($idcli!=0){;
-$sql.=" and nif='".$gente."'";
+$sql.=" and nif=:gente";
+
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':gente',$gente);
+$result->execute();
+
 };
-$sql.=" and tipo='".$tipo."' order by idclientes asc"; 
+$sql.=" and tipo=:tipo order by idclientes asc"; 
 //echo $sql;
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
-
-$resultado=$result->fetch();
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':tipo',$tipo);
+$result->execute();
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':tipo',$tipo);
+$resultmos->execute();
+//$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
+//$resultado=$result->fetch();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
