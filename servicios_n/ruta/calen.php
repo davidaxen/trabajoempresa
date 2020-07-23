@@ -49,9 +49,19 @@ $AlineacionHorizontalTexto = 'center';
 $AlineacionVerticalTexto = 'center'; 
 
 // ----------- INICIO Dias Festivos ---------- 
-$sql="select * from diasfestivos where año='".$year."' order by mes asc"; 
-$result=mysqli_query ($conn,sql) or die ("Invalid query");
-$row=mysqli_num_rows($result);
+$sql="select * from diasfestivos where año=:year order by mes asc";
+$result=$conn->prepare($sql);
+$result->bindParam(':year',$year);
+$result->execute();
+$row=count($result->fetchAll());
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':year',$year);
+$resultmos->execute();
+
+
+/*$result=mysqli_query ($conn,$sql) or die ("Invalid query");
+$row=mysqli_num_rows($result);*/
 
 if ($row==0){;
 $DiasFestivos[0] = '1/1'; // 1 de enero 
@@ -72,11 +82,12 @@ $DiasFestivos[12] = '17/4'; // Jueves Santo
 $DiasFestivos[13] = '18/4'; // Viernes Santo
 $row=14; 
 }else{;
-for ($l=0;$l<$row;$l++){;
+/*for ($l=0;$l<$row;$l++){;
 mysqli_data_seek($result,$l);
-$resultado=mysqli_fetch_array($result);
-$df=$resultado['dia']; 
-$mf=$resultado['mes']; 
+$resultado=mysqli_fetch_array($result);*/
+foreach ($resultmos as $rowmos) {
+$df=$rowmos['dia']; 
+$mf=$rowmos['mes']; 
 $DiasFestivos[$l] = $df.'/'.$mf;
 };
 };
@@ -228,12 +239,18 @@ case 7:$sqlds=" and dom='1'";break;
 };
 
 
-$sql1 = "SELECT * from ruta where idempresas='".$idempresa2."' and  idruta='".$idruta2."'";
+$sql1 = "SELECT * from ruta where idempresas=:idempresa2 and  idruta=:idruta2";
 $sql1.=$sqlds;
 $sql1.=" order by id ";
 //echo $sql1;
-$result1=mysqli_query ($conn,$sql1) or die ("Invalid result icarnet");
-$row=mysqli_num_rows($result1);
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':idempresa2',$idempresa2);
+$result1->bindParam(':idruta2',$idruta2);
+$result1->execute();
+$row=count($result1->fetchAll());
+
+/*$result1=mysqli_query ($conn,$sql1) or die ("Invalid result icarnet");
+$row=mysqli_num_rows($result1);*/
 
 if($row!=0){;
 $calendar .= "<a href='infpuntcontl.php?tipo=dia&idruta=".$idruta2."&d=".$day."&m=".$month."&y=".$year."'><font size='1'>Dia de Ruta"; 

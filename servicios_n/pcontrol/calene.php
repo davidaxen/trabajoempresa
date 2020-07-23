@@ -1,5 +1,6 @@
 <?php 
 include('bbdd.php');
+//error_reporting(0);
 $dia=date("j",time());
 //$mes=date("n",time());
 //$año=date("Y",time());
@@ -23,7 +24,7 @@ hr {
 </style>
 
 <?php 
-function CalendarioPHP($year, $month, $day_heading_length = 3,$ide,  $idpccat, $idpunt, $idclientes     ){ 
+function CalendarioPHP($year, $month, $day_heading_length = 3,$ide,  $idpccat, $idpunt, $idclientes){ 
 global $lat;
 global $long;
 global $offset;
@@ -49,11 +50,17 @@ $AlineacionHorizontalTexto = 'center';
 $AlineacionVerticalTexto = 'center'; 
 
 // ----------- INICIO Dias Festivos ---------- 
-$sql="select * from diasfestivos where año='".$year."' order by mes asc"; 
+$sql="select * from diasfestivos where año=:year order by mes asc"; 
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':year',$year);
+$result->execute();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':year',$year);
+$resultmos->execute();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid query");
 //$row=mysqli_num_rows($result);
 
@@ -77,9 +84,9 @@ $DiasFestivos[13] = '18/4'; // Viernes Santo
 $row=14; 
 }else{
 
-foreach ($result as $row) {
-	$df=$row['dia']; 
-	$mf=$row['mes'];
+foreach ($resultmos as $rowmos) {
+	$df=$rowmos['dia']; 
+	$mf=$rowmos['mes'];
 //for ($l=0;$l<$row;$l++){;
 //mysqli_data_seek($result, $l);
 //$resultado=mysqli_fetch_array($result);
@@ -224,7 +231,7 @@ $calendar .= ("' ").
 
 $fecha_b=$year."-".$month."-".$day;
 
-$sql="SELECT * from almpcronda where idempresas='".$ide."' and idcliente='".$idclientes."' ";
+$sql="SELECT * from almpcronda where idempresas=:ide and idcliente=:idclientes ";
 /*
 if ($idpunt!='todos'){
 $sql.=" and idpcsubcat='".$idpunt."'";
@@ -233,21 +240,31 @@ if ($idclientes!='todos'){
 $sql.=" and idpiscina='".$idclientes."'";
 }
 */
-$sql.=" and (texto!='' or img!='') and dia='".$fecha_b."' order by id asc";
+$sql.=" and (texto!='' or img!='') and dia=:fecha_b order by id asc";
 //echo $sql;
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':idclientes',$idclientes);
+$result->bindParam(':fecha_b',$fecha_b);
+$result->execute();
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
+
+$resultmos=$conn->prepare($sql);
+$resultmos->bindParam(':ide',$ide);
+$resultmos->bindParam(':idclientes',$idclientes);
+$resultmos->bindParam(':fecha_b',$fecha_b);
+$resultmos->execute();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 //$row=mysqli_num_rows($result);
 
-if($resultado!=0){
+if($row!=0){
 
-foreach ($result as $row) {
-	$hora=$row['hora'];
-	$idpcronda=$row['id'];	
+foreach ($resultmos as $row1mos) {
+	$hora=$row1mos['hora'];
+	$idpcronda=$row1mos['id'];	
 
 //for ($i=0; $i<$row; $i++){;
 //mysqli_data_seek($result, $i);
@@ -293,10 +310,10 @@ return $calendar . "</tr>\n</table>\n";
 if ($mes==0){;
 for($j=1; $j<13; $j++){;
 $mes=$j;
-echo CalendarioPHP($yea, $mes, $dia,$ide,  $idpccat, $idpunt, $idclientes  ); 
+echo CalendarioPHP($yea, $mes, $dia,$ide,  $idpccat, $idpunt, $idclientes); 
 };
 }else{;
-echo CalendarioPHP($yea, $mes, $dia,$ide,  $idpccat, $idpunt, $idclientes     ); 
+echo CalendarioPHP($yea, $mes, $dia,$ide,  $idpccat, $idpunt, $idclientes); 
 };
 ?> 
 </div>

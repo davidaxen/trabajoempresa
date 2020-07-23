@@ -67,13 +67,14 @@ $sql="SELECT * from almpcronda where idempresas='".$ide."' and idcliente='".$idc
 //echo $sql;
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 $resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 //$row=mysqli_num_rows($result);
-foreach ($result as $row) {
-	$hora=$resultado['hora'];
-	$idpcronda=$resultado['id'];
+foreach ($resultmos as $rowmos) {
+	$hora=$rowmos['hora'];
+	$idpcronda=$rowmos['id'];
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);
 //$resultado=mysqli_fetch_array($result);

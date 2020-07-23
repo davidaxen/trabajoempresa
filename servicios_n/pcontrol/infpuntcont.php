@@ -4,11 +4,6 @@ if ($ide!=null){;
 include('../../portada_n/cabecera3.php');
 include('combo.php');
 
-if (isset($_COOKIE['clivp'])) {
-	$clivp = $_REQUEST['clivp'];
-}else{
-	$clivp = 'hola';
-}
 
 ?>
 <div id="main">
@@ -23,33 +18,36 @@ if (isset($_COOKIE['clivp'])) {
 <?php 
 if ($idgestor!=0){;
 
-$sql="SELECT * from clientes where idempresas=:ide and estado='1' and idgestor=:idgestor"; 
+	$sql="SELECT * from clientes where idempresas=:ide and estado='1' and idgestor=:idgestor";
+	$result=$conn->prepare($sql);
+	$result->bindParam(':ide',$ide);
+	$result->bindParam(':idgestor',$idgestor);
 
 }else{
 	if ($idcli!=0){;
-	$sql="SELECT * from clientes where idempresas=:ide and nif=:gente"; 
+		$sql="SELECT * from clientes where idempresas=:ide and nif=:gente"; 
+		$result=$conn->prepare($sql);
+		$result->bindParam(':ide',$ide);
+		$result->bindParam(':gente',$gente);
 
 	}else{;
 
-if ($clivp==null){;
-$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide"; 
-}else{;
-$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide and idclientes=:clivp";
+		if ($clivp==null){;
+			$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide"; 
+			$result=$conn->prepare($sql);
+			$result->bindParam(':ide',$ide);
+		}else{;
+			$sql="SELECT DISTINCT (idclientes) from puntcont where idempresas=:ide and idclientes=:clivp";
+			$result=$conn->prepare($sql);
+			$result->bindParam(':ide',$ide);
+			$result->bindParam(':clivp',$clivp);
+		};
+
+	};
 };
 
-};
-};
-
-$result=$conn->prepare($sql);
-$result->bindParam(':ide',$ide);
-$result->bindParam(':idgestor',$idgestor);
-$result->bindParam(':gente',$gente);
-$result->bindParam(':clivp',$clivp);
 $result->execute();
-$resultado=$result->fetch();
 
-//$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
 //$resultado=$result->fetch();
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");
@@ -61,8 +59,8 @@ $resultmos=$conn->query($sql);
 <?php };?>
 <?php 
 
-foreach ($resultmos as $row) {
-	$idclientes=$row['idclientes'];
+foreach ($result as $rowmos) {
+	$idclientes=$rowmos['idclientes'];
 //for ($i=0;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);
 //$resultado=mysqli_fetch_array($result);
@@ -73,7 +71,6 @@ $result1=$conn->prepare($sql1);
 $result1->bindParam(':ide',$ide);
 $result1->bindParam(':idclientes',$idclientes);
 $result1->execute();
-$resultado1=$result1->fetch();
 //$result1=$conn->query($sql1);
 $resultado1=$result1->fetch();
 

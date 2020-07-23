@@ -4,9 +4,11 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 
@@ -18,9 +20,11 @@ case 2: $nc=$resultado31['puestos'];break;
 }
 
 
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide', $ide);
+$result32->execute();
 $resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
@@ -41,9 +45,12 @@ include('../estilo/acordeon.php');
 <div class="contenido"  style="padding-left:10px">
 
 <?php 
-$sql="SELECT * from clientes where idempresas='".$ide."' and idclientes='".$idclientes."'"; 
+$sql="SELECT * from clientes where idempresas=:ide and idclientes=:idclientes"; 
 
-$result=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide', $ide);
+$result->bindParam(':idclientes', $idclientes);
+$result->execute();
 $resultado=$result->fetch();
 //$result=mysqli_query ($conn, $sql) or die ("Invalid result");
 //$resultado=mysqli_fetch_array($result);
@@ -122,11 +129,17 @@ $resultado=$result->fetch();
 <td class="tit">Gestor</td>
 <?php 
 $idgestor=$resultado['idgestor'];
-$sql1="SELECT * from gestores where idempresa='".$ide."'"; 
+$sql1="SELECT * from gestores where idempresa=:ide"; 
 
-$result1=$conn->query($sql1);
-$fetchAll1=$result->fetchAll();
+$result1=$conn->prepare($sql1);
+$result1->bindParam(':ide', $ide);
+$result1->execute();
+$fetchAll1=$result1->fetchAll();
 $row=count($fetchAll1);
+
+$result1mos=$conn->prepare($sql1);
+$result1mos->bindParam(':ide', $ide);
+$result1mos->execute();
 //$result1=mysqli_query ($conn, $sql1) or die ("Invalid result");
 //$row=mysqli_num_rows($result1);
 ?>
@@ -139,7 +152,7 @@ if ($row!=0){;
 <option value="0" <?php if ($idgestor=="0"){;?>selected<?php };?> >
 <?php
 
-foreach ($result1 as $row) {
+foreach ($result1mos as $row) {
 
 //for($hg=0;$hg<$row;$hg++){;
 //mysqli_data_seek($result1,$hg);
@@ -165,25 +178,31 @@ $nombrecont=$row['nombregestor'];
 <?php 
 $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
-$sql10="select * from servicios where idempresa='".$ide."'";
+$sql10="select * from servicios where idempresa=:ide";
 
-$result10=$conn->query($sql10);
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide', $ide);
+$result10->execute();
 $resultado10=$result10->fetch();
 
 //$result10=mysqli_query ($conn, $sql10) or die ("Invalid result clientes");
 //$resultado10=mysqli_fetch_array($result10);
 
-$sql31="select * from menuserviciosnombre where idempresa='".$ide."'";
+$sql31="select * from menuserviciosnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide', $ide);
+$result31->execute();
 $resultado31=$result31->fetch();
 
 //$result31=mysqli_query ($conn, $sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 
-$sql32="select * from menuserviciosimg where idempresa='".$ide."'";
+$sql32="select * from menuserviciosimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide', $ide);
+$result32->execute();
 $resultado32=$result32->fetch();
 
 //$result32=mysqli_query ($conn, $sql32) or die ("Invalid result menucontabilidad");
@@ -249,11 +268,21 @@ switch($t){
 };
 ?>	
 	<?php 
-$sqlqr="SELECT * from codigo where idempresas='".$ide."' and idclientes='".$idclientes."' and idpccat='".$lt."'";
+$sqlqr="SELECT * from codigo where idempresas=:ide and idclientes=:idclientes and idpccat=:lt";
 
-$resultqr=$conn->query($sqlqr);
+$resultqr=$conn->prepare($sqlqr);
+$resultqr->bindParam(':ide', $ide);
+$resultqr->bindParam(':idclientes', $idclientes);
+$resultqr->bindParam(':lt', $lt);
+$resultqr->execute();
 $fetchAlltqr=$resultqr->fetchAll();
 $rowqr=count($fetchAlltqr);
+
+$resultqrmos=$conn->prepare($sqlqr);
+$resultqrmos->bindParam(':ide', $ide);
+$resultqrmos->bindParam(':idclientes', $idclientes);
+$resultqrmos->bindParam(':lt', $lt);
+$resultqrmos->execute();
 
 
 //$resultqr=mysqli_query ($conn, $sqlqr) or die ("Invalid result");
@@ -261,7 +290,7 @@ $rowqr=count($fetchAlltqr);
 if ($rowqr==0){;
 	$valor=0;
 	}else{;
-		$resultadoqr=$resultqr->fetch();
+		$resultadoqr=$resultqrmos->fetch();
 		//$resultadoqr=mysqli_fetch_array($resultqr);
 		$valor=$resultadoqr['activo'];
 		};
