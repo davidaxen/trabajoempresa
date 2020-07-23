@@ -48,15 +48,6 @@ $sql1.=" order by idasistente asc";
 
 //echo $sql1;
 
-$result=$conn->prepare($sql1);
-$result->bindParam(':ide',$ide);
-$result->bindParam(':cpasist',$cpasist);
-$result->execute();
-$resultmos=$conn->prepare($sql1);
-$resultmos->bindParam(':ide',$ide);
-$resultmos->bindParam(':cpasist',$cpasist);
-$resultmos->execute();
-$resultado=$result->fetch();
 
 
 /*$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
@@ -69,7 +60,7 @@ $row=mysqli_num_rows($result);*/
 <?php /*for ($i=0; $i<$row; $i++){;
 mysqli_data_seek($result, $i);
 $resultado=mysqli_fetch_array($result);*/
-foreach ($resultmos as $rowmos) {
+foreach ($result as $rowmos) {
 $idasistente=$rowmos['idasistente'];
 $nombreasist=$rowmos['nombre'];
 $papellidoasist=$rowmos['papellido'];

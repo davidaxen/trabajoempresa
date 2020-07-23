@@ -190,31 +190,37 @@ $fechab=date("Y-m-d", mktime(0, 0, 0, $m+1, 0, $y));
 $sql="SELECT * from alarma where idempresas=:ide"; 
 if ($idclientes!='todos'){;
 $sql.=" and idclientes=:idclientes";
-};
-$sql.=" and dia between :fechaa and :fechab order by id asc";
-//echo $sql;
 
-$result=$conn->prepare($sql);
-$result->bindParam(':ide',$ide);
-$result->bindParam('idclientes',$idclientes);
-$result->bindParam(':fechaa',$fechaa);
-$result->bindParam(':fechab',$fechab);
-$result->execute();
+}
 
-$resultmos=$conn->prepare($sql);
-$resultmos->bindParam(':ide',$ide);
-$resultmos->bindParam('idclientes',$idclientes);
-$resultmos->bindParam(':fechaa',$fechaa);
-$resultmos->bindParam(':fechab',$fechab);
-$resultmos->execute();
+if ($idclientes!='todos') {
+	$sql.=" and dia between :fechaa and :fechab order by id asc";
+	$result=$conn->prepare($sql);
+	$result->bindParam(':ide',$ide);
+	$result->bindParam(':idclientes',$idclientes);
+	$result->bindParam(':fechaa',$fechaa);
+	$result->bindParam(':fechab',$fechab);
+	$result->execute();
+}else{
 
-$resultado=$result->fetch();
+	$sql.=" and dia between :fechaa and :fechab order by id asc";
+	$result=$conn->prepare($sql);
+	$result->bindParam(':ide',$ide);
+	$result->bindParam(':fechaa',$fechaa);
+	$result->bindParam(':fechab',$fechab);
+	$result->execute();
+}
+
+
+
+
+//$resultado=$result->fetch();
 
 //$result=$conn->query($sql);
 
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result0");
 //$row=mysqli_num_rows($result);
-foreach ($resultmos as $row) {
+foreach ($result as $row) {
 	$dm=$row['d'];
 	$mm=$row['m'];
 	$ym=$row['y'];

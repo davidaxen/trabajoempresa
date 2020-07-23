@@ -43,9 +43,14 @@ if ($datos!='datos'){;
 }else{;
 
 
-$sqlp="select * from proyectos where gestorproyecto='".$ide."' order by idproyectos asc"; 
+$sqlp="select * from proyectos where gestorproyecto=:ide order by idproyectos asc"; 
 
-$resultp=$conn->query($sqlp);
+$resultp=$conn->prepare($sqlp);
+$resultp->bindParam(':ide',$ide);
+$resultp->execute();
+$resultado=$resultp->fetch();
+
+//$resultp=$conn->query($sqlp);
 $resultado=$resultp->fetch();
 
 //$resultp=mysqli_query ($conn,$sqlp) or die ("Invalid result idproyectos");

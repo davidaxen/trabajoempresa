@@ -4,18 +4,27 @@ include('bbdd.php');
 ?>
 <?php if ($ide!=null){;
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['vecinos'];
 
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['vecinos'];
@@ -59,10 +68,15 @@ if ($datos!='datos'){;
 <?php 
 }else{;
 
-$sql="SELECT * from vecinos where idempresa='".$ide."' and estado='".$estadoe."'"; 
+$sql="SELECT * from vecinos where idempresa=:ide and estado=:estadoe"; 
 
-$result=$conn->query($sql);
-$resultmos=$conn->query($sql);
+$result=$conn->prepare($sql);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estadoe',$estadoe);
+$result->execute();
+$resultado=$result->fetch();
+//$result=$conn->query($sql);
+//$resultmos=$conn->query($sql);
 
 //$result=mysqli_query($conn,$sql) or die ("Invalid result");
 //$row=mysqli_num_rows($result);
@@ -110,7 +124,7 @@ Carta para todos los gestores</a>
 
 <?php 
 
-foreach ($resultmos as $row) {
+foreach ($result as $row) {
 	$idvecino=$row['idvecino'];
 	$nombre=$row['nombre'];
 	$referencia=$row['referencia'];
@@ -135,11 +149,17 @@ foreach ($resultmos as $row) {
 //$emailn=$resultado['email'];
 //$idclientevec=$resultado['idcliente'];
 
-$sql33="select * from clientes where idempresas='".$ide."' and idclientes='".$idclientevec."'";
+$sql33="select * from clientes where idempresas=:ide and idclientes=:idclientevec";
 //echo $sql33;
 
-$result33=$conn->query($sql33);
+$result33=$conn->prepare($sql33);
+$result33->bindParam(':ide',$ide);
+$result33->bindParam(':idclientevec',$idclientevec);
+$result33->execute();
 $resultado33=$result33->fetch();
+
+//$result33=$conn->query($sql33);
+//$resultado33=$result33->fetch();
 
 //$result33=mysqli_query($conn,$sql33) or die ("Invalid result clientes");
 //$resultado33=mysqli_fetch_array($result33);

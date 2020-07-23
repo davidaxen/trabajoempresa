@@ -17,19 +17,19 @@ $sql="SELECT * from clientes where idempresas=:ide";
 $sql.=" and incidencia='1'";
 if ($idcli!=0){;
 $sql.=" and nif=:gente";
-};
 
 $result=$conn->prepare($sql);
 $result->bindParam(':ide',$ide);
 $result->bindParam(':gente',$gente);
 $result->execute();
 
-$resultmos=$conn->prepare($sql);
-$resultmos->bindParam(':ide',$ide);
-$resultmos->bindParam(':gente',$gente);
-$resultmos->execute();
+};
 
-$resultado=$result->fetch();
+
+
+
+
+//$resultado=$result->fetch();
 
 //$result=$conn->query($sql);
 
@@ -43,7 +43,7 @@ $resultado=$result->fetch();
 <option value="0">Fuera de Trabajo</option>
 <?php };
 
-foreach ($resultmos as $row) {
+foreach ($result as $row) {
 	$idclientes=$row['idclientes'];
 	$nombre=$row['nombre'];	
 
