@@ -87,10 +87,10 @@ $rowp=count($fetchAll2);
 //$resultp=mysqli_query ($conn,$sqlp) or die ("Invalid result idproyectos");
 //$rowp=mysqli_num_rows($resultp);
 
-var_dump($sqlp);
 
-$sql="SELECT * from empresas where ";
+
 if ($rowp>0){;
+$sql="SELECT * from empresas where ";
 $sql.=" idproyectos ";
 if ($rowp==1){
 	$resultadop=$resultpmos->fetch();
@@ -99,7 +99,7 @@ if ($rowp==1){
 $sql.=" ='".$idprt."'";	
 	}else{;
 $sql.=" in (";
-
+	$j=0;
 	foreach ($resultpmos as $row) {
 	//for ($j=0;$j<$rowp;$j++){
 	//mysqli_data_seek($resultp,$j);
@@ -114,16 +114,16 @@ $sql.=" in (";
 		}		
 $sql.=")";		
 		};
-
-};
-
 $sql.=" order by idempresas asc";
-//echo $sql;
-
-var_dump($sql);
-
 $result=$conn->query($sql);
 $resultmos=$conn->query($sql);
+};
+
+
+//echo $sql;
+
+
+
 
 //$resultado=$result->fetch();
 //$result=mysqli_query ($conn,$sql) or die ("Invalid result");

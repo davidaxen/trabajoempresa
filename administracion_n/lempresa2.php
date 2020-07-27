@@ -48,10 +48,14 @@ $sqlp="select * from proyectos where gestorproyecto=:ide order by idproyectos as
 $resultp=$conn->prepare($sqlp);
 $resultp->bindParam(':ide',$ide);
 $resultp->execute();
-$resultado=$resultp->fetch();
+$rowp=count($resultp->fetchAll());
+
+$resultpmos=$conn->prepare($sqlp);
+$resultpmos->bindParam(':ide',$ide);
+$resultpmos->execute();
 
 //$resultp=$conn->query($sqlp);
-$resultado=$resultp->fetch();
+
 
 //$resultp=mysqli_query ($conn,$sqlp) or die ("Invalid result idproyectos");
 //$rowp=mysqli_num_rows($resultp);
@@ -65,8 +69,8 @@ if ($rowp==1){
 $sql.=" ='".$idprt."'";	
 	}else{;
 $sql.=" in (";	
-
-foreach ($resultp as $row) {
+	$j=0;
+foreach ($resultpmos as $row) {
 	//for ($j=0;$j<$rowp;$j++){
 		//mysqli_data_seek($resultp,$j);
 	//$resultadop=mysqli_fetch_array($resultp);
