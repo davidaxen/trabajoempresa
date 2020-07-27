@@ -18,16 +18,34 @@ $fechac=$dia.'/'.$mes.'/'.$año;
 
 $fechaa=date("Y-m-d", mktime(0, 0, 0, $mes, $diaa, $año));
 $fechap=date("Y-m-d", mktime(0, 0, 0, $mes, $diap, $año));
-$sql12="SELECT * from almpcinci where dia='".$fecha."' and idempresas='".$ide."'";
+$sql12="SELECT * from almpcinci where dia=:fecha and idempresas=:ide";
 if($clivp!=0){;
-$sql12.=" and idpiscina='".$clivp."'";
-};
-$sql12.=" and texto!='0' order by id,idempleado"; 
+  $sql12.=" and idpiscina=:clivp";
+  $sql12.=" and texto!='0' order by id,idempleado";
+
+  $result12=$conn->prepare($sql12);
+  $result12->bindParam(':fecha', $fecha);
+  $result12->bindParam(':ide', $ide);
+  $result12->bindParam(':clivp', $clivp);
+  $result12->execute();
+
+  $fetchAll12=$result12->fetchAll();
+  $row12=count($fetchAll12);
+}else{
+  $sql12.=" and texto!='0' order by id,idempleado"; 
+  $result12=$conn->prepare($sql12);
+  $result12->bindParam(':fecha', $fecha);
+  $result12->bindParam(':ide', $ide);
+  $result12->execute();
+
+  $fetchAll12=$result12->fetchAll();
+  $row12=count($fetchAll12);
+}
+
 //echo $sql12;
 
-$result12=$conn->query($sql12);
-$fetchAll12=$result12->fetchAll();
-$row12=count($fetchAll12);
+
+
 
 //$result12=mysqli_query ($conn,$sql12) or die ("Invalid result 1");
 //$row12=mysqli_num_rows($result12);
@@ -116,9 +134,12 @@ $lon=$row['lon'];
 $urgente=$row['urgente'];
 $imagen=$row['imagen'];
 
-$sql10="SELECT * from empleados where idempleado='".$idempleado."' and idempresa='".$ide."'"; 
+$sql10="SELECT * from empleados where idempleado=:idempleado and idempresa=:ide"; 
 
-$result10=$conn->query($sql10);
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':idempleado', $idempleado);
+$result10->bindParam(':ide', $ide);
+$result10->execute();
 $resultado10=$result10->fetch();
 //$result10=mysqli_query ($conn,$sql10) or die ("Invalid result 10");
 //$resultado10 = mysqli_fetch_array ($result10);
@@ -130,15 +151,40 @@ $tele2=$resultado10['tele2'];
 $nombretrab=$nombre.' '.$priape.' '.$segape;
 
 if ($idpiscina!=0){;
-$sql11="SELECT * from clientes where idclientes='".$idpiscina."' and idempresas='".$ide."'"; 
+$sql11="SELECT * from clientes where idclientes=:idpiscina and idempresas=:ide"; 
 if ($idcli!=0){;
-$sql11.=" and nif='".$gente."'";
-}; 
+  $sql11.=" and nif=:gente";
+  $result11=$conn->prepare($sql11);
+  $result11->bindParam(':idpiscina', $idpiscina);
+  $result11->bindParam(':ide', $ide);
+  $result11->bindParam(':gente', $gente);
+  $result11->execute();
+  $resultado11=$result11->fetch();
 
-$result11=$conn->query($sql11);
-$resultado11=$result11->fetch();
-$fetchAll11=$result11->fetchAll();
-$row11=count($fetchAll11);
+  $result11row=$conn->prepare($sql11);
+  $result11row->bindParam(':idpiscina', $idpiscina);
+  $result11row->bindParam(':ide', $ide);
+  $result11row->bindParam(':gente', $gente);
+  $result11row->execute();
+  $fetchAll11=$result11row->fetchAll();
+  $row11=count($fetresult11rowchAll11);
+}else{
+  $result11=$conn->prepare($sql11);
+  $result11->bindParam(':idpiscina', $idpiscina);
+  $result11->bindParam(':ide', $ide);
+  $result11->execute();
+  $resultado11=$result11->fetch();
+
+  $result11row=$conn->prepare($sql11);
+  $result11row->bindParam(':idpiscina', $idpiscina);
+  $result11row->bindParam(':ide', $ide);
+  $result11row->execute();
+  $fetchAll11=$result11row->fetchAll();
+  $row11=count($fetchAll11);
+}
+
+
+
 //$result11=mysqli_query ($conn,$sql11) or die ("Invalid result 11");
 //$resultado11 = mysqli_fetch_array ($result11);
 //$row11=mysqli_num_rows($result11);

@@ -237,6 +237,7 @@ $rowu=count($fetchAll25);
 $sql="select * from pais order by nombrepais asc"; 
 
 $result=$conn->query($sql);
+$resultmos=$conn->query($sql);
 $fetchAll=$result->fetchAll();
 $row=count($fetchAll);
 
@@ -247,7 +248,7 @@ $row=count($fetchAll);
 <?php $idpaisa=$soco[$i];?>
 <?php 
 
-foreach ($result as $row) {
+foreach ($resultmos as $row) {
 
 //for ($i;$i<$row;$i++){;
 //mysqli_data_seek($result, $i);
