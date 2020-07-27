@@ -4,18 +4,32 @@ $dominio=$_SERVER['SERVER_NAME'];
 
 include('bbdd.php');
 
+error_reporting(0);
 
-$sql="select * from proyectos where idproyectos='".$idpr."'";
+$sql="select * from proyectos where idproyectos=:idpr";
 //echo $sql;
-$result=mysqli_query ($conn,$sql) or die ("Este dominio no tiene acceso al sistema, por favor hable con el departamento Tecnico");
-$row=mysqli_num_rows($result);
+//$result=mysqli_query ($conn,$sql) or die ("Este dominio no tiene acceso al sistema, por favor hable con el departamento Tecnico");
+//$row=mysqli_num_rows($result);
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpr',$idpr);
+$result->execute();
+//$resultado=$result->fetch();
+$fetchAll=$result->fetchAll();
+$row=count($fetchAll);
 
 if ($row==0){
 ?>
 Este dominio no tiene acceso al sistema, por favor hable con el departamento de sistemas.
 <?php 	
 	}else{;
-$resultado=mysqli_fetch_array($result);
+
+$result=$conn->prepare($sql);
+$result->bindParam(':idpr',$idpr);
+$result->execute();
+$resultado=$result->fetch();
+
+//$resultado=mysqli_fetch_array($result);
 $nombre=$resultado['nombre'];
 $logo=$resultado['logo'];
 $fondo=$resultado['fondo'];
