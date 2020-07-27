@@ -3,18 +3,28 @@ include('bbdd.php');
 
 if ($ide!=null){;
 
-$sql31="select * from menuadministracionnombre where idempresa='".$ide."'";
+$sql31="select * from menuadministracionnombre where idempresa=:ide";
 
-$result31=$conn->query($sql31);
+$result31=$conn->prepare($sql31);
+$result31->bindParam(':ide',$ide);
+$result31->execute();
 $resultado31=$result31->fetch();
+
+//$result31=$conn->query($sql31);
+//$resultado31=$result31->fetch();
 //$result31=mysqli_query($conn,$sql31) or die ("Invalid result menucontabilidad");
 //$resultado31=mysqli_fetch_array($result31);
 $nc=$resultado31['empleados'];
 
-$sql32="select * from menuadministracionimg where idempresa='".$ide."'";
+$sql32="select * from menuadministracionimg where idempresa=:ide";
 
-$result32=$conn->query($sql32);
+$result32=$conn->prepare($sql32);
+$result32->bindParam(':ide',$ide);
+$result32->execute();
 $resultado32=$result32->fetch();
+
+//$result32=$conn->query($sql32);
+//$resultado32=$result32->fetch();
 //$result32=mysqli_query($conn,$sql32) or die ("Invalid result menucontabilidad");
 //$resultado32=mysqli_fetch_array($result32);
 $ic=$resultado32['empleados'];
@@ -51,19 +61,30 @@ include('../portada_n/cabecera2.php');
 
 <?php 
 
-
-
-
 $sql1="SELECT * from empleados";
-$sql1.=" where idempresa='".$ide."' ";
+$sql1.=" where idempresa=:ide";
 if ($estadoe!='todos'){;
-$sql1.=" and estado='".$estadoe."' ";
-};
+$sql1.=" and estado=:estadoe";
+
 $sql1.=" order by idempleado asc";
-//echo $sql1;
 
-$result=$conn->query($sql1);
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->bindParam(':estadoe',$estadoe);
+$result->execute();
+	
+}else{
 
+$sql1.=" order by idempleado asc";
+
+$result=$conn->prepare($sql1);
+$result->bindParam(':ide',$ide);
+$result->execute();
+
+}
+
+//$resultado31=$result31->fetch();
+//$result=$conn->query($sql1);
 //$result=mysqli_query ($conn,$sql1) or die ("Invalid result1");
 //$row=mysqli_num_rows($result);
 ?>
@@ -86,10 +107,15 @@ $encab=array('Entrada / Salida','Incidencia','Mensajes','Alarmas','Tareas Habitu
 $dat=array('entrada','incidencia','mensaje','alarma','accdiarias','accmantenimiento','niveles','productos','revision','trabajo','siniestro','control','mediciones','jornadas','informes','ruta','envases','incidenciasplus','seguimiento');
 
 
-$sql10="select * from servicios where idempresa='".$ide."'"; 
+$sql10="select * from servicios where idempresa=:ide"; 
 
-$result10=$conn->query($sql10);
+$result10=$conn->prepare($sql10);
+$result10->bindParam(':ide',$ide);
+$result10->execute();
 $resultado10=$result10->fetch();
+
+//$result10=$conn->query($sql10);
+//$resultado10=$result10->fetch();
 //$result10=mysqli_query ($conn,$sql10) or die ("Invalid result clientes");
 //$resultado10=mysqli_fetch_array($result10);
 
